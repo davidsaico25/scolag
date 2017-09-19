@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="./templates/template.xhtml">
+
+            <ui:define name="header">
+            </ui:define>
+
+            <ui:define name="content">
+                <div class="container">
+                    <h:form id="form" class="form-signin">
+                        <h2 class="form-signin-heading">Please sign in</h2>
+                        <label for="inputUsername" class="sr-only">Username</label>
+                        <h:inputText id="inputUsername"
+                                     value="#{loginBean.usuario.username}"
+                                     class="form-control"
+                                     p:placeholder="Username"
+                                     required="true"
+                                     p:autofocus="autofocus"/>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <h:inputSecret id="inputPassword"
+                                       value="#{loginBean.usuario.password}"
+                                       class="form-control"
+                                       p:placeholder="Password"
+                                       required="true"/>
+                        <h:commandButton value="Sign in"
+                                         action="#{loginBean.login()}"
+                                         class="btn btn-lg btn-primary btn-block"/>
+                    </h:form>
+                </div>
+            </ui:define>
+
+            <ui:define name="footer">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
