@@ -5,10 +5,12 @@ import java.util.List;
 public class Perfil {
     
     String nombre;
+    String paquete;
     List<Modulo> listModulo;
     
-    public Perfil(String nombre, List<Modulo> listModulo) {
+    public Perfil(String nombre, String paquete, List<Modulo> listModulo) {
         this.nombre = nombre;
+        this.paquete = paquete;
         this.listModulo = listModulo;
     }
 
@@ -18,6 +20,14 @@ public class Perfil {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getPaquete() {
+        return paquete;
+    }
+
+    public void setPaquete(String paquete) {
+        this.paquete = paquete;
     }
 
     public List<Modulo> getListModulo() {

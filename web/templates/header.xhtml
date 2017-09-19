@@ -5,8 +5,37 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
         <ui:composition>
-            <h1>Default Header</h1>
             <h:form>
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <h:link value="SCOLAG" outcome="#{loginBean.usuario.perfil.paquete}" class="navbar-brand"/>
+                        </div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+                                <ui:repeat value="#{loginBean.usuario.perfil.listModulo}" var="modulo">
+                                    <li><h:link value="#{modulo.nombre}" outcome="#{modulo.outcome}"/></li>
+                                </ui:repeat>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seguridad
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><h:link value="Cambiar Password" outcome="cambiarPassword"/></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a href="#"><span class="glyphicon glyphicon-user"></span> <h:outputText value="#{loginBean.logged ? loginBean.usuario.username : ''}"/></a></li>
+                                <li><h:commandLink action="#{loginBean.logout()}"><h:outputText class="glyphicon glyphicon-log-in"/></h:commandLink></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
                 <h:outputText value="#{loginBean.logged ? loginBean.usuario.username : 'Anónimo'}" style="margin-right: 10px" rendered="#{loginBean.logged ? true : false}"/>
                 <h:commandButton value="Logout" action="#{loginBean.logout()}" rendered="#{loginBean.logged ? true : false}"/>
             </h:form>

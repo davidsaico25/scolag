@@ -3,11 +3,11 @@ package model;
 public class Modulo {
     
     String nombre;
-    String url;
+    String outcome;
     
     public Modulo(String nombre, String url) {
         this.nombre = nombre;
-        this.url = url;
+        this.outcome = url;
     }
 
     public String getNombre() {
@@ -18,11 +18,11 @@ public class Modulo {
         this.nombre = nombre;
     }
 
-    public String getUrl() {
-        return url;
+    public String getOutcome() {
+        return outcome;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
     }
 }

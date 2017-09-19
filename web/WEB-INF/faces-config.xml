@@ -4,15 +4,50 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <navigation-rule>
-        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/errorpages/404.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <!--SEGURIDAD-->
+        <navigation-case>
+            <from-outcome>seguridad</from-outcome>
+            <to-view-id>/seguridad/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cambiarPassword</from-outcome>
+            <to-view-id>seguridad/cambiarPassword.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <!--INTRANET-->
         <navigation-case>
             <from-outcome>intranet</from-outcome>
             <to-view-id>/intranet/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        
+        <!--ALMACEN-->
         <navigation-case>
-            <from-outcome>error</from-outcome>
-            <to-view-id>/errorpages/404.xhtml</to-view-id>
+            <from-outcome>almacen</from-outcome>
+            <to-view-id>/almacen/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrarEntradaInsumos</from-outcome>
+            <to-view-id>/almacen/registrarEntradaInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrarSalidaInsumos</from-outcome>
+            <to-view-id>/almacen/registrarSalidaInsumos.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>
