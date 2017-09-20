@@ -18,9 +18,15 @@
                         </div>
                         <div class="collapse navbar-collapse" id="myNavbar">
                             <ul class="nav navbar-nav">
-                                <ui:repeat value="#{loginBean.usuario.perfil.listModulo}" var="modulo">
-                                    <li><h:link value="#{modulo.nombre}" outcome="#{modulo.outcome}"/></li>
-                                </ui:repeat>
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">#{loginBean.usuario.perfil.paquete}
+                                        <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <ui:repeat value="#{loginBean.usuario.perfil.listModulo}" var="modulo">
+                                            <li><h:link value="#{modulo.nombre}" outcome="#{modulo.outcome}"/></li>
+                                        </ui:repeat>
+                                    </ul>
+                                </li>
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seguridad
                                         <span class="caret"></span></a>
