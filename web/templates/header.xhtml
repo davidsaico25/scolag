@@ -22,7 +22,7 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">modulos
                                         <span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <ui:repeat value="#{loginBean.usuario.perfil.listModulo}" var="modulo">
+                                        <ui:repeat value="#{loginBean.listModulo}" var="modulo">
                                             <li><h:link value="#{modulo.nombre}" outcome="#{modulo.outcome}"/></li>
                                         </ui:repeat>
                                     </ul>

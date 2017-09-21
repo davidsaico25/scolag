@@ -18,6 +18,8 @@ import model.Usuario;
 public class LoginBean implements Serializable {
 
     private Usuario usuario;
+    
+    List<Modulo> listModulo;
 
     private boolean logged = false;
 
@@ -27,6 +29,7 @@ public class LoginBean implements Serializable {
 
     public LoginBean() {
         usuario = new Usuario();
+        listModulo = new ArrayList<>();
     }
 
     public String login() {
@@ -35,16 +38,16 @@ public class LoginBean implements Serializable {
         if (usuario.getUsername().equals("davisonsp")) {
             if (usuario.getPassword().equals("123")) {
                 logged = true;
-                List<Modulo> listModulo = new ArrayList<>();
-                //listModulo.add(new Modulo("Registrar Entrada Insumos", "registrarEntradaInsumos"));
-                //listModulo.add(new Modulo("Registrar Salida Insumos", "registrarSalidaInsumos"));
-                listModulo.add(new Modulo("Administrar Usuarios", "administrarUsuarios"));
-                Perfil perfil = new Perfil("almacen", listModulo);
+                Perfil perfil = new Perfil("almacen", 'A');
+                listModulo.add(new Modulo(perfil, "Registrar Entrada Insumos", "registrarEntradaInsumos", 'A'));
+                listModulo.add(new Modulo(perfil, "Registrar Salida Insumos", "registrarSalidaInsumos", 'A'));
+                listModulo.add(new Modulo(perfil, "Administrar Usuarios", "administrarUsuarios", 'A'));
                 usuario.setPerfil(perfil);
                 httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 httpSession.setAttribute("usuario", this.usuario);
                 httpSession.setAttribute("logged", this.logged);
-                outcome = usuario.getPerfil().getNombre();
+                ////////////////////////////////////////////////////////////////
+                outcome = "almacen";
             } else {
                 map.put("password", "password incorrecto");
                 logged = false;
@@ -92,4 +95,13 @@ public class LoginBean implements Serializable {
     public HttpSession getHttpSession() {
         return httpSession;
     }
+
+    public List<Modulo> getListModulo() {
+        return listModulo;
+    }
+
+    public void setListModulo(List<Modulo> listModulo) {
+        this.listModulo = listModulo;
+    }
+    
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 21, 2017 5:31:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Persona" table="persona" catalog="scolag" optimistic-lock="version">
+        <id name="personaId" type="java.lang.Integer">
+            <column name="persona_id" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="apellidop" type="string">
+            <column name="apellidop" length="45" not-null="true" />
+        </property>
+        <property name="apellidom" type="string">
+            <column name="apellidom" length="45" not-null="true" />
+        </property>
+        <property name="sexo" type="string">
+            <column name="sexo" length="1" not-null="true" />
+        </property>
+        <property name="fechaNacimiento" type="string">
+            <column name="fecha_nacimiento" length="10" not-null="true" />
+        </property>
+        <set name="usuarios" table="usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="persona_id" not-null="true" />
+            </key>
+            <one-to-many class="model.Usuario" />
+        </set>
+    </class>
+</hibernate-mapping>
