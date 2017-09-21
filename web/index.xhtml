@@ -23,12 +23,14 @@
                                      p:placeholder="Username"
                                      required="true"
                                      p:autofocus="autofocus"/>
+                        <div class="alert alert-warning" role="alert" style="display: #{loginBean.map.username == null ? 'none' : 'block'}">#{loginBean.map.username}</div>
                         <label for="inputPassword" class="sr-only">Password</label>
                         <h:inputSecret id="inputPassword"
                                        value="#{loginBean.usuario.password}"
                                        class="form-control"
                                        p:placeholder="Password"
                                        required="true"/>
+                        <div class="alert alert-warning" role="alert" style="display: #{loginBean.map.password == null ? 'none' : 'block'}">#{loginBean.map.password}</div>
                         <h:commandButton value="Sign in"
                                          action="#{loginBean.login()}"
                                          class="btn btn-lg btn-primary btn-block"/>
