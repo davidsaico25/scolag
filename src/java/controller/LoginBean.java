@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import model.Modulo;
 import model.Perfil;
 import model.Usuario;
@@ -21,23 +22,29 @@ public class LoginBean implements Serializable {
     private boolean logged = false;
 
     private Map<String, String> map;
+    
+    private HttpSession httpSession;
 
     public LoginBean() {
         usuario = new Usuario();
-        map = new HashMap<>();
     }
 
     public String login() {
+        map = new HashMap<>();
         String outcome = "";
         if (usuario.getUsername().equals("davisonsp")) {
             if (usuario.getPassword().equals("123")) {
                 logged = true;
                 List<Modulo> listModulo = new ArrayList<>();
-                listModulo.add(new Modulo("Registrar Entrada Insumos", "registrarEntradaInsumos"));
-                listModulo.add(new Modulo("Registrar Salida Insumos", "registrarSalidaInsumos"));
-                Perfil perfil = new Perfil("jefe de almacen", "almacen", listModulo);
+                //listModulo.add(new Modulo("Registrar Entrada Insumos", "registrarEntradaInsumos"));
+                //listModulo.add(new Modulo("Registrar Salida Insumos", "registrarSalidaInsumos"));
+                listModulo.add(new Modulo("Administrar Usuarios", "administrarUsuarios"));
+                Perfil perfil = new Perfil("almacen", listModulo);
                 usuario.setPerfil(perfil);
-                outcome = "intranet";
+                httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                httpSession.setAttribute("usuario", this.usuario);
+                httpSession.setAttribute("logged", this.logged);
+                outcome = usuario.getPerfil().getNombre();
             } else {
                 map.put("password", "password incorrecto");
                 logged = false;
@@ -46,17 +53,16 @@ public class LoginBean implements Serializable {
         } else {
             map.put("username", "username incorrecto");
             logged = false;
-            outcome = "index";
         }
         return outcome;
     }
 
     public String logout() {
+        httpSession.removeAttribute("usuario");
+        httpSession.removeAttribute("menuModel");
+        httpSession.invalidate();
         logged = false;
         usuario = new Usuario();
-        /*
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-         */
         return "login";
     }
 
@@ -82,5 +88,8 @@ public class LoginBean implements Serializable {
 
     public void setMap(Map<String, String> map) {
         this.map = map;
+    }
+    public HttpSession getHttpSession() {
+        return httpSession;
     }
 }

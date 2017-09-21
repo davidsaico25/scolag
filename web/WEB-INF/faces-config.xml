@@ -5,13 +5,18 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <navigation-rule>
         <navigation-case>
-            <from-outcome>error</from-outcome>
-            <to-view-id>/errorpages/404.xhtml</to-view-id>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-outcome>index</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/errorpages/404.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
@@ -27,10 +32,10 @@
             <redirect/>
         </navigation-case>
         
-        <!--INTRANET-->
+        <!--PERSONA-->
         <navigation-case>
-            <from-outcome>intranet</from-outcome>
-            <to-view-id>/intranet/index.xhtml</to-view-id>
+            <from-outcome>administrarUsuarios</from-outcome>
+            <to-view-id>/persona/administrarUsuarios.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
