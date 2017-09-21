@@ -5,6 +5,7 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import model.Modulo;
 import model.Perfil;
@@ -22,8 +23,7 @@ public class LoginBean implements Serializable {
         usuario = new Usuario();
     }
     
-    public String login() {
-        String outcome = "";
+    public void login() {
         if (usuario.getUsername().equals("davisonsp") && usuario.getPassword().equals("123")) {
             logged = true;
             List<Modulo> listModulo = new ArrayList<>();
@@ -35,12 +35,12 @@ public class LoginBean implements Serializable {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             facesContext.getExternalContext().getSessionMap().put("usuario", usuario);
             */
-            outcome = "intranet";
         } else {
             logged = false;
-            outcome = "index";
+            FacesContext context = FacesContext.getCurrentInstance();
+            FacesContext.getCurrentInstance().addMessage("myForm:usernameMessage", new FacesMessage("password dont match1", "password dont match2"));
+            FacesContext.getCurrentInstance().addMessage("myForm:passwordMessage", new FacesMessage("password dont match1", "password dont match2"));
         }
-        return outcome;
     }
     
     public String logout() {

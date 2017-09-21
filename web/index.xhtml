@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -13,27 +14,43 @@
             </ui:define>
 
             <ui:define name="content">
-                <div class="container">
-                    <h:form id="form" class="form-signin">
-                        <h2 class="form-signin-heading">Please sign in</h2>
-                        <label for="inputUsername" class="sr-only">Username</label>
-                        <h:inputText id="inputUsername"
-                                     value="#{loginBean.usuario.username}"
-                                     class="form-control"
-                                     p:placeholder="Username"
-                                     required="true"
-                                     p:autofocus="autofocus"/>
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <h:inputSecret id="inputPassword"
-                                       value="#{loginBean.usuario.password}"
-                                       class="form-control"
-                                       p:placeholder="Password"
-                                       required="true"/>
+                <div class="container col-md-4 col-md-offset-4">
+                    <h:form id="form">
+                        <div class="form-group">
+                            <label for="inputUsername">Username</label>
+                            <h:inputText id="inputUsername"
+                                         value="#{loginBean.usuario.username}"
+                                         class="form-control"
+                                         p:placeholder="username"
+                                         required="true"
+                                         p:autofocus="autofocus"/>
+                            <p for="inputUsername" id="usernameMessage" class="bg-warning"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword">Password</label>
+                            <h:inputSecret id="inputPassword"
+                                           value="#{loginBean.usuario.password}"
+                                           class="form-control"
+                                           p:placeholder="password"
+                                           required="true"/>
+                            <p for="inputPassword" id="passwordMessage" class="bg-warning"/>
+                        </div>
                         <h:commandButton value="Sign in"
-                                         action="#{loginBean.login()}"
-                                         class="btn btn-lg btn-primary btn-block"/>
+                                         actionListener="#{loginBean.login}"
+                                         class="btn btn-default">
+                            <f:ajax execute="@form" render="rpta" onevent="showMessage"/>
+                        </h:commandButton>
+                        <h:commandButton id="commandButton" value="commandButton"></h:commandButton>
+                        <h:commandLink id="commandLink" value="commandLink"></h:commandLink>
+                        <h:outputText id="rpta"/>
                     </h:form>
                 </div>
+                
+                <script type="text/javascript">
+                    function showMessage(data) {
+                        alert(data.status);
+                    }
+                </script>
             </ui:define>
 
             <ui:define name="footer">
