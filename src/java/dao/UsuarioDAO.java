@@ -6,7 +6,7 @@ import model.Usuario;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-public class DAOUsuario extends ADAO_crud<Object> implements Serializable {
+public class UsuarioDAO extends ADAO_crud<Object> implements Serializable {
     
     public List<Usuario> getListUsuario() {
         List<Usuario> listUsuario = null;

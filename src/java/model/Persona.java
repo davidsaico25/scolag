@@ -1,5 +1,5 @@
 package model;
-// Generated Sep 21, 2017 5:31:36 AM by Hibernate Tools 4.3.1
+// Generated Sep 21, 2017 3:32:02 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class Persona  implements java.io.Serializable {
 
 
-     private Integer personaId;
+     private Integer id;
      private String nombre;
      private String apellidop;
      private String apellidom;
@@ -39,12 +39,12 @@ public class Persona  implements java.io.Serializable {
        this.usuarios = usuarios;
     }
    
-    public Integer getPersonaId() {
-        return this.personaId;
+    public Integer getId() {
+        return this.id;
     }
     
-    public void setPersonaId(Integer personaId) {
-        this.personaId = personaId;
+    public void setId(Integer id) {
+        this.id = id;
     }
     public String getNombre() {
         return this.nombre;

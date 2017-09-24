@@ -1,14 +1,14 @@
 
 package tool;
 
-import dao.DAOUsuario;
+import dao.UsuarioDAO;
 import java.util.List;
 import model.Usuario;
 
 public class Main {
 
     public static void main(String[] args) {
-        DAOUsuario daoUsuario = new DAOUsuario();
+        UsuarioDAO daoUsuario = new UsuarioDAO();
         List<Usuario> listUsuario = daoUsuario.getListUsuario();
         
         for (Usuario usuario : listUsuario) {

@@ -1,14 +1,11 @@
-package filtro;
+package filter;
 
-import controller.LoginBean;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import javax.enterprise.inject.spi.Bean;
-import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -23,7 +20,7 @@ import model.Usuario;
 @WebFilter(filterName = "LoginFilter", urlPatterns = {"/*"})
 public class LoginFilter implements Filter {
     
-    private static final boolean debug = false;
+    private static final boolean debug = true;
 
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
@@ -138,7 +135,7 @@ public class LoginFilter implements Filter {
         //El usuario esta logueado
         //Verificar que tenga permiso para el modulo
         if (!permitModule(url, usuario.getPerfil().getNombre(), req)) {
-            res.sendRedirect(req.getContextPath() + "/" + usuario.getPerfil().getNombre()+ "/index.xhtml");
+            res.sendRedirect(req.getContextPath() + "/" + usuario.getPerfil().getNombre() + "/index.xhtml");
             return;
         }
         

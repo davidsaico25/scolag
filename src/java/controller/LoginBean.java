@@ -46,8 +46,7 @@ public class LoginBean implements Serializable {
                 httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
                 httpSession.setAttribute("usuario", this.usuario);
                 httpSession.setAttribute("logged", this.logged);
-                ////////////////////////////////////////////////////////////////
-                outcome = "almacen";
+                outcome = perfil.getNombre();
             } else {
                 map.put("password", "password incorrecto");
                 logged = false;
