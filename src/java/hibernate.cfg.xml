@@ -45,8 +45,13 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/scolag?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-    <mapping resource="model/Modulo.hbm.xml"/>
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.query.factory_class">org.hibernate.hql.internal.classic.ClassicQueryTranslatorFactory</property>
     <mapping resource="model/Persona.hbm.xml"/>
+    <mapping resource="model/Menu.hbm.xml"/>
+    <mapping resource="model/PerfilHasSubmenu.hbm.xml"/>
+    <mapping resource="model/Submenu.hbm.xml"/>
     <mapping resource="model/Perfil.hbm.xml"/>
     <mapping resource="model/Usuario.hbm.xml"/>
   </session-factory>

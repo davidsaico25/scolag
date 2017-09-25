@@ -1,5 +1,7 @@
 package controller;
 
+import dao.PerfilHasSubmenuDAO;
+import dao.UsuarioDAO;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -7,53 +9,60 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import model.Modulo;
+import model.Menu;
 import model.Perfil;
+import model.PerfilHasSubmenu;
+import model.Submenu;
 import model.Usuario;
 
 @Named(value = "loginBean")
 @SessionScoped
 public class LoginBean implements Serializable {
 
+    private UsuarioDAO usuarioDAO;
+
     private Usuario usuario;
     
-    List<Modulo> listModulo;
+    private List<String> listMenu;
+    private List<Submenu> listSubmenu;
 
     private boolean logged = false;
 
     private Map<String, String> map;
-    
+
     private HttpSession httpSession;
 
     public LoginBean() {
+        usuarioDAO = new UsuarioDAO();
         usuario = new Usuario();
-        listModulo = new ArrayList<>();
     }
 
     public String login() {
         map = new HashMap<>();
         String outcome = "";
-        if (usuario.getUsername().equals("davisonsp")) {
-            if (usuario.getPassword().equals("123")) {
-                logged = true;
-                Perfil perfil = new Perfil("almacen", 'A');
-                listModulo.add(new Modulo(perfil, "Registrar Entrada Insumos", "registrarEntradaInsumos", 'A'));
-                listModulo.add(new Modulo(perfil, "Registrar Salida Insumos", "registrarSalidaInsumos", 'A'));
-                listModulo.add(new Modulo(perfil, "Administrar Usuarios", "administrarUsuarios", 'A'));
-                usuario.setPerfil(perfil);
-                httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-                httpSession.setAttribute("usuario", this.usuario);
-                httpSession.setAttribute("logged", this.logged);
-                outcome = perfil.getNombre();
-            } else {
-                map.put("password", "password incorrecto");
-                logged = false;
-                outcome = "";
+        usuario = usuarioDAO.login(usuario);
+        if (usuario != null) {
+            System.out.println("Login Bean:");
+            System.out.println(usuario.getUsername() + " - " + usuario.getPassword());
+            Perfil perfil = usuario.getPerfil();
+            listMenu = new ArrayList<>();
+            listSubmenu = PerfilHasSubmenuDAO.getListSubmenu(perfil);
+            for (Submenu submenu : listSubmenu) {
+                if (!listMenu.contains(submenu.getMenu().getNombre())) {
+                    listMenu.add(submenu.getMenu().getNombre());
+                }
             }
+            
+            logged = true;
+            httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            httpSession.setAttribute("usuario", this.usuario);
+            httpSession.setAttribute("logged", this.logged);
+            outcome = "user";
         } else {
-            map.put("username", "username incorrecto");
+            map.put("msg", "credenciales incorrectas");
             logged = false;
         }
         return outcome;
@@ -76,6 +85,22 @@ public class LoginBean implements Serializable {
         this.usuario = usuario;
     }
 
+    public List<String> getListMenu() {
+        return listMenu;
+    }
+
+    public void setListMenu(List<String> listMenu) {
+        this.listMenu = listMenu;
+    }
+
+    public List<Submenu> getListSubmenu() {
+        return listSubmenu;
+    }
+
+    public void setListSubmenu(List<Submenu> listSubmenu) {
+        this.listSubmenu = listSubmenu;
+    }
+
     public boolean isLogged() {
         return logged;
     }
@@ -91,16 +116,8 @@ public class LoginBean implements Serializable {
     public void setMap(Map<String, String> map) {
         this.map = map;
     }
+
     public HttpSession getHttpSession() {
         return httpSession;
     }
-
-    public List<Modulo> getListModulo() {
-        return listModulo;
-    }
-
-    public void setListModulo(List<Modulo> listModulo) {
-        this.listModulo = listModulo;
-    }
-    
 }

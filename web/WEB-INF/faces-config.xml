@@ -15,6 +15,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>user</from-outcome>
+            <to-view-id>/user/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>error</from-outcome>
             <to-view-id>/errorpages/404.xhtml</to-view-id>
             <redirect/>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 24, 2017 10:28:43 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Submenu" table="submenu" catalog="scolag" optimistic-lock="version">
+        <composite-id name="id" class="model.SubmenuId">
+            <key-property name="id" type="int">
+                <column name="id" />
+            </key-property>
+            <key-property name="menuId" type="int">
+                <column name="menu_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="menu" class="model.Menu" update="false" insert="false" fetch="select">
+            <column name="menu_id" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="outcome" type="string">
+            <column name="outcome" length="45" not-null="true" />
+        </property>
+        <property name="estado" type="char">
+            <column name="estado" length="1" not-null="true" />
+        </property>
+        <set name="perfilHasSubmenus" table="perfil_has_submenu" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="submenu_id" not-null="true" />
+                <column name="menu_id" not-null="true" />
+            </key>
+            <one-to-many class="model.PerfilHasSubmenu" />
+        </set>
+    </class>
+</hibernate-mapping>

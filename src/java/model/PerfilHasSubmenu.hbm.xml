@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Sep 24, 2017 10:28:43 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.PerfilHasSubmenu" table="perfil_has_submenu" catalog="scolag" optimistic-lock="version">
+        <composite-id name="id" class="model.PerfilHasSubmenuId">
+            <key-property name="id" type="int">
+                <column name="id" />
+            </key-property>
+            <key-property name="perfilId" type="int">
+                <column name="perfil_id" />
+            </key-property>
+            <key-property name="menuId" type="int">
+                <column name="menu_id" />
+            </key-property>
+            <key-property name="submenuId" type="int">
+                <column name="submenu_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="perfil" class="model.Perfil" update="false" insert="false" fetch="select">
+            <column name="perfil_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="submenu" class="model.Submenu" update="false" insert="false" fetch="select">
+            <column name="submenu_id" not-null="true" />
+            <column name="menu_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
