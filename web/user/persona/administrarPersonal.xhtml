@@ -88,10 +88,11 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <h:commandButton class="btn btn-default"
-                                                             onclick="$('#myModal').modal('hide');"
-                                                             actionListener="#{adminUsuariosBean.actualizarUsuario()}"
-                                                             value="Actualizar">
+                                            <h:commandButton value="Actualizar"
+                                                             class="btn btn-default"
+                                                             actionListener="#{adminUsuariosBean.actualizarUsuario}"
+                                                             onclick="$('#modalVerUsuario').modal('hide');">
+                                                <f:ajax execute="@form" render="formDataTable:tableUsuarios"/>
                                             </h:commandButton>
                                         </div>
                                     </div>
