@@ -39,8 +39,8 @@
         
         <!--PERSONA-->
         <navigation-case>
-            <from-outcome>administrarUsuarios</from-outcome>
-            <to-view-id>/almacen/adminUsuarios.xhtml</to-view-id>
+            <from-outcome>administrarPersonal</from-outcome>
+            <to-view-id>/user/persona/administrarPersonal.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
@@ -58,6 +58,11 @@
         <navigation-case>
             <from-outcome>registrarSalidaInsumos</from-outcome>
             <to-view-id>/almacen/registrarSalidaInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarInsumos</from-outcome>
+            <to-view-id>/user/almacen/administrarInsumos.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>
