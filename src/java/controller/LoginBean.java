@@ -9,12 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import model.Menu;
 import model.Perfil;
-import model.PerfilHasSubmenu;
 import model.Submenu;
 import model.Usuario;
 

@@ -14,25 +14,25 @@ import model.Usuario;
 public class AdminUsuariosBean implements Serializable {
     
     private List<Usuario> listUsuario;
-    private UsuarioDAO dao;
+    private UsuarioDAO usuarioDAO;
     private Usuario usuario;
 
     public AdminUsuariosBean() {
-        dao = new UsuarioDAO();
+        usuarioDAO = new UsuarioDAO();
     }
     
     public void crearUsuario(AjaxBehaviorEvent event) {
-        dao.create(usuario);
-        setListUsuario(dao.getListUsuario());
+        usuarioDAO.create(usuario);
+        setListUsuario(usuarioDAO.getListUsuario());
     }
     
     public void actualizarUsuario() {
-        dao.update(usuario);
+        usuarioDAO.update(usuario);
     }
     
     public List<Usuario> getListUsuario() {
         if (listUsuario == null) {
-            setListUsuario(dao.getListUsuario());
+            setListUsuario(usuarioDAO.getListUsuario());
         }
         return listUsuario;
     }
