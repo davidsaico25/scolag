@@ -19,51 +19,144 @@
             <to-view-id>/user/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
-        <navigation-case>
-            <from-outcome>error</from-outcome>
-            <to-view-id>/errorpages/404.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
         
         <!--SEGURIDAD-->
         <navigation-case>
-            <from-outcome>seguridad</from-outcome>
-            <to-view-id>/seguridad/index.xhtml</to-view-id>
+            <from-outcome>administrarModulos</from-outcome>
+            <to-view-id>/user/seguridad/administrarModulos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarPerfilModulos</from-outcome>
+            <to-view-id>/user/seguridad/administrarPerfilModulos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarPerfiles</from-outcome>
+            <to-view-id>/user/seguridad/administrarPerfiles.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>
             <from-outcome>cambiarPassword</from-outcome>
-            <to-view-id>seguridad/cambiarPassword.xhtml</to-view-id>
+            <to-view-id>/user/seguridad/cambiarPassword.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <!--PERSONA-->
         <navigation-case>
+            <from-outcome>administrarHorariosPersonal</from-outcome>
+            <to-view-id>/user/persona/administrarHorariosPersonal.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>administrarPersonal</from-outcome>
             <to-view-id>/user/persona/administrarPersonal.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>generarReportePersonal</from-outcome>
+            <to-view-id>/user/persona/generarReportePersonal.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         
         <!--ALMACEN-->
         <navigation-case>
-            <from-outcome>almacen</from-outcome>
-            <to-view-id>/almacen/index.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>registrarEntradaInsumos</from-outcome>
-            <to-view-id>/almacen/registrarEntradaInsumos.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>registrarSalidaInsumos</from-outcome>
-            <to-view-id>/almacen/registrarSalidaInsumos.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-        <navigation-case>
             <from-outcome>administrarInsumos</from-outcome>
             <to-view-id>/user/almacen/administrarInsumos.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarProveedor</from-outcome>
+            <to-view-id>/user/almacen/administrarProveedor.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarReceta</from-outcome>
+            <to-view-id>/user/almacen/administrarReceta.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarSolicitudesAbastecimientoLocal</from-outcome>
+            <to-view-id>/user/almacen/administrarSolicitudesAbastecimientoLocal.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>consultarHistorialSolicitudesAbastecimiento</from-outcome>
+            <to-view-id>/user/almacen/consultarHistorialSolicitudesAbastecimiento.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>consultarReceta</from-outcome>
+            <to-view-id>/user/almacen/consultarReceta.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>crearSolicitudInsumos</from-outcome>
+            <to-view-id>/user/almacen/crearSolicitudInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>generarReporteCompraInsumos</from-outcome>
+            <to-view-id>/user/almacen/generarReporteCompraInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>generarReporteInsumos</from-outcome>
+            <to-view-id>/user/almacen/generarReporteInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrarEntradaInsumos</from-outcome>
+            <to-view-id>/user/almacen/registrarEntradaInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrarEntradaInsumosLocal</from-outcome>
+            <to-view-id>/user/almacen/registrarEntradaInsumosLocal.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>registrarSalidaInsumos</from-outcome>
+            <to-view-id>/user/almacen/registrarSalidaInsumos.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <!--VENTAS-->
+        <navigation-case>
+            <from-outcome>administrarDelivery</from-outcome>
+            <to-view-id>/user/ventas/administrarDelivery.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarLocales</from-outcome>
+            <to-view-id>/user/ventas/administrarLocales.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarMenu</from-outcome>
+            <to-view-id>/user/ventas/administrarMenu.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarPromociones</from-outcome>
+            <to-view-id>/user/ventas/administrarPromociones.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrarSolicitudesReservaciones</from-outcome>
+            <to-view-id>/user/ventas/administrarSolicitudesReservaciones.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>consultarHistorialDelivery</from-outcome>
+            <to-view-id>/user/ventas/consultarHistorialDelivery.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>consultarHistorialReservaciones</from-outcome>
+            <to-view-id>/user/ventas/consultarHistorialReservaciones.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
     </navigation-rule>
 </faces-config>
