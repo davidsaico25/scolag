@@ -2,9 +2,6 @@ package dao;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
-import model.Perfil;
-import model.PerfilHasSubmenu;
 import model.Usuario;
 import org.hibernate.Query;
 import org.hibernate.Session;

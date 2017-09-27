@@ -1,9 +1,9 @@
 package controller;
 
+import dao.PersonaDAO;
 import dao.UsuarioDAO;
 import java.io.Serializable;
 import java.util.List;
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import model.Persona;
@@ -16,18 +16,32 @@ public class AdminUsuariosBean implements Serializable {
     private List<Usuario> listUsuario;
     private UsuarioDAO usuarioDAO;
     private Usuario usuario;
+    
+    private Persona persona;
+    private PersonaDAO personaDAO;
 
     public AdminUsuariosBean() {
         usuarioDAO = new UsuarioDAO();
+        personaDAO = new PersonaDAO();
     }
     
-    public void crearUsuario(AjaxBehaviorEvent event) {
+    public void crearUsuario() {
         usuarioDAO.create(usuario);
         setListUsuario(usuarioDAO.getListUsuario());
+        usuario = new Usuario();
+        persona = new Persona();
     }
     
     public void actualizarUsuario() {
         usuarioDAO.update(usuario);
+        usuario = new Usuario();
+    }
+    
+    public void resetUsuario() {
+        if(usuario != null) {
+            usuario = new Usuario();
+            persona = new Persona();
+        }
     }
     
     public List<Usuario> getListUsuario() {

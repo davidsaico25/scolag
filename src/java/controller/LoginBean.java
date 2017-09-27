@@ -22,7 +22,7 @@ public class LoginBean implements Serializable {
     private UsuarioDAO usuarioDAO;
 
     private Usuario usuario;
-    
+
     private List<String> listMenu;
     private List<Submenu> listSubmenu;
 
@@ -42,8 +42,6 @@ public class LoginBean implements Serializable {
         String outcome = "";
         usuario = usuarioDAO.login(usuario);
         if (usuario != null) {
-            System.out.println("Login Bean:");
-            System.out.println(usuario.getUsername() + " - " + usuario.getPassword());
             Perfil perfil = usuario.getPerfil();
             listMenu = new ArrayList<>();
             listSubmenu = PerfilHasSubmenuDAO.getListSubmenu(perfil);
@@ -52,7 +50,7 @@ public class LoginBean implements Serializable {
                     listMenu.add(submenu.getMenu().getNombre());
                 }
             }
-            
+
             logged = true;
             httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             httpSession.setAttribute("usuario", this.usuario);
