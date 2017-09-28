@@ -33,12 +33,13 @@ public class AdminUsuariosBean implements Serializable {
     }
     
     public void actualizarUsuario() {
+        personaDAO.update(persona);
         usuarioDAO.update(usuario);
         usuario = new Usuario();
     }
     
     public void resetUsuario() {
-        if(usuario != null) {
+        if(usuario != null || persona != null) {
             usuario = new Usuario();
             persona = new Persona();
         }
@@ -61,5 +62,13 @@ public class AdminUsuariosBean implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 }

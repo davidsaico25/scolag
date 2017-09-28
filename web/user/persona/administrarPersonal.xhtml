@@ -18,7 +18,10 @@
                 <h1>Administrar Personal</h1>
                 <div class="container table-responsive">
                     <h:form id="formDataTable">
-                        <h:dataTable id="tableUsuarios" value="#{adminUsuariosBean.listUsuario}" var="usuario" class="table table-striped table-bordered">
+                        <h:dataTable id="tableUsuarios"
+                                     value="#{adminUsuariosBean.listUsuario}"
+                                     var="usuario"
+                                     class="table table-striped table-bordered">
                             <h:column>
                                 <f:facet name="header">Username</f:facet>
                                 <h:outputText value="#{usuario.username}"/>
@@ -38,6 +41,7 @@
                                                  onclick="$('#modalUsuario').modal('show');"
                                                  immediate="true">
                                     <f:setPropertyActionListener target="#{adminUsuariosBean.usuario}" value="#{usuario}"/>
+                                    <f:setPropertyActionListener target="#{adminUsuariosBean.persona}" value="#{usuario.persona}"/>
                                     <f:ajax execute="@this" render="formModal"/>
                                 </h:commandButton>
                             </h:column>
@@ -55,6 +59,7 @@
                 <script>
                     function mostrarMensaje(data) {
                         // luego de la petición AJAX
+                        /*
                         alert(data.responseXML + "\n"
                                 + "///////////////////////////////////////////////////////////////////////////////// \n"
                                 + data.responseText + "\n"
@@ -66,6 +71,7 @@
                                 + data.status + "\n"
                                 + "///////////////////////////////////////////////////////////////////////////////// \n"
                                 + data.type);
+                        */
                     }
                 </script>
 
@@ -87,7 +93,7 @@
                                                          p:type="text"
                                                          class="form-control"
                                                          p:placeholder="Username"
-                                                         readonly="#{adminUsuariosBean.usuario == null ? false : true}"
+                                                         readonly="#{adminUsuariosBean.usuario.username == null ? false : true}"
                                                          required="true"/>
                                         </div>
                                     </div>
@@ -105,29 +111,42 @@
                                     <div class="form-group" hidden="hidden">
                                         <label for="inputPersonaID" class="col-sm-2 control-label">Persona ID</label>
                                         <div class="col-sm-10">
-                                            <h:inputText id="inputPersonaID" value="#{adminUsuariosBean.usuario.persona.id}"
-                                                         p:type="text" class="form-control" p:placeholder="personaID" readonly="true"/>
+                                            <h:inputText id="inputPersonaID"
+                                                         value="#{adminUsuariosBean.usuario.persona.id}"
+                                                         p:type="text"
+                                                         class="form-control"
+                                                         p:placeholder="personaID"
+                                                         readonly="true"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputNombre" class="col-sm-2 control-label">Nombre</label>
                                         <div class="col-sm-10">
-                                            <h:inputText id="inputNombre" value="#{adminUsuariosBean.usuario.persona.nombre}"
-                                                         p:type="text" class="form-control" p:placeholder="Nombre"/>
+                                            <h:inputText id="inputNombre"
+                                                         value="#{adminUsuariosBean.persona.nombre}"
+                                                         p:type="text"
+                                                         class="form-control"
+                                                         p:placeholder="Nombre"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputApellidoP" class="col-sm-2 control-label">Ap. Paterno</label>
                                         <div class="col-sm-10">
-                                            <h:inputText id="inputApellidoP" value="#{adminUsuariosBean.usuario.persona.apellidop}"
-                                                         p:type="text" class="form-control" p:placeholder="Apellido Paterno"/>
+                                            <h:inputText id="inputApellidoP"
+                                                         value="#{adminUsuariosBean.persona.apellidop}"
+                                                         p:type="text"
+                                                         class="form-control"
+                                                         p:placeholder="Apellido Paterno"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputApellidoM" class="col-sm-2 control-label">Ap. Materno</label>
                                         <div class="col-sm-10">
-                                            <h:inputText id="inputApellidoM" value="#{adminUsuariosBean.usuario.persona.apellidom}"
-                                                         p:type="text" class="form-control" p:placeholder="Apellido Materno"/>
+                                            <h:inputText id="inputApellidoM"
+                                                         value="#{adminUsuariosBean.persona.apellidom}"
+                                                         p:type="text"
+                                                         class="form-control"
+                                                         p:placeholder="Apellido Materno"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -136,14 +155,14 @@
                                                              class="btn btn-default"
                                                              actionListener="#{adminUsuariosBean.crearUsuario}"
                                                              onclick="$('#modalUsuario').modal('hide');"
-                                                             rendered="#{adminUsuariosBean.usuario == null ? true : false}">
+                                                             rendered="#{adminUsuariosBean.usuario.username == null ? true : false}">
                                                 <f:ajax execute="@form" render="formDataTable:tableUsuarios" onevent="mostrarMensaje"/>
                                             </h:commandButton>
                                             <h:commandButton value="Modificar"
                                                              class="btn btn-default"
                                                              actionListener="#{adminUsuariosBean.actualizarUsuario}"
                                                              onclick="$('#modalUsuario').modal('hide');"
-                                                             rendered="#{adminUsuariosBean.usuario == null ? false : true}">
+                                                             rendered="#{adminUsuariosBean.usuario.username == null ? false : true}">
                                                 <f:ajax execute="@form" render="formDataTable:tableUsuarios"/>
                                             </h:commandButton>
                                         </div>
