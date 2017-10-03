@@ -17,10 +17,8 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     private List<LocalHasInsumo> listLocalHasInsumo;
     private List<LocalHasInsumo> listLocalHasInsumoActualizar;
     
-    private AbastecimientoDAO abastecimientoDAO;
     private Abastecimiento abastecimiento;
     
-    private AbastecimientoHasInsumosDAO abastecimientoHasInsumosDAO;
     private AbastecimientoHasInsumo abastecimientoHasInsumo;
     private int cantidad = 0;
     private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos;
@@ -48,23 +46,6 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     }
     
     public void addListAbastecimientoHasInsums() {
-        /*
-        abastecimiento = new Abastecimiento();
-        abastecimiento.setLocalByLocalIdOrigen(listLocal.get(0));
-        for (Local item : listLocal) {
-            if (item.getId() == localId) {
-                local = item;
-                break;
-            }
-        }
-        abastecimiento.setLocalByLocalIdDestino(local);
-        abastecimientoDAO.create(abastecimiento);
-        
-        AbastecimientoHasInsumoId abastecimientoHasInsumoId = new AbastecimientoHasInsumoId();
-        abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
-        abastecimientoHasInsumoId.setInsumoId(localHasInsumo.getInsumo().getId());
-        */
-        
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
         abastecimientoHasInsumo.setInsumo(localHasInsumo.getInsumo());
         abastecimientoHasInsumo.setCantidad(cantidad);
@@ -90,6 +71,38 @@ public class RegistrarSalidaInsumosBean implements Serializable {
             }
         }
         listAbastecimientoHasInsumos.remove(ahi);
+    }
+    
+    public void confirmarRegistrarSalidaInsumos() {
+        AbastecimientoDAO abastecimientoDAO = new AbastecimientoDAO();
+        abastecimiento = new Abastecimiento();
+        abastecimiento.setLocalByLocalIdOrigen(listLocal.get(0));
+        for (Local item : listLocal) {
+            if (item.getId() == localId) {
+                local = item;
+                break;
+            }
+        }
+        abastecimiento.setLocalByLocalIdDestino(local);
+        abastecimientoDAO.create(abastecimiento);
+        
+        AbastecimientoHasInsumoId abastecimientoHasInsumoId = new AbastecimientoHasInsumoId();
+        abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
+        
+        
+        AbastecimientoHasInsumosDAO abastecimientoHasInsumosDAO = new AbastecimientoHasInsumosDAO();
+        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumos) {
+            abastecimientoHasInsumoId.setInsumoId(item.getInsumo().getId());
+            item.setId(abastecimientoHasInsumoId);
+            item.setAbastecimiento(abastecimiento);
+            abastecimientoHasInsumosDAO.create(item);
+        }
+        
+        for (LocalHasInsumo item : listLocalHasInsumo) {
+            localHasInsumoDAO.update(item);
+        }
+        
+        idDiv = 2;
     }
 
     public LocalHasInsumo getLocalHasInsumo() {
