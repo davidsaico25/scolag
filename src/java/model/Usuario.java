@@ -1,5 +1,5 @@
 package model;
-// Generated Sep 24, 2017 10:28:42 PM by Hibernate Tools 4.3.1
+// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
 
 
 
@@ -20,6 +20,14 @@ public class Usuario  implements java.io.Serializable {
     public Usuario() {
     }
 
+	
+    public Usuario(Persona persona, String username, String password, String email, char estado) {
+        this.persona = persona;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.estado = estado;
+    }
     public Usuario(Perfil perfil, Persona persona, String username, String password, String email, char estado) {
        this.perfil = perfil;
        this.persona = persona;

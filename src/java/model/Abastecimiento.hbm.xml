@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 3, 2017 1:01:16 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Abastecimiento" table="abastecimiento" catalog="scolag" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="estadoEnvioAbastecimiento" class="model.EstadoEnvioAbastecimiento" fetch="select">
+            <column name="estado_envio_abastecimiento_id" />
+        </many-to-one>
+        <many-to-one name="localByLocalIdDestino" class="model.Local" fetch="select">
+            <column name="local_id_destino" not-null="true" />
+        </many-to-one>
+        <many-to-one name="localByLocalIdOrigen" class="model.Local" fetch="select">
+            <column name="local_id_origen" />
+        </many-to-one>
+        <property name="observacion" type="string">
+            <column name="observacion" length="45" />
+        </property>
+        <property name="fechaEnvio" type="date">
+            <column name="fecha_envio" length="10" />
+        </property>
+        <property name="fechaRecepcion" type="date">
+            <column name="fecha_recepcion" length="10" />
+        </property>
+        <set name="abastecimientoHasInsumos" table="abastecimiento_has_insumo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="abastecimiento_id" not-null="true" />
+            </key>
+            <one-to-many class="model.AbastecimientoHasInsumo" />
+        </set>
+    </class>
+</hibernate-mapping>

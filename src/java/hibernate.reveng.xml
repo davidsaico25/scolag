@@ -42,9 +42,19 @@ Contributor(s):
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="scolag"/>
   <table-filter match-name="submenu"/>
-  <table-filter match-name="persona"/>
-  <table-filter match-name="perfil"/>
-  <table-filter match-name="usuario"/>
-  <table-filter match-name="perfil_has_submenu"/>
+  <table-filter match-name="local"/>
+  <table-filter match-name="abastecimiento"/>
   <table-filter match-name="menu"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="perfil"/>
+  <table-filter match-name="imagen"/>
+  <table-filter match-name="insumo"/>
+  <table-filter match-name="insumo_has_proveedor"/>
+  <table-filter match-name="proveedor"/>
+  <table-filter match-name="persona"/>
+  <table-filter match-name="local_has_insumo"/>
+  <table-filter match-name="abastecimiento_has_insumo"/>
+  <table-filter match-name="perfil_has_submenu"/>
+  <table-filter match-name="unidad_medida"/>
+  <table-filter match-name="estado_envio_abastecimiento"/>
 </hibernate-reverse-engineering>
