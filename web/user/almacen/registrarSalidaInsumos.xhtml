@@ -145,6 +145,16 @@
                                     <f:facet name="header">Cantidad</f:facet>
                                     <h:outputText value="#{ahi.cantidad} #{ahi.insumo.unidadMedida.simbolo}"/>
                                 </h:column>
+                                <h:column>
+                                    <f:facet name = "header">Accion</f:facet>
+                                    <h:commandButton value="Eliminar"
+                                                     class="btn btn-default"
+                                                     actionListener="#{registrarSalidaInsumosBean.deleteInsumoFromlistLocalHasInsumoSalida(ahi)}">
+                                        <f:ajax execute="@this"
+                                                render="formDataTableSalida:tableInsumosSalida formDataTable:tableInsumos"
+                                                onevent="$('#formDataTable\\:tableInsumos').DataTable();"/>
+                                    </h:commandButton>
+                                </h:column>
                             </h:dataTable>
                         </h:form>
                     </div>

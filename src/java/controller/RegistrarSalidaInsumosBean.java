@@ -32,7 +32,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     
     private int idDiv;
 
-    public RegistrarSalidaInsumosBean() {
+    public RegistrarSalidaInsumosBean() {        
         localHasInsumoDAO = new LocalHasInsumoDAO();
         listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
         listLocalHasInsumoActualizar = new ArrayList<>();
@@ -76,8 +76,20 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         listLocalHasInsumoActualizar.add(localHasInsumo);
     }
     
-    public void deleteInsumoFromlistLocalHasInsumoSalida() {
+    public void deleteInsumoFromlistLocalHasInsumoSalida(AbastecimientoHasInsumo ahi) {
+        System.out.println("AbastecimientoHasInsumo: " + ahi.getInsumo().getId());
         
+        for (LocalHasInsumo item : listLocalHasInsumo) {
+            System.out.println("item: " + item.getInsumo().getId());
+            if (item.getInsumo().getId() == ahi.getInsumo().getId()) {
+                System.out.println("entro: " + item.getInsumo().getId());
+                listLocalHasInsumo.remove(item);
+                item.setCantidad(item.getCantidad() + ahi.getCantidad());
+                listLocalHasInsumo.add(item);
+                break;
+            }
+        }
+        listAbastecimientoHasInsumos.remove(ahi);
     }
 
     public LocalHasInsumo getLocalHasInsumo() {
