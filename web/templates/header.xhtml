@@ -25,7 +25,7 @@
                                         </a>
                                         <ul class="dropdown-menu">
                                             <ui:repeat value="#{loginBean.listSubmenu}" var="submenu">
-                                                <li><h:link value="#{submenu.nombre}" outcome="#{submenu.outcome}" rendered="#{submenu.menu.nombre == menu ? true : false}"/></li>
+                                                <li><h:link value="#{submenu.menu.nombre} - #{submenu.nombre}" outcome="#{submenu.outcome}" rendered="#{submenu.menu.nombre == menu ? true : false}"/></li>
                                             </ui:repeat>
                                         </ul>
                                     </li>
