@@ -25,6 +25,11 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     private int cantidad = 0;
     private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos;
     
+    private LocalDAO localDAO;    
+    private Local local;
+    private int localId;
+    private List<Local> listLocal;
+    
     private int idDiv;
 
     public RegistrarSalidaInsumosBean() {
@@ -32,15 +37,46 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
         listLocalHasInsumoActualizar = new ArrayList<>();
         
+        listAbastecimientoHasInsumos = new ArrayList<>();
+        
         abastecimiento = new Abastecimiento();
+        
+        localDAO = new LocalDAO();
+        listLocal = localDAO.getListLocal();
         
         idDiv = 1;
     }
     
     public void addListAbastecimientoHasInsums() {
+        /*
+        abastecimiento = new Abastecimiento();
+        abastecimiento.setLocalByLocalIdOrigen(listLocal.get(0));
+        for (Local item : listLocal) {
+            if (item.getId() == localId) {
+                local = item;
+                break;
+            }
+        }
+        abastecimiento.setLocalByLocalIdDestino(local);
+        abastecimientoDAO.create(abastecimiento);
+        
+        AbastecimientoHasInsumoId abastecimientoHasInsumoId = new AbastecimientoHasInsumoId();
+        abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
+        abastecimientoHasInsumoId.setInsumoId(localHasInsumo.getInsumo().getId());
+        */
+        
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
         abastecimientoHasInsumo.setInsumo(localHasInsumo.getInsumo());
         abastecimientoHasInsumo.setCantidad(cantidad);
+        listAbastecimientoHasInsumos.add(abastecimientoHasInsumo);
+        
+        listLocalHasInsumo.remove(localHasInsumo);
+        localHasInsumo.setCantidad(localHasInsumo.getCantidad() - cantidad);
+        listLocalHasInsumo.add(localHasInsumo);
+        listLocalHasInsumoActualizar.add(localHasInsumo);
+    }
+    
+    public void deleteInsumoFromlistLocalHasInsumoSalida() {
         
     }
 
@@ -82,6 +118,38 @@ public class RegistrarSalidaInsumosBean implements Serializable {
 
     public void setListAbastecimientoHasInsumos(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos) {
         this.listAbastecimientoHasInsumos = listAbastecimientoHasInsumos;
+    }
+
+    public Abastecimiento getAbastecimiento() {
+        return abastecimiento;
+    }
+
+    public void setAbastecimiento(Abastecimiento abastecimiento) {
+        this.abastecimiento = abastecimiento;
+    }
+
+    public Local getLocal() {
+        return local;
+    }
+
+    public void setLocal(Local local) {
+        this.local = local;
+    }
+
+    public int getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(int localId) {
+        this.localId = localId;
+    }
+
+    public List<Local> getListLocal() {
+        return listLocal;
+    }
+
+    public void setListLocal(List<Local> listLocal) {
+        this.listLocal = listLocal;
     }
 
     public int getIdDiv() {
