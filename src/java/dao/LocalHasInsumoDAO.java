@@ -6,14 +6,14 @@ import model.LocalHasInsumo;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-public class LocalHasInsumoDAO implements Serializable {
+public class LocalHasInsumoDAO extends ADAO_crud<Object> implements Serializable {
     
     public List<LocalHasInsumo> getListLocalHasInsumo() {
         List<LocalHasInsumo> listLocalHasInsumo = null;
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            Query query = session.createQuery("from LocalHasInsumo");
+            Query query = session.createQuery("from LocalHasInsumo lhi inner join fetch lhi.local l inner join fetch lhi.insumo i inner join fetch i.unidadMedida um");
             listLocalHasInsumo = (List<LocalHasInsumo>) query.list();
         } catch (Exception e) {
         } finally {
