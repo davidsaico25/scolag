@@ -13,7 +13,7 @@ public class LocalHasInsumoDAO implements Serializable {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            Query query = session.createQuery("from LocalHasInsumo u inner join fetch u.persona p");
+            Query query = session.createQuery("from LocalHasInsumo");
             listLocalHasInsumo = (List<LocalHasInsumo>) query.list();
         } catch (Exception e) {
         } finally {
