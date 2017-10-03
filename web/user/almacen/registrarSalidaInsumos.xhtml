@@ -156,11 +156,47 @@
                                     </h:commandButton>
                                 </h:column>
                             </h:dataTable>
+                            <h:commandButton value="Confirmar"
+                                             actionListener="#{registrarSalidaInsumosBean.confirmarRegistrarSalidaInsumos}"
+                                             class="btn btn-default">
+                                <f:ajax execute="@form" render="vista1 vista2"/>
+                            </h:commandButton>
                         </h:form>
                     </div>
                 </h:panelGroup>
 
-
+                <h:panelGroup id="vista2"
+                              style="display: #{registrarSalidaInsumosBean.idDiv == 2 ? 'block' : 'none'}"
+                              layout="block"
+                              class="container table-responsive">
+                    <h1>REPORTE</h1>
+                    <h:form>
+                        <h:dataTable id="tableResult"
+                                     value="#{registrarSalidaInsumosBean.listAbastecimientoHasInsumos}"
+                                     var="ahi"
+                                     class="table table-striped table-bordered">
+                            <h:column>
+                                <f:facet name="header">Codigo</f:facet>
+                                <h:outputText value="#{ahi.insumo.id == null ? ahi.insumo.codBarra : ahi.insumo.id}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Nombre</f:facet>
+                                <h:outputText value="#{ahi.insumo.nombre}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Descripcion</f:facet>
+                                <h:outputText value="#{ahi.insumo.descripcion}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Cantidad</f:facet>
+                                <h:outputText value="#{ahi.cantidad} #{ahi.insumo.unidadMedida.simbolo}"/>
+                            </h:column>
+                        </h:dataTable>
+                        <h:commandButton value="Atras"
+                                         action="registrarSalidaInsumos"
+                                         class="btn btn-default"/>
+                    </h:form>
+                </h:panelGroup>
             </ui:define>
 
             <ui:define name="scripts">
