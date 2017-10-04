@@ -41,8 +41,8 @@
                                     <f:facet name = "header">Accion</f:facet>
                                     <h:commandButton value="Agregar"
                                                      class="btn btn-default"
-                                                     onclick="$('#modalInsumo').modal('show');"
-                                                     immediate="true">
+                                                     disabled="#{registrarSalidaInsumosBean.listLocalHasInsumoActualizar.contains(lhi) ? 'true' : 'false'}"
+                                                     onclick="$('#modalInsumo').modal('show');">
                                         <f:setPropertyActionListener target="#{registrarSalidaInsumosBean.localHasInsumo}" value="#{lhi}"/>
                                         <f:ajax execute="@this" render=":formModal"/>
                                     </h:commandButton>

@@ -67,6 +67,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
             if (item.getInsumo().getId() == ahi.getInsumo().getId()) {
                 System.out.println("entro: " + item.getInsumo().getId());
                 listLocalHasInsumo.remove(item);
+                listLocalHasInsumoActualizar.remove(item);
                 item.setCantidad(item.getCantidad() + ahi.getCantidad());
                 listLocalHasInsumo.add(item);
                 break;
@@ -127,6 +128,22 @@ public class RegistrarSalidaInsumosBean implements Serializable {
 
     public void setLocalHasInsumo(LocalHasInsumo localHasInsumo) {
         this.localHasInsumo = localHasInsumo;
+    }
+
+    public LocalHasInsumoDAO getLocalHasInsumoDAO() {
+        return localHasInsumoDAO;
+    }
+
+    public void setLocalHasInsumoDAO(LocalHasInsumoDAO localHasInsumoDAO) {
+        this.localHasInsumoDAO = localHasInsumoDAO;
+    }
+
+    public List<LocalHasInsumo> getListLocalHasInsumoActualizar() {
+        return listLocalHasInsumoActualizar;
+    }
+
+    public void setListLocalHasInsumoActualizar(List<LocalHasInsumo> listLocalHasInsumoActualizar) {
+        this.listLocalHasInsumoActualizar = listLocalHasInsumoActualizar;
     }
 
     public List<LocalHasInsumo> getListLocalHasInsumo() {
