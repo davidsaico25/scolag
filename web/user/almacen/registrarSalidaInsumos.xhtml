@@ -44,7 +44,7 @@
                                                      onclick="$('#modalInsumo').modal('show');"
                                                      immediate="true">
                                         <f:setPropertyActionListener target="#{registrarSalidaInsumosBean.localHasInsumo}" value="#{lhi}"/>
-                                        <f:ajax execute="@this" render="formModal"/>
+                                        <f:ajax execute="@this" render=":formModal"/>
                                     </h:commandButton>
                                 </h:column>
                             </h:dataTable>
@@ -151,7 +151,7 @@
                                                      class="btn btn-default"
                                                      actionListener="#{registrarSalidaInsumosBean.deleteInsumoFromlistLocalHasInsumoSalida(ahi)}">
                                         <f:ajax execute="@this"
-                                                render="formDataTableSalida:tableInsumosSalida formDataTable:tableInsumos"
+                                                render=":formDataTableSalida:tableInsumosSalida :formDataTable:tableInsumos"
                                                 onevent="$('#formDataTable\\:tableInsumos').DataTable();"/>
                                     </h:commandButton>
                                 </h:column>
@@ -159,7 +159,7 @@
                             <h:commandButton value="Confirmar"
                                              actionListener="#{registrarSalidaInsumosBean.confirmarRegistrarSalidaInsumos}"
                                              class="btn btn-default">
-                                <f:ajax execute="@form" render="vista1 vista2"/>
+                                <f:ajax execute="@form" render=":vista1 :vista2"/>
                             </h:commandButton>
                         </h:form>
                     </div>
@@ -193,6 +193,7 @@
                             </h:column>
                         </h:dataTable>
                         <h:commandButton value="Atras"
+                                         actionListener="#{registrarSalidaInsumosBean.resetParams}"
                                          action="registrarSalidaInsumos"
                                          class="btn btn-default"/>
                     </h:form>

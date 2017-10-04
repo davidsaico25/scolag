@@ -55,6 +55,8 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         localHasInsumo.setCantidad(localHasInsumo.getCantidad() - cantidad);
         listLocalHasInsumo.add(localHasInsumo);
         listLocalHasInsumoActualizar.add(localHasInsumo);
+        
+        cantidad = 0;
     }
     
     public void deleteInsumoFromlistLocalHasInsumoSalida(AbastecimientoHasInsumo ahi) {
@@ -103,6 +105,20 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         }
         
         idDiv = 2;
+    }
+    
+    public void resetParams() {
+        localHasInsumo = new LocalHasInsumo();
+        listLocalHasInsumoActualizar = new ArrayList<>();
+        
+        abastecimiento = new Abastecimiento();
+    
+        abastecimientoHasInsumo = new AbastecimientoHasInsumo();
+        cantidad = 0;
+        listAbastecimientoHasInsumos = new ArrayList<>();
+        
+        local = new Local();
+        localId = 0;
     }
 
     public LocalHasInsumo getLocalHasInsumo() {
