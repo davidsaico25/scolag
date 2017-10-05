@@ -1,22 +1,217 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
     <body>
 
         <ui:composition template="./../../templates/template.xhtml">
 
             <ui:define name="head">
-                
+                <link rel="stylesheet" href="/scolag/resources/css/dataTables.bootstrap.min.css"/>
+                <style>
+                    .col-center{
+                        float: none;
+                        margin: 0 auto;
+                    }
+                </style>
             </ui:define>
 
             <ui:define name="content">
-                <h1>Registrar Entrada Insumos</h1>
+
+                <div class="container">
+                    <h1>Registrar Entrada Insumos</h1>
+
+                    <h:panelGroup id="view1"
+                                  style="display: #{registrarEntradaInsumosBean.idDiv == 1 ? 'block' : 'none'}"
+                                  layout="block">
+                        <div class="table-responsive">
+                            <h:form id="formDataTable">
+                                <h:dataTable id="tableInsumos"
+                                             value="#{registrarEntradaInsumosBean.listLocalHasInsumo}"
+                                             var="lhi"
+                                             class="table table-striped table-bordered">
+                                    <h:column>
+                                        <f:facet name="header">Codigo</f:facet>
+                                        <h:outputText value="#{lhi.insumo.codBarra != null ? lhi.insumo.codBarra : lhi.insumo.id}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{lhi.insumo.nombre}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Cantidad</f:facet>
+                                        <h:outputText value="#{lhi.cantidad} #{lhi.insumo.unidadMedida.simbolo}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name = "header">Accion</f:facet>
+                                        <h:commandButton value="Agregar"
+                                                         class="btn btn-default"
+                                                         disabled="#{registrarEntradaInsumosBean.listLocalHasInsumoActualizar.contains(lhi) ? 'true' : 'false'}"
+                                                         onclick="$('#modalInsumo').modal('show');">
+                                            <f:setPropertyActionListener target="#{registrarEntradaInsumosBean.localHasInsumo}" value="#{lhi}"/>
+                                            <f:ajax execute="@this" render=":formModal"/>
+                                        </h:commandButton>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:form>
+                        </div>
+
+                        <!-- Modal Insumo -->
+                        <div class="modal fade" id="modalInsumo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6">
+                                                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWF3M8_2dDqNjlE879GANTspbhCdJT-AsMd1BKIrbrZn8eMryB"
+                                                     class="img-responsive"/>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6">
+                                                <h:form id="formModal" class="form-horizontal">
+                                                    <div class="form-group">
+                                                        <label for="inputNombre" class="col-xs-4 col-sm-4 control-label">Nombre</label>
+                                                        <div class="col-xs-8 col-sm-8">
+                                                            <h:inputText id="inputNombre"
+                                                                         value="#{registrarEntradaInsumosBean.localHasInsumo.insumo.nombre}"
+                                                                         p:type="text"
+                                                                         class="form-control"
+                                                                         readonly="true"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputCantidad" class="col-xs-4 col-sm-4 control-label">Cantidad</label>
+                                                        <div class="col-xs-8 col-sm-8">
+                                                            <h:inputText id="inputCantidad"
+                                                                         value="#{registrarEntradaInsumosBean.cantidad}"
+                                                                         p:type="number"
+                                                                         class="form-control"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="inputDescripcion" class="col-xs-4 col-sm-4 control-label">Descripcion</label>
+                                                        <div class="col-xs-8 col-sm-8">
+                                                            <h:inputText id="inputDescripcion"
+                                                                         value="#{registrarEntradaInsumosBean.localHasInsumo.insumo.descripcion}"
+                                                                         p:type="text"
+                                                                         class="form-control"
+                                                                         readonly="true"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-offset-2 col-sm-10">
+                                                            <h:commandButton value="Aceptar"
+                                                                             class="btn btn-default"
+                                                                             actionListener="#{registrarEntradaInsumosBean.addListAbastecimientoHasInsums}"
+                                                                             onclick="$('#modalInsumo').modal('hide');">
+                                                                <f:ajax execute="@form"
+                                                                        render=":formDataTable:tableInsumos :formDataTableSalida:tableInsumosSalida"
+                                                                        onevent="$('#formDataTable\\:tableInsumos').DataTable();"/>
+                                                            </h:commandButton>
+                                                        </div>
+                                                    </div>
+                                                </h:form>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <h:form id="formDataTableSalida">
+                                <h:dataTable id="tableInsumosSalida"
+                                             value="#{registrarEntradaInsumosBean.listAbastecimientoHasInsumos}"
+                                             var="ahi"
+                                             class="table table-striped table-bordered">
+                                    <h:column>
+                                        <f:facet name="header">Codigo</f:facet>
+                                        <h:outputText value="#{ahi.insumo.id == null ? ahi.insumo.codBarra : ahi.insumo.id}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{ahi.insumo.nombre}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Cantidad</f:facet>
+                                        <h:outputText value="#{ahi.cantidad} #{ahi.insumo.unidadMedida.simbolo}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name = "header">Accion</f:facet>
+                                        <h:commandButton value="Eliminar"
+                                                         class="btn btn-default"
+                                                         actionListener="#{registrarEntradaInsumosBean.deleteInsumoFromlistLocalHasInsumoSalida(ahi)}">
+                                            <f:ajax execute="@this"
+                                                    render=":formDataTableSalida:tableInsumosSalida :formDataTable:tableInsumos"
+                                                    onevent="$('#formDataTable\\:tableInsumos').DataTable();"/>
+                                        </h:commandButton>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:commandButton value="Confirmar"
+                                                 actionListener="#{registrarEntradaInsumosBean.confirmarRegistrarEntradaInsumos}"
+                                                 class="btn btn-default">
+                                    <f:ajax execute="@form" render=":view1 :view2"/>
+                                </h:commandButton>
+                            </h:form>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="view2"
+                                  style="display: #{registrarEntradaInsumosBean.idDiv == 2 ? 'block' : 'none'}"
+                                  layout="block">
+                        <h1>Nueva Entrada</h1>
+                        <div class="table-responsive">
+                            <h:form>
+                                <h:dataTable id="tableResult"
+                                             value="#{registrarEntradaInsumosBean.listAbastecimientoHasInsumos}"
+                                             var="ahi"
+                                             class="table table-striped table-bordered">
+                                    <h:column>
+                                        <f:facet name="header">Codigo</f:facet>
+                                        <h:outputText value="#{ahi.insumo.id == null ? ahi.insumo.codBarra : ahi.insumo.id}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{ahi.insumo.nombre}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Descripcion</f:facet>
+                                        <h:outputText value="#{ahi.insumo.descripcion}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Cantidad</f:facet>
+                                        <h:outputText value="#{ahi.cantidad} #{ahi.insumo.unidadMedida.simbolo}"/>
+                                    </h:column>
+                                </h:dataTable>
+                                <h:commandButton value="Atras"
+                                                 actionListener="#{registrarEntradaInsumosBean.resetParams}"
+                                                 action="registrarEntradaInsumos"
+                                                 class="btn btn-default"/>
+                            </h:form>
+                        </div>
+                    </h:panelGroup>
+                </div>
             </ui:define>
 
             <ui:define name="scripts">
-                
+                <script type="text/javascript" src="/scolag/resources/js/jquery.datatables.min.js"></script>
+                <script type="text/javascript" src="/scolag/resources/js/dataTables.bootstrap.min.js"></script>
+                <script type="text/javascript">
+                                                                                 $(document).ready(function () {
+                                                                                     $('#formDataTable\\:tableInsumos').DataTable();
+                                                                                 });
+                </script>
             </ui:define>
 
         </ui:composition>

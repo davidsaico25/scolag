@@ -8,9 +8,9 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import model.*;
 
-@Named(value = "registrarSalidaInsumosBean")
+@Named(value = "registrarEntradaInsumosBean")
 @ViewScoped
-public class RegistrarSalidaInsumosBean implements Serializable {
+public class RegistrarEntradaInsumosBean implements Serializable {
     
     private LocalHasInsumoDAO localHasInsumoDAO;
     private LocalHasInsumo localHasInsumo;
@@ -18,29 +18,22 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     private List<LocalHasInsumo> listLocalHasInsumoActualizar;
     
     private Abastecimiento abastecimiento;
-    
     private AbastecimientoHasInsumo abastecimientoHasInsumo;
     private int cantidad = 0;
     private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos;
     
-    private LocalDAO localDAO;    
     private Local local;
-    private int localId;
-    private List<Local> listLocal;
     
     private int idDiv;
-
-    public RegistrarSalidaInsumosBean() {        
+    
+    public RegistrarEntradaInsumosBean() {
         localHasInsumoDAO = new LocalHasInsumoDAO();
         listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
-        listLocalHasInsumoActualizar = new ArrayList<>();
-        
         listAbastecimientoHasInsumos = new ArrayList<>();
         
-        abastecimiento = new Abastecimiento();
+        listLocalHasInsumoActualizar = new ArrayList<>();
         
-        localDAO = new LocalDAO();
-        listLocal = localDAO.getListLocal();
+        local = new LocalDAO().getListLocal().get(0);
         
         idDiv = 1;
     }
@@ -52,19 +45,39 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         listAbastecimientoHasInsumos.add(abastecimientoHasInsumo);
         
         listLocalHasInsumo.remove(localHasInsumo);
-        localHasInsumo.setCantidad(localHasInsumo.getCantidad() - cantidad);
+        localHasInsumo.setCantidad(localHasInsumo.getCantidad() + cantidad);
         listLocalHasInsumo.add(localHasInsumo);
         listLocalHasInsumoActualizar.add(localHasInsumo);
         
         cantidad = 0;
     }
     
-    public void deleteInsumoFromlistLocalHasInsumoSalida(AbastecimientoHasInsumo ahi) {
+    public void mostrarListas() {
+        System.out.println("/////////////////////////////////////////////////");
+        System.out.println("listLocalHasInsumo");
         for (LocalHasInsumo item : listLocalHasInsumo) {
+            System.out.println(item.getInsumo().getNombre() + ": " + item.getCantidad());
+        }
+        System.out.println("listLocalHasInsumoActualizar");
+        for (LocalHasInsumo item : listLocalHasInsumoActualizar) {
+            System.out.println(item.getInsumo().getNombre() + ": " + item.getCantidad());
+        }
+        System.out.println("listAbastecimientoHasInsumos");
+        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumos) {
+            System.out.println(item.getInsumo().getNombre() + ": " + item.getCantidad());
+        }
+    }
+    
+    public void deleteInsumoFromlistLocalHasInsumoSalida(AbastecimientoHasInsumo ahi) {
+        System.out.println("AbastecimientoHasInsumo: " + ahi.getInsumo().getId());
+        
+        for (LocalHasInsumo item : listLocalHasInsumo) {
+            System.out.println("item: " + item.getInsumo().getId());
             if (item.getInsumo().getId() == ahi.getInsumo().getId()) {
+                System.out.println("entro: " + item.getInsumo().getId());
                 listLocalHasInsumo.remove(item);
                 listLocalHasInsumoActualizar.remove(item);
-                item.setCantidad(item.getCantidad() + ahi.getCantidad());
+                item.setCantidad(item.getCantidad() - ahi.getCantidad());
                 listLocalHasInsumo.add(item);
                 break;
             }
@@ -72,16 +85,10 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         listAbastecimientoHasInsumos.remove(ahi);
     }
     
-    public void confirmarRegistrarSalidaInsumos() {
+    public void confirmarRegistrarEntradaInsumos() {
         AbastecimientoDAO abastecimientoDAO = new AbastecimientoDAO();
         abastecimiento = new Abastecimiento();
-        abastecimiento.setLocalByLocalIdOrigen(listLocal.get(0));
-        for (Local item : listLocal) {
-            if (item.getId() == localId) {
-                local = item;
-                break;
-            }
-        }
+        abastecimiento.setLocalByLocalIdOrigen(null);
         abastecimiento.setLocalByLocalIdDestino(local);
         abastecimientoDAO.create(abastecimiento);
         
@@ -102,6 +109,8 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         }
         
         idDiv = 2;
+        
+        mostrarListas();
     }
     
     public void resetParams() {
@@ -115,7 +124,10 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         listAbastecimientoHasInsumos = new ArrayList<>();
         
         local = new Local();
-        localId = 0;
+    }
+    
+    public void changeViewNuevaEntrada() {
+        idDiv = 2;
     }
 
     public LocalHasInsumo getLocalHasInsumo() {
@@ -126,52 +138,12 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         this.localHasInsumo = localHasInsumo;
     }
 
-    public LocalHasInsumoDAO getLocalHasInsumoDAO() {
-        return localHasInsumoDAO;
-    }
-
-    public void setLocalHasInsumoDAO(LocalHasInsumoDAO localHasInsumoDAO) {
-        this.localHasInsumoDAO = localHasInsumoDAO;
-    }
-
-    public List<LocalHasInsumo> getListLocalHasInsumoActualizar() {
-        return listLocalHasInsumoActualizar;
-    }
-
-    public void setListLocalHasInsumoActualizar(List<LocalHasInsumo> listLocalHasInsumoActualizar) {
-        this.listLocalHasInsumoActualizar = listLocalHasInsumoActualizar;
-    }
-
     public List<LocalHasInsumo> getListLocalHasInsumo() {
         return listLocalHasInsumo;
     }
 
     public void setListLocalHasInsumo(List<LocalHasInsumo> listLocalHasInsumo) {
         this.listLocalHasInsumo = listLocalHasInsumo;
-    }
-
-    public AbastecimientoHasInsumo getAbastecimientoHasInsumo() {
-        return abastecimientoHasInsumo;
-    }
-
-    public void setAbastecimientoHasInsumo(AbastecimientoHasInsumo abastecimientoHasInsumo) {
-        this.abastecimientoHasInsumo = abastecimientoHasInsumo;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public List<AbastecimientoHasInsumo> getListAbastecimientoHasInsumos() {
-        return listAbastecimientoHasInsumos;
-    }
-
-    public void setListAbastecimientoHasInsumos(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos) {
-        this.listAbastecimientoHasInsumos = listAbastecimientoHasInsumos;
     }
 
     public Abastecimiento getAbastecimiento() {
@@ -182,7 +154,26 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         this.abastecimiento = abastecimiento;
     }
 
+    public AbastecimientoHasInsumo getAbastecimientoHasInsumo() {
+        return abastecimientoHasInsumo;
+    }
+
+    public void setAbastecimientoHasInsumo(AbastecimientoHasInsumo abastecimientoHasInsumo) {
+        this.abastecimientoHasInsumo = abastecimientoHasInsumo;
+    }
+
+    public List<AbastecimientoHasInsumo> getListAbastecimientoHasInsumos() {
+        return listAbastecimientoHasInsumos;
+    }
+
+    public void setListAbastecimientoHasInsumos(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos) {
+        this.listAbastecimientoHasInsumos = listAbastecimientoHasInsumos;
+    }
+
     public Local getLocal() {
+        if (local == null) {
+            local = new LocalDAO().getListLocal().get(0);
+        }
         return local;
     }
 
@@ -190,20 +181,20 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         this.local = local;
     }
 
-    public int getLocalId() {
-        return localId;
+    public List<LocalHasInsumo> getListLocalHasInsumoActualizar() {
+        return listLocalHasInsumoActualizar;
     }
 
-    public void setLocalId(int localId) {
-        this.localId = localId;
+    public void setListLocalHasInsumoActualizar(List<LocalHasInsumo> listLocalHasInsumoActualizar) {
+        this.listLocalHasInsumoActualizar = listLocalHasInsumoActualizar;
     }
 
-    public List<Local> getListLocal() {
-        return listLocal;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setListLocal(List<Local> listLocal) {
-        this.listLocal = listLocal;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public int getIdDiv() {
@@ -213,5 +204,4 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     public void setIdDiv(int idDiv) {
         this.idDiv = idDiv;
     }
-    
 }
