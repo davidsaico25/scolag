@@ -1,22 +1,223 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
     <body>
 
         <ui:composition template="./../../templates/template.xhtml">
 
             <ui:define name="head">
-                
+                <link rel="stylesheet" href="/scolag/resources/css/dataTables.bootstrap.min.css"/>
+            </ui:define>
+            
+            <ui:define name="content">
+                <div class="container">
+                    <h1>Administrar Insumos</h1>
+
+                    <h:panelGroup id="view1"
+                                  style="display: #{administrarInsumosBean.idDiv == 1 ? 'block' : 'none'}"
+                                  layout="block">
+                        <h:form id="formDataTable">
+                            <div class="table-responsive">
+                                <h:dataTable id="tableInsumos"
+                                             value="#{administrarInsumosBean.listPresentacionInsumo}"
+                                             var="pi"
+                                             class="table table-striped table-bordered">
+                                    <h:column>
+                                        <f:facet name="header">Codigo</f:facet>
+                                        <h:outputText value="#{pi.codigoBarra != null ? pi.codigoBarra : '-'}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{pi.nombre}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Rendimiento</f:facet>
+                                        <h:outputText value="#{pi.rendimiento} #{pi.insumo.unidadMedida.simbolo}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Precio Costo (S/.)</f:facet>
+                                        <h:outputText value="#{pi.precioCosto}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                            <h:commandButton value="Registrar Nuevo Insumo"
+                                             actionListener="#{administrarInsumosBean.changeViewRegistrarInsumo}"
+                                             class="btn btn-default">
+                                <f:ajax execute="@this" render=":view1 :view2 :formTest"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="view2"
+                                  style="display: #{administrarInsumosBean.idDiv == 2 ? 'block' : 'none'}"
+                                  layout="block">
+                        <h3>Registro Insumo</h3>
+
+                        <h:form id="formRegistrarInsumo"
+                                class="form-horizontal">
+                            <div class="form-group">
+                                <label for="inputName" class="col-sm-2 control-label">Nombre</label>
+                                <div class="col-sm-10">
+                                    <h:inputText id="inputName"
+                                                 value="#{administrarInsumosBean.insumo.nombre}"
+                                                 p:type="text"
+                                                 class="form-control"
+                                                 p:placeholder="Nombre"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDescripcion" class="col-sm-2 control-label">Descripcion</label>
+                                <div class="col-sm-10">
+                                    <h:inputText id="inputDescripcion"
+                                                 value="#{administrarInsumosBean.insumo.descripcion}"
+                                                 p:type="text"
+                                                 class="form-control"
+                                                 p:placeholder="Descripcion"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputStockMinimo" class="col-sm-2 control-label">Stock Minimo</label>
+                                <div class="col-sm-10">
+                                    <h:inputText id="inputStockMinimo"
+                                                 value="#{administrarInsumosBean.insumo.stockMinimo}"
+                                                 p:type="number"
+                                                 class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputUnidadMedida" class="col-sm-2 control-label">Unidad Medida</label>
+                                <div class="col-sm-10">
+                                    <h:selectOneMenu id="inputUnidadMedida"
+                                                     value="#{administrarInsumosBean.unidadMedidaID}"
+                                                     class="form-control">
+                                        <f:selectItems value="#{administrarInsumosBean.listUnidadMedida}"
+                                                       var="um"
+                                                       itemValue="#{um.id}"
+                                                       itemLabel="#{um.simbolo}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:commandButton value="Agregar Presentacion Insumo"
+                                                 class="btn btn-primary"
+                                                 onclick="$('#modalPresentacionInsumo').modal('show');">
+                                    <f:ajax execute="@this" render=":formRegistrarPresentacionInsumo"/>
+                                </h:commandButton>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputCodigoBarra">Lista Presentaciones Insumo</label>
+                                <div class="table-responsive">
+                                    <h:dataTable id="tablePresentacionInsumo"
+                                                 value="#{administrarInsumosBean.listPresentacionInsumoRegistrar}"
+                                                 var="pir"
+                                                 class="table table-striped table-bordered">
+                                        <h:column>
+                                            <f:facet name="header">Codigo</f:facet>
+                                            <h:outputText value="#{pir.codigoBarra != null ? pir.codigoBarra : pir.id}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Nombre</f:facet>
+                                            <h:outputText value="#{pir.nombre}"/>
+                                        </h:column>
+                                    </h:dataTable>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <h:commandButton value="Guardar"
+                                                 actionListener="#{administrarInsumosBean.saveInsumo}"
+                                                 class="btn btn-default">
+                                    <f:ajax execute="@form" render="@form"/>
+                                </h:commandButton>
+                                <h:commandButton value="Volver"
+                                                 actionListener="#{administrarInsumosBean.changeViewIndex}"
+                                                 class="btn btn-default">
+                                    <f:ajax execute="@this" render=":view1 :view2 :formDataTable" onevent="setDataTable"/>
+                                </h:commandButton>
+                            </div>
+                        </h:form>
+
+                        <!-- Modal Presentacion Insumo -->
+                        <div class="modal fade" id="modalPresentacionInsumo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Registrar Presentacion Insumo</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h:form id="formRegistrarPresentacionInsumo">
+                                            <div class="form-group">
+                                                <label for="inputCodigoBarra">Codigo Barras</label>
+                                                <h:inputText id="inputCodigoBarra"
+                                                             value="#{administrarInsumosBean.presentacionInsumo.codigoBarra}"
+                                                             p:type="text"
+                                                             class="form-control"
+                                                             p:placeholder="Codigo Barras"/>
+                                                <h:outputText value="#{administrarInsumosBean.map.codigoBarra}"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputNombre">Nombre</label>
+                                                <h:inputText id="inputNombre"
+                                                             value="#{administrarInsumosBean.presentacionInsumo.nombre}"
+                                                             p:type="text"
+                                                             class="form-control"
+                                                             p:placeholder="Nombre"/>
+                                                <h:outputText value="#{administrarInsumosBean.map.nombre}"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputRendimiento">Rendimiento</label>
+                                                <h:inputText id="inputRendimiento"
+                                                             value="#{administrarInsumosBean.presentacionInsumo.rendimiento}"
+                                                             p:type="number"
+                                                             class="form-control"/>
+                                                <h:outputText value="#{administrarInsumosBean.map.rendimiento}"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="inputPrecioCosto">Precio Costo</label>
+                                                <h:inputText id="inputPrecioCosto"
+                                                             value="#{administrarInsumosBean.presentacionInsumo.precioCosto}"
+                                                             p:type="number"
+                                                             class="form-control"/>
+                                                <h:outputText value="#{administrarInsumosBean.map.precioCosto}"/>
+                                            </div>
+                                            <h:commandButton id="btnRegistrar"
+                                                             actionListener="#{administrarInsumosBean.addPresentacionInsumo}"
+                                                             value="Registrar"
+                                                             class="btn btn-default">
+                                                <f:ajax execute="@form" render="@form :formRegistrarInsumo:tablePresentacionInsumo"/>
+                                            </h:commandButton>
+                                        </h:form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </div>
             </ui:define>
 
-            <ui:define name="content">
-                <h1>Administrar Insumos</h1>
+            <ui:define name="footer">
             </ui:define>
 
             <ui:define name="scripts">
-                
+                <script type="text/javascript" src="/scolag/resources/js/jquery.datatables.min.js"></script>
+                <script type="text/javascript" src="/scolag/resources/js/dataTables.bootstrap.min.js"></script>
+                <script type="text/javascript">
+                                                     $(document).ready(function () {
+                                                         setDataTable();
+                                                         function setDataTable() {
+                                                             $('#formDataTable\\:tableInsumos').DataTable();
+                                                         }
+                                                     });
+                </script>
             </ui:define>
 
         </ui:composition>

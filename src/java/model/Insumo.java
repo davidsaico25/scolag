@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
+// Generated Oct 25, 2017 6:15:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,44 +13,37 @@ public class Insumo  implements java.io.Serializable {
 
 
      private Integer id;
-     private Imagen imagen;
      private UnidadMedida unidadMedida;
-     private String codBarra;
      private String nombre;
-     private int stockMinimo;
      private String descripcion;
+     private int stockMinimo;
      private char estado;
      private Date fechaCreacion;
      private Date fechaModificacion;
      private Set abastecimientoHasInsumos = new HashSet(0);
-     private Set insumoHasProveedors = new HashSet(0);
+     private Set presentacionInsumos = new HashSet(0);
      private Set localHasInsumos = new HashSet(0);
 
     public Insumo() {
     }
 
 	
-    public Insumo(Imagen imagen, UnidadMedida unidadMedida, String nombre, int stockMinimo, String descripcion, char estado, Date fechaCreacion) {
-        this.imagen = imagen;
+    public Insumo(UnidadMedida unidadMedida, String nombre, int stockMinimo, char estado) {
         this.unidadMedida = unidadMedida;
         this.nombre = nombre;
         this.stockMinimo = stockMinimo;
-        this.descripcion = descripcion;
         this.estado = estado;
-        this.fechaCreacion = fechaCreacion;
     }
-    public Insumo(Imagen imagen, UnidadMedida unidadMedida, String codBarra, String nombre, int stockMinimo, String descripcion, char estado, Date fechaCreacion, Date fechaModificacion, Set abastecimientoHasInsumos, Set insumoHasProveedors, Set localHasInsumos) {
-       this.imagen = imagen;
+    public Insumo(UnidadMedida unidadMedida, String nombre, String descripcion, int stockMinimo, char estado, Date fechaCreacion, Date fechaModificacion, Set abastecimientoHasInsumos, Set presentacionInsumos, Set localHasInsumos) {
        this.unidadMedida = unidadMedida;
-       this.codBarra = codBarra;
        this.nombre = nombre;
-       this.stockMinimo = stockMinimo;
        this.descripcion = descripcion;
+       this.stockMinimo = stockMinimo;
        this.estado = estado;
        this.fechaCreacion = fechaCreacion;
        this.fechaModificacion = fechaModificacion;
        this.abastecimientoHasInsumos = abastecimientoHasInsumos;
-       this.insumoHasProveedors = insumoHasProveedors;
+       this.presentacionInsumos = presentacionInsumos;
        this.localHasInsumos = localHasInsumos;
     }
    
@@ -61,26 +54,12 @@ public class Insumo  implements java.io.Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public Imagen getImagen() {
-        return this.imagen;
-    }
-    
-    public void setImagen(Imagen imagen) {
-        this.imagen = imagen;
-    }
     public UnidadMedida getUnidadMedida() {
         return this.unidadMedida;
     }
     
     public void setUnidadMedida(UnidadMedida unidadMedida) {
         this.unidadMedida = unidadMedida;
-    }
-    public String getCodBarra() {
-        return this.codBarra;
-    }
-    
-    public void setCodBarra(String codBarra) {
-        this.codBarra = codBarra;
     }
     public String getNombre() {
         return this.nombre;
@@ -89,19 +68,19 @@ public class Insumo  implements java.io.Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    public int getStockMinimo() {
-        return this.stockMinimo;
-    }
-    
-    public void setStockMinimo(int stockMinimo) {
-        this.stockMinimo = stockMinimo;
-    }
     public String getDescripcion() {
         return this.descripcion;
     }
     
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+    public int getStockMinimo() {
+        return this.stockMinimo;
+    }
+    
+    public void setStockMinimo(int stockMinimo) {
+        this.stockMinimo = stockMinimo;
     }
     public char getEstado() {
         return this.estado;
@@ -131,12 +110,12 @@ public class Insumo  implements java.io.Serializable {
     public void setAbastecimientoHasInsumos(Set abastecimientoHasInsumos) {
         this.abastecimientoHasInsumos = abastecimientoHasInsumos;
     }
-    public Set getInsumoHasProveedors() {
-        return this.insumoHasProveedors;
+    public Set getPresentacionInsumos() {
+        return this.presentacionInsumos;
     }
     
-    public void setInsumoHasProveedors(Set insumoHasProveedors) {
-        this.insumoHasProveedors = insumoHasProveedors;
+    public void setPresentacionInsumos(Set presentacionInsumos) {
+        this.presentacionInsumos = presentacionInsumos;
     }
     public Set getLocalHasInsumos() {
         return this.localHasInsumos;

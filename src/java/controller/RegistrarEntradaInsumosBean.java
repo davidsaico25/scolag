@@ -96,7 +96,7 @@ public class RegistrarEntradaInsumosBean implements Serializable {
         abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
         
         
-        AbastecimientoHasInsumosDAO abastecimientoHasInsumosDAO = new AbastecimientoHasInsumosDAO();
+        AbastecimientoHasInsumoDAO abastecimientoHasInsumosDAO = new AbastecimientoHasInsumoDAO();
         for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumos) {
             abastecimientoHasInsumoId.setInsumoId(item.getInsumo().getId());
             item.setId(abastecimientoHasInsumoId);

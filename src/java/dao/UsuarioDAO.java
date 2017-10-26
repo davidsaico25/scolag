@@ -9,6 +9,7 @@ import org.hibernate.Session;
 public class UsuarioDAO extends ADAO_crud<Object> implements Serializable {
     
     public Usuario login(Usuario usuarioParam) {
+        System.out.println(usuarioParam.getUsername());
         Usuario usuario = null;
         Session session = null;
         try {

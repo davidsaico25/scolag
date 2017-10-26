@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
+// Generated Oct 25, 2017 6:15:37 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -14,7 +14,7 @@ public class Imagen  implements java.io.Serializable {
      private Integer id;
      private String descripcion;
      private String url;
-     private Set insumos = new HashSet(0);
+     private Set presentacionInsumos = new HashSet(0);
 
     public Imagen() {
     }
@@ -24,10 +24,10 @@ public class Imagen  implements java.io.Serializable {
         this.descripcion = descripcion;
         this.url = url;
     }
-    public Imagen(String descripcion, String url, Set insumos) {
+    public Imagen(String descripcion, String url, Set presentacionInsumos) {
        this.descripcion = descripcion;
        this.url = url;
-       this.insumos = insumos;
+       this.presentacionInsumos = presentacionInsumos;
     }
    
     public Integer getId() {
@@ -51,12 +51,12 @@ public class Imagen  implements java.io.Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
-    public Set getInsumos() {
-        return this.insumos;
+    public Set getPresentacionInsumos() {
+        return this.presentacionInsumos;
     }
     
-    public void setInsumos(Set insumos) {
-        this.insumos = insumos;
+    public void setPresentacionInsumos(Set presentacionInsumos) {
+        this.presentacionInsumos = presentacionInsumos;
     }
 
 
