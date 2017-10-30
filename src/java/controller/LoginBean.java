@@ -57,6 +57,7 @@ public class LoginBean implements Serializable {
             httpSession.setAttribute("logged", this.logged);
             outcome = "user";
         } else {
+            usuario = new Usuario();
             map.put("msg", "credenciales incorrectas");
             logged = false;
         }
