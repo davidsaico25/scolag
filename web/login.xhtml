@@ -9,15 +9,23 @@
     <body>
 
         <ui:composition template="./templates/template.xhtml">
+            
+            <ui:define name="head">
+                <link rel="stylesheet" href="/scolag/resources/css/login.css"/>
+            </ui:define>
 
             <ui:define name="header">
             </ui:define>
 
             <ui:define name="content">
-                <div class="container col-md-4 col-md-offset-4">
-                    <h:form id="form">
+                <div class="container">
+                    <h:form id="form" class="form-signin">
+                        <h2 class="form-signin-heading">Iniciar Sesion</h2>
+                        <div class="form-group" style="display: #{loginBean.map.msg == null ? 'none' : 'block'}">
+                            <div class="alert alert-danger" role="alert">#{loginBean.map.msg}</div>
+                        </div>
                         <div class="form-group">
-                            <label for="inputUsername">Username</label>
+                            <label for="inputUsername">Usuario</label>
                             <h:inputText id="inputUsername"
                                          value="#{loginBean.usuario.username}"
                                          class="form-control"
@@ -27,7 +35,7 @@
                             <div class="alert alert-warning" role="alert" style="display: #{loginBean.map.username == null ? 'none' : 'block'}">#{loginBean.map.username}</div>
                         </div>
                         <div class="form-group">
-                            <label for="inputPassword">Password</label>
+                            <label for="inputPassword">Contraseña</label>
                             <h:inputSecret id="inputPassword"
                                            value="#{loginBean.usuario.password}"
                                            class="form-control"
@@ -37,7 +45,7 @@
                         </div>
                         <h:commandButton value="Sign in"
                                          action="#{loginBean.login()}"
-                                         class="btn btn-default">
+                                         class="btn btn-lg btn-primary btn-block">
                             <f:ajax execute="@form" render="@form" onevent="showMessage"/>
                         </h:commandButton>
                     </h:form>

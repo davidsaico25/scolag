@@ -13,8 +13,9 @@ public class UsuarioDAO extends ADAO_crud<Object> implements Serializable {
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            Query query = session.createQuery("from Usuario u inner join fetch u.persona inner join fetch u.perfil p where u.username = :username");
+            Query query = session.createQuery("from Usuario u inner join fetch u.persona inner join fetch u.perfil p where u.username = :username and u.password = :password");
             query.setParameter("username", usuarioParam.getUsername());
+            query.setParameter("password", usuarioParam.getPassword());
             usuario = (Usuario) query.uniqueResult();
             return usuario;
             /*
@@ -36,6 +37,7 @@ public class UsuarioDAO extends ADAO_crud<Object> implements Serializable {
                 session.close();
             }
         }
+        
         return null;
     }
     

@@ -3,29 +3,23 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Oct 31, 2017 7:02:25 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.LocalHasInsumo" table="local_has_insumo" catalog="scolag" optimistic-lock="version">
-        <composite-id name="id" class="model.LocalHasInsumoId">
+    <class name="model.LocalHasUsuario" table="local_has_usuario" catalog="scolag" optimistic-lock="version">
+        <composite-id name="id" class="model.LocalHasUsuarioId">
             <key-property name="id" type="int">
                 <column name="id" />
             </key-property>
             <key-property name="localId" type="int">
                 <column name="local_id" />
             </key-property>
-            <key-property name="insumoId" type="int">
-                <column name="insumo_id" />
+            <key-property name="usuarioId" type="int">
+                <column name="usuario_id" />
             </key-property>
         </composite-id>
-        <many-to-one name="insumo" class="model.Insumo" update="false" insert="false" fetch="select">
-            <column name="insumo_id" not-null="true" />
-        </many-to-one>
         <many-to-one name="local" class="model.Local" update="false" insert="false" fetch="select">
             <column name="local_id" not-null="true" />
         </many-to-one>
-        <property name="cantidad" type="double">
-            <column name="cantidad" precision="22" scale="0" not-null="true" />
-        </property>
-        <property name="fechaModificacion" type="date">
-            <column name="fecha_modificacion" length="10" />
-        </property>
+        <many-to-one name="usuario" class="model.Usuario" update="false" insert="false" fetch="select">
+            <column name="usuario_id" not-null="true" />
+        </many-to-one>
     </class>
 </hibernate-mapping>

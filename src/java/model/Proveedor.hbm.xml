@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 3, 2017 1:01:16 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 31, 2017 7:02:25 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.Proveedor" table="proveedor" catalog="scolag" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -15,25 +15,16 @@
             <column name="nombre_contacto" length="45" not-null="true" />
         </property>
         <property name="telefono" type="string">
-            <column name="telefono" length="11" not-null="true" />
-        </property>
-        <property name="correo" type="string">
-            <column name="correo" length="45" />
+            <column name="telefono" length="10" not-null="true" />
         </property>
         <property name="estado" type="char">
             <column name="estado" length="1" not-null="true" />
         </property>
-        <property name="fechaCreacion" type="date">
-            <column name="fecha_creacion" length="10" not-null="true" />
-        </property>
-        <property name="fechaModificacion" type="date">
-            <column name="fecha_modificacion" length="10" />
-        </property>
-        <set name="insumoHasProveedors" table="insumo_has_proveedor" inverse="true" lazy="true" fetch="select">
+        <set name="requerimientos" table="requerimiento" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="proveedor_id" not-null="true" />
             </key>
-            <one-to-many class="model.InsumoHasProveedor" />
+            <one-to-many class="model.Requerimiento" />
         </set>
     </class>
 </hibernate-mapping>

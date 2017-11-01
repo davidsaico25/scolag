@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 3, 2017 1:01:16 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 31, 2017 7:02:25 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="model.EstadoEnvioAbastecimiento" table="estado_envio_abastecimiento" catalog="scolag" optimistic-lock="version">
+    <class name="model.EstadoAbastecimiento" table="estado_abastecimiento" catalog="scolag" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
@@ -13,7 +13,7 @@
         </property>
         <set name="abastecimientos" table="abastecimiento" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="estado_envio_abastecimiento_id" />
+                <column name="estado_abastecimiento_int" />
             </key>
             <one-to-many class="model.Abastecimiento" />
         </set>

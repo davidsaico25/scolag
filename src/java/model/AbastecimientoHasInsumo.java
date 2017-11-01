@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
+// Generated Oct 31, 2017 7:02:24 PM by Hibernate Tools 4.3.1
 
 
 
@@ -12,12 +12,12 @@ public class AbastecimientoHasInsumo  implements java.io.Serializable {
      private AbastecimientoHasInsumoId id;
      private Abastecimiento abastecimiento;
      private Insumo insumo;
-     private int cantidad;
+     private double cantidad;
 
     public AbastecimientoHasInsumo() {
     }
 
-    public AbastecimientoHasInsumo(AbastecimientoHasInsumoId id, Abastecimiento abastecimiento, Insumo insumo, int cantidad) {
+    public AbastecimientoHasInsumo(AbastecimientoHasInsumoId id, Abastecimiento abastecimiento, Insumo insumo, double cantidad) {
        this.id = id;
        this.abastecimiento = abastecimiento;
        this.insumo = insumo;
@@ -45,11 +45,11 @@ public class AbastecimientoHasInsumo  implements java.io.Serializable {
     public void setInsumo(Insumo insumo) {
         this.insumo = insumo;
     }
-    public int getCantidad() {
+    public double getCantidad() {
         return this.cantidad;
     }
     
-    public void setCantidad(int cantidad) {
+    public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
 

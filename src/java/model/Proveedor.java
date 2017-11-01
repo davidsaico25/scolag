@@ -1,8 +1,7 @@
 package model;
-// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
+// Generated Oct 31, 2017 7:02:24 PM by Hibernate Tools 4.3.1
 
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,32 +15,25 @@ public class Proveedor  implements java.io.Serializable {
      private String nombre;
      private String nombreContacto;
      private String telefono;
-     private String correo;
      private char estado;
-     private Date fechaCreacion;
-     private Date fechaModificacion;
-     private Set insumoHasProveedors = new HashSet(0);
+     private Set requerimientos = new HashSet(0);
 
     public Proveedor() {
     }
 
 	
-    public Proveedor(String nombre, String nombreContacto, String telefono, char estado, Date fechaCreacion) {
+    public Proveedor(String nombre, String nombreContacto, String telefono, char estado) {
         this.nombre = nombre;
         this.nombreContacto = nombreContacto;
         this.telefono = telefono;
         this.estado = estado;
-        this.fechaCreacion = fechaCreacion;
     }
-    public Proveedor(String nombre, String nombreContacto, String telefono, String correo, char estado, Date fechaCreacion, Date fechaModificacion, Set insumoHasProveedors) {
+    public Proveedor(String nombre, String nombreContacto, String telefono, char estado, Set requerimientos) {
        this.nombre = nombre;
        this.nombreContacto = nombreContacto;
        this.telefono = telefono;
-       this.correo = correo;
        this.estado = estado;
-       this.fechaCreacion = fechaCreacion;
-       this.fechaModificacion = fechaModificacion;
-       this.insumoHasProveedors = insumoHasProveedors;
+       this.requerimientos = requerimientos;
     }
    
     public Integer getId() {
@@ -72,13 +64,6 @@ public class Proveedor  implements java.io.Serializable {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-    public String getCorreo() {
-        return this.correo;
-    }
-    
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
     public char getEstado() {
         return this.estado;
     }
@@ -86,26 +71,12 @@ public class Proveedor  implements java.io.Serializable {
     public void setEstado(char estado) {
         this.estado = estado;
     }
-    public Date getFechaCreacion() {
-        return this.fechaCreacion;
+    public Set getRequerimientos() {
+        return this.requerimientos;
     }
     
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-    public Date getFechaModificacion() {
-        return this.fechaModificacion;
-    }
-    
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-    public Set getInsumoHasProveedors() {
-        return this.insumoHasProveedors;
-    }
-    
-    public void setInsumoHasProveedors(Set insumoHasProveedors) {
-        this.insumoHasProveedors = insumoHasProveedors;
+    public void setRequerimientos(Set requerimientos) {
+        this.requerimientos = requerimientos;
     }
 
 

@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
+// Generated Oct 31, 2017 7:02:24 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -13,11 +13,10 @@ public class Abastecimiento  implements java.io.Serializable {
 
 
      private Integer id;
-     private EstadoEnvioAbastecimiento estadoEnvioAbastecimiento;
-     private Local localByLocalIdDestino;
+     private EstadoAbastecimiento estadoAbastecimiento;
      private Local localByLocalIdOrigen;
+     private Local localByLocalIdDestino;
      private String observacion;
-     private Date fechaEnvio;
      private Date fechaRecepcion;
      private Set abastecimientoHasInsumos = new HashSet(0);
 
@@ -28,12 +27,11 @@ public class Abastecimiento  implements java.io.Serializable {
     public Abastecimiento(Local localByLocalIdDestino) {
         this.localByLocalIdDestino = localByLocalIdDestino;
     }
-    public Abastecimiento(EstadoEnvioAbastecimiento estadoEnvioAbastecimiento, Local localByLocalIdDestino, Local localByLocalIdOrigen, String observacion, Date fechaEnvio, Date fechaRecepcion, Set abastecimientoHasInsumos) {
-       this.estadoEnvioAbastecimiento = estadoEnvioAbastecimiento;
-       this.localByLocalIdDestino = localByLocalIdDestino;
+    public Abastecimiento(EstadoAbastecimiento estadoAbastecimiento, Local localByLocalIdOrigen, Local localByLocalIdDestino, String observacion, Date fechaRecepcion, Set abastecimientoHasInsumos) {
+       this.estadoAbastecimiento = estadoAbastecimiento;
        this.localByLocalIdOrigen = localByLocalIdOrigen;
+       this.localByLocalIdDestino = localByLocalIdDestino;
        this.observacion = observacion;
-       this.fechaEnvio = fechaEnvio;
        this.fechaRecepcion = fechaRecepcion;
        this.abastecimientoHasInsumos = abastecimientoHasInsumos;
     }
@@ -45,19 +43,12 @@ public class Abastecimiento  implements java.io.Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public EstadoEnvioAbastecimiento getEstadoEnvioAbastecimiento() {
-        return this.estadoEnvioAbastecimiento;
+    public EstadoAbastecimiento getEstadoAbastecimiento() {
+        return this.estadoAbastecimiento;
     }
     
-    public void setEstadoEnvioAbastecimiento(EstadoEnvioAbastecimiento estadoEnvioAbastecimiento) {
-        this.estadoEnvioAbastecimiento = estadoEnvioAbastecimiento;
-    }
-    public Local getLocalByLocalIdDestino() {
-        return this.localByLocalIdDestino;
-    }
-    
-    public void setLocalByLocalIdDestino(Local localByLocalIdDestino) {
-        this.localByLocalIdDestino = localByLocalIdDestino;
+    public void setEstadoAbastecimiento(EstadoAbastecimiento estadoAbastecimiento) {
+        this.estadoAbastecimiento = estadoAbastecimiento;
     }
     public Local getLocalByLocalIdOrigen() {
         return this.localByLocalIdOrigen;
@@ -66,19 +57,19 @@ public class Abastecimiento  implements java.io.Serializable {
     public void setLocalByLocalIdOrigen(Local localByLocalIdOrigen) {
         this.localByLocalIdOrigen = localByLocalIdOrigen;
     }
+    public Local getLocalByLocalIdDestino() {
+        return this.localByLocalIdDestino;
+    }
+    
+    public void setLocalByLocalIdDestino(Local localByLocalIdDestino) {
+        this.localByLocalIdDestino = localByLocalIdDestino;
+    }
     public String getObservacion() {
         return this.observacion;
     }
     
     public void setObservacion(String observacion) {
         this.observacion = observacion;
-    }
-    public Date getFechaEnvio() {
-        return this.fechaEnvio;
-    }
-    
-    public void setFechaEnvio(Date fechaEnvio) {
-        this.fechaEnvio = fechaEnvio;
     }
     public Date getFechaRecepcion() {
         return this.fechaRecepcion;

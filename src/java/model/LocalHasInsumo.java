@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 3, 2017 1:01:15 AM by Hibernate Tools 4.3.1
+// Generated Oct 31, 2017 7:02:24 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -19,6 +19,13 @@ public class LocalHasInsumo  implements java.io.Serializable {
     public LocalHasInsumo() {
     }
 
+	
+    public LocalHasInsumo(LocalHasInsumoId id, Insumo insumo, Local local, double cantidad) {
+        this.id = id;
+        this.insumo = insumo;
+        this.local = local;
+        this.cantidad = cantidad;
+    }
     public LocalHasInsumo(LocalHasInsumoId id, Insumo insumo, Local local, double cantidad, Date fechaModificacion) {
        this.id = id;
        this.insumo = insumo;

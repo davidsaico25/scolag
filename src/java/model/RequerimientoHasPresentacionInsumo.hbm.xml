@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 31, 2017 7:02:25 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.RequerimientoHasPresentacionInsumo" table="requerimiento_has_presentacion_insumo" catalog="scolag" optimistic-lock="version">
+        <composite-id name="id" class="model.RequerimientoHasPresentacionInsumoId">
+            <key-property name="id" type="int">
+                <column name="id" />
+            </key-property>
+            <key-property name="requerimientoId" type="int">
+                <column name="requerimiento_id" />
+            </key-property>
+            <key-property name="presentacionInsumoId" type="int">
+                <column name="presentacion_insumo_id" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="presentacionInsumo" class="model.PresentacionInsumo" update="false" insert="false" fetch="select">
+            <column name="presentacion_insumo_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="requerimiento" class="model.Requerimiento" update="false" insert="false" fetch="select">
+            <column name="requerimiento_id" not-null="true" />
+        </many-to-one>
+        <property name="precioUnitario" type="double">
+            <column name="precio_unitario" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="cantidad" type="int">
+            <column name="cantidad" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

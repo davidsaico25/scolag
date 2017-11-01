@@ -1,36 +1,30 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Oct 3, 2017 1:01:16 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Oct 31, 2017 7:02:25 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.Insumo" table="insumo" catalog="scolag" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <many-to-one name="imagen" class="model.Imagen" fetch="select">
-            <column name="imagen_id" not-null="true" />
-        </many-to-one>
         <many-to-one name="unidadMedida" class="model.UnidadMedida" fetch="select">
             <column name="unidad_medida_id" not-null="true" />
         </many-to-one>
-        <property name="codBarra" type="string">
-            <column name="cod_barra" length="45" />
-        </property>
         <property name="nombre" type="string">
             <column name="nombre" length="45" not-null="true" />
         </property>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="45" />
+        </property>
         <property name="stockMinimo" type="int">
             <column name="stock_minimo" not-null="true" />
-        </property>
-        <property name="descripcion" type="string">
-            <column name="descripcion" length="45" not-null="true" />
         </property>
         <property name="estado" type="char">
             <column name="estado" length="1" not-null="true" />
         </property>
         <property name="fechaCreacion" type="date">
-            <column name="fecha_creacion" length="10" not-null="true" />
+            <column name="fecha_creacion" length="10" />
         </property>
         <property name="fechaModificacion" type="date">
             <column name="fecha_modificacion" length="10" />
@@ -41,11 +35,11 @@
             </key>
             <one-to-many class="model.AbastecimientoHasInsumo" />
         </set>
-        <set name="insumoHasProveedors" table="insumo_has_proveedor" inverse="true" lazy="true" fetch="select">
+        <set name="presentacionInsumos" table="presentacion_insumo" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="insumo_id" not-null="true" />
             </key>
-            <one-to-many class="model.InsumoHasProveedor" />
+            <one-to-many class="model.PresentacionInsumo" />
         </set>
         <set name="localHasInsumos" table="local_has_insumo" inverse="true" lazy="true" fetch="select">
             <key>

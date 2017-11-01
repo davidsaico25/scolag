@@ -21,7 +21,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     
     private AbastecimientoHasInsumo abastecimientoHasInsumo;
     private int cantidad = 0;
-    private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos;
+    private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumo;
     
     private LocalDAO localDAO;    
     private Local local;
@@ -35,7 +35,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
         listLocalHasInsumoActualizar = new ArrayList<>();
         
-        listAbastecimientoHasInsumos = new ArrayList<>();
+        listAbastecimientoHasInsumo = new ArrayList<>();
         
         abastecimiento = new Abastecimiento();
         
@@ -45,11 +45,11 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         idDiv = 1;
     }
     
-    public void addListAbastecimientoHasInsums() {
+    public void addListAbastecimientoHasInsumo() {
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
         abastecimientoHasInsumo.setInsumo(localHasInsumo.getInsumo());
         abastecimientoHasInsumo.setCantidad(cantidad);
-        listAbastecimientoHasInsumos.add(abastecimientoHasInsumo);
+        listAbastecimientoHasInsumo.add(abastecimientoHasInsumo);
         
         listLocalHasInsumo.remove(localHasInsumo);
         localHasInsumo.setCantidad(localHasInsumo.getCantidad() - cantidad);
@@ -69,7 +69,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
                 break;
             }
         }
-        listAbastecimientoHasInsumos.remove(ahi);
+        listAbastecimientoHasInsumo.remove(ahi);
     }
     
     public void confirmarRegistrarSalidaInsumos() {
@@ -89,12 +89,12 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
         
         
-        AbastecimientoHasInsumosDAO abastecimientoHasInsumosDAO = new AbastecimientoHasInsumosDAO();
-        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumos) {
+        AbastecimientoHasInsumoDAO abastecimientoHasInsumoDAO = new AbastecimientoHasInsumoDAO();
+        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
             abastecimientoHasInsumoId.setInsumoId(item.getInsumo().getId());
             item.setId(abastecimientoHasInsumoId);
             item.setAbastecimiento(abastecimiento);
-            abastecimientoHasInsumosDAO.create(item);
+            abastecimientoHasInsumoDAO.create(item);
         }
         
         for (LocalHasInsumo item : listLocalHasInsumo) {
@@ -112,7 +112,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
         cantidad = 0;
-        listAbastecimientoHasInsumos = new ArrayList<>();
+        listAbastecimientoHasInsumo = new ArrayList<>();
         
         local = new Local();
         localId = 0;
@@ -124,14 +124,6 @@ public class RegistrarSalidaInsumosBean implements Serializable {
 
     public void setLocalHasInsumo(LocalHasInsumo localHasInsumo) {
         this.localHasInsumo = localHasInsumo;
-    }
-
-    public LocalHasInsumoDAO getLocalHasInsumoDAO() {
-        return localHasInsumoDAO;
-    }
-
-    public void setLocalHasInsumoDAO(LocalHasInsumoDAO localHasInsumoDAO) {
-        this.localHasInsumoDAO = localHasInsumoDAO;
     }
 
     public List<LocalHasInsumo> getListLocalHasInsumoActualizar() {
@@ -166,12 +158,12 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         this.cantidad = cantidad;
     }
 
-    public List<AbastecimientoHasInsumo> getListAbastecimientoHasInsumos() {
-        return listAbastecimientoHasInsumos;
+    public List<AbastecimientoHasInsumo> getListAbastecimientoHasInsumo() {
+        return listAbastecimientoHasInsumo;
     }
 
-    public void setListAbastecimientoHasInsumos(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos) {
-        this.listAbastecimientoHasInsumos = listAbastecimientoHasInsumos;
+    public void setListAbastecimientoHasInsumo(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos) {
+        this.listAbastecimientoHasInsumo = listAbastecimientoHasInsumos;
     }
 
     public Abastecimiento getAbastecimiento() {
