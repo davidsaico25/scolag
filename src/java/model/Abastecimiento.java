@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 25, 2017 6:15:37 PM by Hibernate Tools 4.3.1
+// Generated Oct 31, 2017 7:02:24 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,7 +17,6 @@ public class Abastecimiento  implements java.io.Serializable {
      private Local localByLocalIdOrigen;
      private Local localByLocalIdDestino;
      private String observacion;
-     private Date fechaEnvio;
      private Date fechaRecepcion;
      private Set abastecimientoHasInsumos = new HashSet(0);
 
@@ -28,12 +27,11 @@ public class Abastecimiento  implements java.io.Serializable {
     public Abastecimiento(Local localByLocalIdDestino) {
         this.localByLocalIdDestino = localByLocalIdDestino;
     }
-    public Abastecimiento(EstadoAbastecimiento estadoAbastecimiento, Local localByLocalIdOrigen, Local localByLocalIdDestino, String observacion, Date fechaEnvio, Date fechaRecepcion, Set abastecimientoHasInsumos) {
+    public Abastecimiento(EstadoAbastecimiento estadoAbastecimiento, Local localByLocalIdOrigen, Local localByLocalIdDestino, String observacion, Date fechaRecepcion, Set abastecimientoHasInsumos) {
        this.estadoAbastecimiento = estadoAbastecimiento;
        this.localByLocalIdOrigen = localByLocalIdOrigen;
        this.localByLocalIdDestino = localByLocalIdDestino;
        this.observacion = observacion;
-       this.fechaEnvio = fechaEnvio;
        this.fechaRecepcion = fechaRecepcion;
        this.abastecimientoHasInsumos = abastecimientoHasInsumos;
     }
@@ -72,13 +70,6 @@ public class Abastecimiento  implements java.io.Serializable {
     
     public void setObservacion(String observacion) {
         this.observacion = observacion;
-    }
-    public Date getFechaEnvio() {
-        return this.fechaEnvio;
-    }
-    
-    public void setFechaEnvio(Date fechaEnvio) {
-        this.fechaEnvio = fechaEnvio;
     }
     public Date getFechaRecepcion() {
         return this.fechaRecepcion;

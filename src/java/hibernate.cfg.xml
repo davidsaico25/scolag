@@ -53,13 +53,17 @@ Contributor(s):
     <mapping resource="model/UnidadMedida.hbm.xml"/>
     <mapping resource="model/Usuario.hbm.xml"/>
     <mapping resource="model/Menu.hbm.xml"/>
+    <mapping resource="model/EstadoRequerimiento.hbm.xml"/>
     <mapping resource="model/Local.hbm.xml"/>
     <mapping resource="model/LocalHasInsumo.hbm.xml"/>
+    <mapping resource="model/Proveedor.hbm.xml"/>
     <mapping resource="model/Imagen.hbm.xml"/>
     <mapping resource="model/EstadoAbastecimiento.hbm.xml"/>
     <mapping resource="model/PerfilHasSubmenu.hbm.xml"/>
     <mapping resource="model/PresentacionInsumo.hbm.xml"/>
     <mapping resource="model/Abastecimiento.hbm.xml"/>
+    <mapping resource="model/RequerimientoHasPresentacionInsumo.hbm.xml"/>
+    <mapping resource="model/Requerimiento.hbm.xml"/>
     <mapping resource="model/Submenu.hbm.xml"/>
     <mapping resource="model/Perfil.hbm.xml"/>
     <mapping resource="model/Persona.hbm.xml"/>

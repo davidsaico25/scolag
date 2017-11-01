@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 31, 2017 7:02:25 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="model.Requerimiento" table="requerimiento" catalog="scolag" optimistic-lock="version">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="estadoRequerimiento" class="model.EstadoRequerimiento" fetch="select">
+            <column name="estado_requerimiento_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="proveedor" class="model.Proveedor" fetch="select">
+            <column name="proveedor_id" not-null="true" />
+        </many-to-one>
+        <property name="montoTotal" type="double">
+            <column name="monto_total" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="observacion" type="string">
+            <column name="observacion" length="45" />
+        </property>
+        <property name="fechaRecepcion" type="date">
+            <column name="fecha_recepcion" length="10" />
+        </property>
+        <property name="fechaCreacion" type="date">
+            <column name="fecha_creacion" length="10" />
+        </property>
+        <property name="fechaModificacion" type="date">
+            <column name="fecha_modificacion" length="10" />
+        </property>
+        <set name="requerimientoHasPresentacionInsumos" table="requerimiento_has_presentacion_insumo" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="requerimiento_id" not-null="true" />
+            </key>
+            <one-to-many class="model.RequerimientoHasPresentacionInsumo" />
+        </set>
+    </class>
+</hibernate-mapping>
