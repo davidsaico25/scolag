@@ -1,22 +1,335 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
     <body>
 
         <ui:composition template="./../../templates/template.xhtml">
 
             <ui:define name="head">
-                
+                <link rel="stylesheet" href="/scolag/resources/css/dataTables.bootstrap.min.css"/>
             </ui:define>
 
             <ui:define name="content">
-                <h1>Generar Reporte Compra Insumos</h1>
+                <div class="container">
+                    <h1>Generar Reporte Compra Insumos</h1>
+                    <h2>Compra</h2>
+
+                    <h:form id="formCompra" class="form-horizontal">
+                        <div class="alert alert-#{generarOrdenCompraInsumosBean.map.messageTypeFormCompra}"
+                             role="alert"
+                             style="display: #{generarOrdenCompraInsumosBean.map.messageFormCompra != null ? 'block' : 'none'}">
+                            #{generarOrdenCompraInsumosBean.map.messageFormCompra}
+                        </div>
+                        <div class="form-group">
+                            <label for="inputInsumo" class="col-sm-2 control-label">Insumo</label>
+                            <div class="col-sm-3">
+                                <h:inputText 
+                                    id="inputInsumo" 
+                                    value="#{generarOrdenCompraInsumosBean.requerimientoHasPresentacionInsumo.presentacionInsumo.nombre}" 
+                                    p:type="text" 
+                                    class="form-control"
+                                    readonly="true"
+                                    p:placeholder="Insumo"/>
+                                <h:message for="inputInsumo" style="color:red"/>
+                            </div>          
+                            <h:commandButton
+                                value="select item Ω " class="btn btn-default" 
+                                disabled="#{generarOrdenCompraInsumosBean.listLocalHasInsumoActualizar.contains(lhi) ? 'true' : 'false'}"
+                                onclick="$('#modalInsumo').modal('show');">
+                                <f:setPropertyActionListener target="#{generarOrdenCompraInsumosBean.localHasInsumo}" value="#{lhi}"/>
+                                <f:ajax execute="@this" render=":formModal"/>
+                            </h:commandButton>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputCantidad" class="col-sm-2 control-label">Cantidad</label>
+                            <div class="col-sm-3">
+                                <h:inputText id="inputCantidad"
+                                             value="#{generarOrdenCompraInsumosBean.requerimientoHasPresentacionInsumo.cantidad}"
+                                             required="true" 
+                                             p:type="number"
+                                             class="form-control"
+                                             validator="#{generarOrdenCompraInsumosBean.validarCantidad}"/>
+                                <h:message for="inputCantidad" style="color:red"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputPrecio" class="col-sm-2 control-label">Precio unitario</label>
+                            <div class="col-sm-3">
+                                <h:inputText id="inputPrecio"
+                                             value="#{generarOrdenCompraInsumosBean.requerimientoHasPresentacionInsumo.precioUnitario}"
+                                             p:type="number"
+                                             class="form-control"
+                                             validator="#{generarOrdenCompraInsumosBean.validarPrecioUnitario}"/>
+                                <h:message for="inputPrecio" style="color:red"/>
+                            </div> 
+                        </div> 
+                        <h:commandButton value="Agregar" class="btn btn-default" 
+                                         actionListener="#{generarOrdenCompraInsumosBean.agregarPresentacionInsumoCarrito}">                                          
+                            <f:ajax execute="@form" render=":formDataTableCarrito :formCompra :formComplemento"/>
+                        </h:commandButton>
+                    </h:form>
+
+                    <h2>Orden de Compra</h2>
+                    <div class="table-responsive">
+                        <h:form id="formDataTableCarrito">
+                            <h:dataTable id="tableInsumos"
+                                         value="#{generarOrdenCompraInsumosBean.listRequerimientoHasPresentacionInsumo}"
+                                         var="rhpi"
+                                         class="table table-striped table-bordered">
+
+                                <h:column>
+                                    <f:facet name="header">Cantidad</f:facet>
+                                    <h:outputText value="#{rhpi.cantidad}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Nombre</f:facet>
+                                    <h:outputText value="#{rhpi.presentacionInsumo.nombre}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Precio Unitario</f:facet>
+                                    <h:outputText value="#{rhpi.precioUnitario}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Precio Parcial</f:facet>
+                                    <h:outputText value="#{rhpi.precioUnitario * rhpi.cantidad}"/>
+                                </h:column>
+
+                                <h:column>
+                                    <f:facet name="header">Accion</f:facet>
+                                    <h:commandButton value="Editar"
+                                                     class="btn btn-default"
+                                                     actionListener="#{generarOrdenCompraInsumosBean.editar(rhpi)}"
+                                                     >
+                                        <f:ajax execute="@form" render=":formDataTableCarrito :formCompra :formComplemento"/>
+
+                                    </h:commandButton>
+
+                                    <h:commandButton value="Borrar"
+                                                     class="btn btn-default"
+                                                     actionListener="#{generarOrdenCompraInsumosBean.eliminarPresentacionInsumoCarrito(rhpi)}">
+                                        <f:ajax execute="@this" render=":formDataTableCarrito :formComplemento"/>
+                                    </h:commandButton>
+                                </h:column>
+                            </h:dataTable>
+
+                            <h:commandButton value="limpiar compra"
+                                             class="btn btn-default"
+                                             actionListener="#{generarOrdenCompraInsumosBean.limpiar}"
+                                             >
+                                <f:ajax execute="@form" render=":formDataTableCarrito :formComplemento "/>
+
+                            </h:commandButton> 
+
+
+                        </h:form> 
+                        <h:form id="formComplemento" class="form-horizontal">
+                            <label for="inputTotalCosto" class="col-sm-2 control-label">Total Costo</label>
+                            <div class="col-sm-2">
+                                <h:inputText id="inputTotalCosto"
+                                             value="#{generarOrdenCompraInsumosBean.precioT}"
+                                             required="true" 
+                                             p:type="number"
+                                             readonly="true"
+                                             class="form-control"/>
+                            </div>
+
+                            <label for="inputIGV" class="col-sm-2 control-label">I.G.V</label>
+                            <div class="col-sm-2">
+                                <h:inputText id="inputIGV"
+                                             value="#{generarOrdenCompraInsumosBean.precioT*0.18}"
+                                             required="true" 
+                                             p:type="number"
+                                             readonly="true"
+                                             class="form-control"/>
+                            </div>
+                            <label for="inputValor" class="col-sm-2 control-label">Valor</label>
+                            <div class="col-sm-2">
+                                <h:inputText id="inputValor"
+                                             value="#{generarOrdenCompraInsumosBean.precioT-generarOrdenCompraInsumosBean.precioT*0.18}"
+                                             required="true" 
+                                             p:type="number"
+                                             readonly="true"
+                                             class="form-control"/>
+                            </div>
+                        </h:form> 
+
+                    </div>
+
+
+                    <h:form>
+                        <p>
+
+                        </p>
+
+                        <div  class="form-group">
+                            <label for="inputProveedor" class="col-sm-2 control-label">Proveedor</label>
+                            <div class="col-sm-2">
+                                <h:inputText 
+                                    id="inputProveedor" 
+                                    value="#{generarOrdenCompraInsumosBean.proveedor.nombre}" 
+                                    p:type="text" 
+                                    class="form-control"
+                                    readonly="true"
+                                    p:placeholder="Proveedor"/>
+                                <h:message for="inputProveedor" style="color:red"/>
+                            </div>          
+                            <h:commandButton
+                                value="select item ₧ " class="btn btn-default" 
+                                disabled="#{generarOrdenCompraInsumosBean.listProveedor.contains(pro) ? 'true' : 'false'}"
+                                onclick="$('#ModalProveedores').modal('show');">
+                                <f:setPropertyActionListener target="#{generarOrdenCompraInsumosBean.proveedor}" value="#{pro}"/>
+                                <f:ajax execute="@this" render=":ModalProveedores"/>
+                            </h:commandButton>
+                        </div>
+                    </h:form>
+
+
+
+                    <!-- Modal Insumo Proveedor-->
+
+                    <div class="modal fade" id="ModalProveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="Pro">Proveedores</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-10">
+                                            <h:form id="formProveedores" class="form-horizontal">
+
+                                                <div class="table-responsive">
+                                                    <h:form id="formModal2">
+                                                        <h:dataTable id="tableProv"
+                                                                     value="#{generarOrdenCompraInsumosBean.listProveedor}"
+                                                                     var="pro"
+                                                                     class="table table-striped table-bordered">
+
+                                                            <h:column>
+                                                                <f:facet name="header">Nombre</f:facet>
+                                                                <h:outputText value="#{pro.nombre}"/>
+                                                            </h:column>
+
+                                                            <h:column>
+                                                                <f:facet name="header">Nombre del Contacto</f:facet>
+                                                                <h:outputText value="#{pro.nombreContacto}"/>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">Estado</f:facet>
+                                                                <h:outputText value="S/.#{pro.estado}"/>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name = "header">Accion</f:facet>
+                                                                <h:commandButton value="ok"
+                                                                                 class="btn btn-default"
+                                                                                 actionListener="#{generarOrdenCompraInsumosBean.modalOK2(pro)}"
+                                                                                 onclick="$('#formProveedores').modal('hide');">
+                                                                    <f:ajax execute="@this" render=":formModal2"/>
+                                                                </h:commandButton>
+
+                                                            </h:column>
+                                                        </h:dataTable>
+                                                    </h:form>
+                                                </div>
+                                            </h:form>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Fin del Modal Proveedor -->
+
+
+                    <!-- Modal Insumo -->
+                    <div class="modal fade" id="modalInsumo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Presentaciones</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-12 col-md-10">
+                                            <h:form id="formModal" class="form-horizontal">
+
+                                                <div class="table-responsive">
+                                                    <h:form id="formDataTable">
+                                                        <h:dataTable id="tableInsumos"
+                                                                     value="#{generarOrdenCompraInsumosBean.listPresentacionInsumos}"
+                                                                     var="pi"
+                                                                     class="table table-striped table-bordered">
+
+                                                            <h:column>
+                                                                <f:facet name="header">Codigo</f:facet>
+                                                                <h:outputText value="#{pi.codigoBarra==null ? '-': pi.codigoBarra}"/>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">Nombre</f:facet>
+                                                                <h:outputText value="#{pi.nombre}"/>
+                                                            </h:column>
+
+                                                            <h:column>
+                                                                <f:facet name="header">Rendimiento</f:facet>
+                                                                <h:outputText value="#{pi.rendimiento} #{pi.insumo.unidadMedida.simbolo}"/>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name="header">Precio Costo</f:facet>
+                                                                <h:outputText value="S/.#{pi.precioCosto}"/>
+                                                            </h:column>
+                                                            <h:column>
+                                                                <f:facet name = "header">Accion</f:facet>
+                                                                <h:commandButton value="ok"
+                                                                                 class="btn btn-default"
+                                                                                 actionListener="#{generarOrdenCompraInsumosBean.modalOK(pi)}"
+                                                                                 onclick="$('#modalInsumo').modal('hide');">
+                                                                    <f:ajax execute="@this" render=":formCompra"/>
+                                                                </h:commandButton>
+
+                                                            </h:column>
+                                                        </h:dataTable>
+                                                    </h:form>
+                                                </div>
+                                            </h:form>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Fin del Modal Insumo -->
+                </div>
             </ui:define>
 
             <ui:define name="scripts">
-                
+                <script type="text/javascript" src="/scolag/resources/js/jquery.datatables.min.js"></script>
+                <script type="text/javascript" src="/scolag/resources/js/dataTables.bootstrap.min.js"></script>
+                <script type="text/javascript">
+                                                                                     $(document).ready(function () {
+                                                                                         $('#formDataTable\\:tableInsumos').DataTable();
+                                                                                     });
+                </script>
             </ui:define>
 
         </ui:composition>
