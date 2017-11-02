@@ -11,182 +11,118 @@ import model.*;
 @Named(value = "registrarEntradaInsumosBean")
 @ViewScoped
 public class RegistrarEntradaInsumosBean implements Serializable {
-    
-    private LocalHasInsumoDAO localHasInsumoDAO;
-    private LocalHasInsumo localHasInsumo;
-    private List<LocalHasInsumo> listLocalHasInsumo;
-    private List<LocalHasInsumo> listLocalHasInsumoActualizar;
-    
+
+    private PresentacionInsumo presentacionInsumo;
+    private List<PresentacionInsumo> listPresentacionInsumo;
+    private List<PresentacionInsumo> listPresentacionInsumoEntrada;
+
+    private PresentacionInsumoCantidad presentacionInsumoCantidad;
+    private List<PresentacionInsumoCantidad> listPresentacionInsumoCantidad;
+
     private Abastecimiento abastecimiento;
+
+    private AbastecimientoHasInsumoDAO abastecimientoHasInsumoDAO;
     private AbastecimientoHasInsumo abastecimientoHasInsumo;
-    private int cantidad = 0;
-    private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos;
-    
-    private Local local;
-    
+    private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumo;
+
+    private int cantidad;
+
     private int idDiv;
-    
+
     public RegistrarEntradaInsumosBean() {
-        localHasInsumoDAO = new LocalHasInsumoDAO();
-        listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
-        listAbastecimientoHasInsumos = new ArrayList<>();
-        
-        listLocalHasInsumoActualizar = new ArrayList<>();
-        
-        local = new LocalDAO().getListLocal().get(0);
-        
+        listPresentacionInsumo = PresentacionInsumoDAO.getListPresentacionInsumo();
+        listPresentacionInsumoEntrada = new ArrayList<>();
+        listPresentacionInsumoCantidad = new ArrayList<>();
+
+        listAbastecimientoHasInsumo = new ArrayList<>();
+
         idDiv = 1;
     }
-    
-    public void addListAbastecimientoHasInsums() {
+
+    public void addListAbastecimientoHasInsumo() {
+        listPresentacionInsumoEntrada.add(presentacionInsumo);
+        
+        presentacionInsumoCantidad = new PresentacionInsumoCantidad();
+        presentacionInsumoCantidad.setPresentacionInsumo(presentacionInsumo);
+        presentacionInsumoCantidad.setCantidad(cantidad);
+        listPresentacionInsumoCantidad.add(presentacionInsumoCantidad);
+
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
-        abastecimientoHasInsumo.setInsumo(localHasInsumo.getInsumo());
-        abastecimientoHasInsumo.setCantidad(cantidad);
-        listAbastecimientoHasInsumos.add(abastecimientoHasInsumo);
-        
-        listLocalHasInsumo.remove(localHasInsumo);
-        localHasInsumo.setCantidad(localHasInsumo.getCantidad() + cantidad);
-        listLocalHasInsumo.add(localHasInsumo);
-        listLocalHasInsumoActualizar.add(localHasInsumo);
-        
+        abastecimientoHasInsumo.setInsumo(presentacionInsumo.getInsumo());
+        abastecimientoHasInsumo.setCantidad(presentacionInsumo.getRendimiento() * cantidad);
+        listAbastecimientoHasInsumo.add(abastecimientoHasInsumo);
+
         cantidad = 0;
     }
-    
-    public void mostrarListas() {
-        System.out.println("/////////////////////////////////////////////////");
-        System.out.println("listLocalHasInsumo");
-        for (LocalHasInsumo item : listLocalHasInsumo) {
-            System.out.println(item.getInsumo().getNombre() + ": " + item.getCantidad());
-        }
-        System.out.println("listLocalHasInsumoActualizar");
-        for (LocalHasInsumo item : listLocalHasInsumoActualizar) {
-            System.out.println(item.getInsumo().getNombre() + ": " + item.getCantidad());
-        }
-        System.out.println("listAbastecimientoHasInsumos");
-        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumos) {
-            System.out.println(item.getInsumo().getNombre() + ": " + item.getCantidad());
-        }
-    }
-    
-    public void deleteInsumoFromlistLocalHasInsumoSalida(AbastecimientoHasInsumo ahi) {
-        System.out.println("AbastecimientoHasInsumo: " + ahi.getInsumo().getId());
+
+    public void deleteInsumoFromlistLocalHasInsumoSalida(PresentacionInsumoCantidad pic) {
+        listPresentacionInsumoEntrada.remove(pic.getPresentacionInsumo());
         
-        for (LocalHasInsumo item : listLocalHasInsumo) {
-            System.out.println("item: " + item.getInsumo().getId());
-            if (item.getInsumo().getId() == ahi.getInsumo().getId()) {
-                System.out.println("entro: " + item.getInsumo().getId());
-                listLocalHasInsumo.remove(item);
-                listLocalHasInsumoActualizar.remove(item);
-                item.setCantidad(item.getCantidad() - ahi.getCantidad());
-                listLocalHasInsumo.add(item);
+        listPresentacionInsumoCantidad.remove(pic);
+        
+        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
+            if (item.getInsumo().equals(pic.getPresentacionInsumo().getInsumo())) {
+                listAbastecimientoHasInsumo.remove(item);
                 break;
             }
         }
-        listAbastecimientoHasInsumos.remove(ahi);
     }
     
     public void confirmarRegistrarEntradaInsumos() {
-        AbastecimientoDAO abastecimientoDAO = new AbastecimientoDAO();
-        abastecimiento = new Abastecimiento();
-        abastecimiento.setLocalByLocalIdOrigen(null);
-        abastecimiento.setLocalByLocalIdDestino(local);
-        abastecimientoDAO.create(abastecimiento);
-        
-        AbastecimientoHasInsumoId abastecimientoHasInsumoId = new AbastecimientoHasInsumoId();
-        abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
-        
-        
-        AbastecimientoHasInsumoDAO abastecimientoHasInsumosDAO = new AbastecimientoHasInsumoDAO();
-        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumos) {
-            abastecimientoHasInsumoId.setInsumoId(item.getInsumo().getId());
-            item.setId(abastecimientoHasInsumoId);
-            item.setAbastecimiento(abastecimiento);
-            abastecimientoHasInsumosDAO.create(item);
+        for (PresentacionInsumo item : listPresentacionInsumoEntrada) {
+            System.out.println(item.getInsumo().getNombre());
         }
-        
-        for (LocalHasInsumo item : listLocalHasInsumo) {
-            localHasInsumoDAO.update(item);
+        for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
+            System.out.println(item.getInsumo().getNombre() + " - " + item.getCantidad());
         }
-        
-        idDiv = 2;
-        
-        mostrarListas();
-    }
-    
-    public void resetParams() {
-        localHasInsumo = new LocalHasInsumo();
-        listLocalHasInsumoActualizar = new ArrayList<>();
-        
-        abastecimiento = new Abastecimiento();
-    
-        abastecimientoHasInsumo = new AbastecimientoHasInsumo();
-        cantidad = 0;
-        listAbastecimientoHasInsumos = new ArrayList<>();
-        
-        local = new Local();
-    }
-    
-    public void changeViewNuevaEntrada() {
-        idDiv = 2;
     }
 
-    public LocalHasInsumo getLocalHasInsumo() {
-        return localHasInsumo;
+    public PresentacionInsumo getPresentacionInsumo() {
+        return presentacionInsumo;
     }
 
-    public void setLocalHasInsumo(LocalHasInsumo localHasInsumo) {
-        this.localHasInsumo = localHasInsumo;
+    public void setPresentacionInsumo(PresentacionInsumo presentacionInsumo) {
+        this.presentacionInsumo = presentacionInsumo;
     }
 
-    public List<LocalHasInsumo> getListLocalHasInsumo() {
-        return listLocalHasInsumo;
+    public List<PresentacionInsumo> getListPresentacionInsumo() {
+        return listPresentacionInsumo;
     }
 
-    public void setListLocalHasInsumo(List<LocalHasInsumo> listLocalHasInsumo) {
-        this.listLocalHasInsumo = listLocalHasInsumo;
+    public void setListPresentacionInsumo(List<PresentacionInsumo> listPresentacionInsumo) {
+        this.listPresentacionInsumo = listPresentacionInsumo;
     }
 
-    public Abastecimiento getAbastecimiento() {
-        return abastecimiento;
+    public List<PresentacionInsumo> getListPresentacionInsumoEntrada() {
+        return listPresentacionInsumoEntrada;
     }
 
-    public void setAbastecimiento(Abastecimiento abastecimiento) {
-        this.abastecimiento = abastecimiento;
+    public void setListPresentacionInsumoEntrada(List<PresentacionInsumo> listPresentacionInsumoEntrada) {
+        this.listPresentacionInsumoEntrada = listPresentacionInsumoEntrada;
     }
 
-    public AbastecimientoHasInsumo getAbastecimientoHasInsumo() {
-        return abastecimientoHasInsumo;
+    public PresentacionInsumoCantidad getPresentacionInsumoCantidad() {
+        return presentacionInsumoCantidad;
     }
 
-    public void setAbastecimientoHasInsumo(AbastecimientoHasInsumo abastecimientoHasInsumo) {
-        this.abastecimientoHasInsumo = abastecimientoHasInsumo;
+    public void setPresentacionInsumoCantidad(PresentacionInsumoCantidad presentacionInsumoCantidad) {
+        this.presentacionInsumoCantidad = presentacionInsumoCantidad;
     }
 
-    public List<AbastecimientoHasInsumo> getListAbastecimientoHasInsumos() {
-        return listAbastecimientoHasInsumos;
+    public List<PresentacionInsumoCantidad> getListPresentacionInsumoCantidad() {
+        return listPresentacionInsumoCantidad;
     }
 
-    public void setListAbastecimientoHasInsumos(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumos) {
-        this.listAbastecimientoHasInsumos = listAbastecimientoHasInsumos;
+    public void setListPresentacionInsumoCantidad(List<PresentacionInsumoCantidad> listPresentacionInsumoCantidad) {
+        this.listPresentacionInsumoCantidad = listPresentacionInsumoCantidad;
     }
 
-    public Local getLocal() {
-        if (local == null) {
-            local = new LocalDAO().getListLocal().get(0);
-        }
-        return local;
+    public List<AbastecimientoHasInsumo> getListAbastecimientoHasInsumo() {
+        return listAbastecimientoHasInsumo;
     }
 
-    public void setLocal(Local local) {
-        this.local = local;
-    }
-
-    public List<LocalHasInsumo> getListLocalHasInsumoActualizar() {
-        return listLocalHasInsumoActualizar;
-    }
-
-    public void setListLocalHasInsumoActualizar(List<LocalHasInsumo> listLocalHasInsumoActualizar) {
-        this.listLocalHasInsumoActualizar = listLocalHasInsumoActualizar;
+    public void setListAbastecimientoHasInsumo(List<AbastecimientoHasInsumo> listAbastecimientoHasInsumo) {
+        this.listAbastecimientoHasInsumo = listAbastecimientoHasInsumo;
     }
 
     public int getCantidad() {
@@ -203,5 +139,27 @@ public class RegistrarEntradaInsumosBean implements Serializable {
 
     public void setIdDiv(int idDiv) {
         this.idDiv = idDiv;
+    }
+
+    public class PresentacionInsumoCantidad implements Serializable {
+
+        private PresentacionInsumo presentacionInsumo;
+        private int cantidad;
+
+        public PresentacionInsumo getPresentacionInsumo() {
+            return presentacionInsumo;
+        }
+
+        public void setPresentacionInsumo(PresentacionInsumo presentacionInsumo) {
+            this.presentacionInsumo = presentacionInsumo;
+        }
+
+        public int getCantidad() {
+            return cantidad;
+        }
+
+        public void setCantidad(int cantidad) {
+            this.cantidad = cantidad;
+        }
     }
 }

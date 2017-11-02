@@ -4,8 +4,13 @@ import dao.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
 import model.*;
 
 @Named(value = "registrarSalidaInsumosBean")
@@ -39,8 +44,11 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         
         abastecimiento = new Abastecimiento();
         
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
+        
         localDAO = new LocalDAO();
-        listLocal = localDAO.getListLocal();
+        listLocal = localDAO.getListLocalAbastecimiento(usuario);
         
         idDiv = 1;
     }
@@ -102,6 +110,24 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         }
         
         idDiv = 2;
+    }
+    
+    public void validateCantidad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        Integer number = (Integer) value;
+        String summary = "Error cantidad";
+        String detail = "";
+        if (number == null) {
+            detail = "No se permite campo vacio";
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
+        }
+        if (number == 0) {
+            detail = "Se requiere este campo";
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
+        }
+        if (number < 0) {
+            detail = "debe ser mayor que cero";
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
+        }
     }
     
     public void resetParams() {

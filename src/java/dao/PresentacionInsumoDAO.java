@@ -8,7 +8,7 @@ import org.hibernate.Session;
 
 public class PresentacionInsumoDAO extends ADAO_crud<Object> implements Serializable {
     
-    public List<PresentacionInsumo> getListPresentacionInsumo() {
+    public static List<PresentacionInsumo> getListPresentacionInsumo() {
         List<PresentacionInsumo> listPresentacionInsumo = null;
         Session session = null;
         try {

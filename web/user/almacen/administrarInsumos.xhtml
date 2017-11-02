@@ -145,12 +145,15 @@
                                                  class="btn btn-default">
                                     <f:ajax execute="@form" render="@form"/>
                                 </h:commandButton>
-                                <h:commandButton value="Volver"
-                                                 actionListener="#{administrarInsumosBean.changeViewIndex}"
-                                                 class="btn btn-default">
-                                    <f:ajax execute="@this" render=":view1 :view2 :formDataTable" onevent="setDataTable"/>
-                                </h:commandButton>
                             </div>
+                        </h:form>
+                        
+                        <h:form id="navigation">
+                            <h:commandButton value="Volver"
+                                             actionListener="#{administrarInsumosBean.changeViewIndex}"
+                                             class="btn btn-default">
+                                <f:ajax execute="@this" render=":view1 :view2 :formDataTable" onevent="setDataTable"/>
+                            </h:commandButton>
                         </h:form>
 
                         <!-- Modal Presentacion Insumo -->

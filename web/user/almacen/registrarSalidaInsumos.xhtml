@@ -83,7 +83,9 @@
                                                                 <h:inputText id="inputCantidad"
                                                                              value="#{registrarSalidaInsumosBean.cantidad}"
                                                                              p:type="number"
-                                                                             class="form-control"/>
+                                                                             class="form-control"
+                                                                             validator="#{registrarSalidaInsumosBean.validateCantidad}"/>
+                                                                <h:message for="inputCantidad" style="color:red"/>
                                                                 <div class="input-group-addon">#{registrarSalidaInsumosBean.localHasInsumo.insumo.unidadMedida.simbolo}</div>
                                                             </div>
                                                         </div>
