@@ -96,8 +96,8 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
-            <from-outcome>generarReporteCompraInsumos</from-outcome>
-            <to-view-id>/user/almacen/generarReporteCompraInsumos.xhtml</to-view-id>
+            <from-outcome>generarOrdenCompraInsumos</from-outcome>
+            <to-view-id>/user/almacen/generarOrdenCompraInsumos.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
         <navigation-case>

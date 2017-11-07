@@ -1,5 +1,5 @@
 package model;
-// Generated Oct 31, 2017 7:02:24 PM by Hibernate Tools 4.3.1
+// Generated Nov 7, 2017 10:59:56 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -19,7 +19,7 @@ public class PresentacionInsumo  implements java.io.Serializable {
      private double rendimiento;
      private double precioCosto;
      private char estado;
-     private Set requerimientoHasPresentacionInsumos = new HashSet(0);
+     private Set ordenCompraHasPresentacionInsumos = new HashSet(0);
 
     public PresentacionInsumo() {
     }
@@ -32,7 +32,7 @@ public class PresentacionInsumo  implements java.io.Serializable {
         this.precioCosto = precioCosto;
         this.estado = estado;
     }
-    public PresentacionInsumo(Imagen imagen, Insumo insumo, String codigoBarra, String nombre, double rendimiento, double precioCosto, char estado, Set requerimientoHasPresentacionInsumos) {
+    public PresentacionInsumo(Imagen imagen, Insumo insumo, String codigoBarra, String nombre, double rendimiento, double precioCosto, char estado, Set ordenCompraHasPresentacionInsumos) {
        this.imagen = imagen;
        this.insumo = insumo;
        this.codigoBarra = codigoBarra;
@@ -40,7 +40,7 @@ public class PresentacionInsumo  implements java.io.Serializable {
        this.rendimiento = rendimiento;
        this.precioCosto = precioCosto;
        this.estado = estado;
-       this.requerimientoHasPresentacionInsumos = requerimientoHasPresentacionInsumos;
+       this.ordenCompraHasPresentacionInsumos = ordenCompraHasPresentacionInsumos;
     }
    
     public Integer getId() {
@@ -99,12 +99,12 @@ public class PresentacionInsumo  implements java.io.Serializable {
     public void setEstado(char estado) {
         this.estado = estado;
     }
-    public Set getRequerimientoHasPresentacionInsumos() {
-        return this.requerimientoHasPresentacionInsumos;
+    public Set getOrdenCompraHasPresentacionInsumos() {
+        return this.ordenCompraHasPresentacionInsumos;
     }
     
-    public void setRequerimientoHasPresentacionInsumos(Set requerimientoHasPresentacionInsumos) {
-        this.requerimientoHasPresentacionInsumos = requerimientoHasPresentacionInsumos;
+    public void setOrdenCompraHasPresentacionInsumos(Set ordenCompraHasPresentacionInsumos) {
+        this.ordenCompraHasPresentacionInsumos = ordenCompraHasPresentacionInsumos;
     }
 
 
