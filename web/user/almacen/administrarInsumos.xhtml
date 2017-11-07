@@ -43,6 +43,15 @@
                                         <f:facet name="header">Precio Costo (S/.)</f:facet>
                                         <h:outputText value="#{pi.precioCosto}"/>
                                     </h:column>
+                                    <h:column>
+                                        <f:facet name = "header">Accion</f:facet>
+                                        <h:commandButton value="Editar"
+                                                         class="btn btn-default"
+                                                         actionListener="#{administrarInsumosBean.changeViewEditarInsumo(pi)}"
+                                                         onclick="$('#modalInsumo').modal('show');">
+                                            <f:ajax execute="@this" render=":view1 :view2 :formRegistrarInsumo"/>
+                                        </h:commandButton>
+                                    </h:column>
                                 </h:dataTable>
                             </div>
                             <h:commandButton value="Registrar Nuevo Insumo"
@@ -116,7 +125,7 @@
                             <div class="form-group">
                                 <h:commandButton value="Agregar Presentacion Insumo"
                                                  class="btn btn-primary"
-                                                 actionListener="#{administrarInsumosBean.cleanMap}"
+                                                 actionListener="#{administrarInsumosBean.cleanParametersShowModalAddPresentacionInsumo}"
                                                  onclick="$('#modalPresentacionInsumo').modal('show');">
                                     <f:ajax execute="@this" render=":formRegistrarPresentacionInsumo"/>
                                 </h:commandButton>
@@ -125,29 +134,46 @@
                                 <label for="inputCodigoBarra">Lista Presentaciones Insumo</label>
                                 <div class="table-responsive">
                                     <h:dataTable id="tablePresentacionInsumo"
-                                                 value="#{administrarInsumosBean.listPresentacionInsumoRegistrar}"
-                                                 var="pir"
+                                                 value="#{administrarInsumosBean.action == 'registrar' ? administrarInsumosBean.listPresentacionInsumoRegistrar : administrarInsumosBean.listPresentacionInsumoEditar}"
+                                                 var="pi"
                                                  class="table table-striped table-bordered">
                                         <h:column>
-                                            <f:facet name="header">Codigo</f:facet>
-                                            <h:outputText value="#{pir.codigoBarra != null ? pir.codigoBarra : pir.id}"/>
+                                            <f:facet name="header">Codigo Barra</f:facet>
+                                            <h:outputText value="#{pi.codigoBarra != null ? pi.codigoBarra : '-'}"/>
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">Nombre</f:facet>
-                                            <h:outputText value="#{pir.nombre}"/>
+                                            <h:outputText value="#{pi.nombre}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Rendimiento</f:facet>
+                                            <h:outputText value="#{pi.rendimiento}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Precio Costo</f:facet>
+                                            <h:outputText value="#{pi.precioCosto}"/>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">Accion</f:facet>
+                                            <h:commandButton value="Ver"
+                                                             class="btn btn-default"
+                                                             onclick="$('#modalPresentacionInsumo').modal('show');">
+                                                <f:setPropertyActionListener target="#{administrarInsumosBean.presentacionInsumo}" value="#{pi}"/>
+                                                <f:ajax execute="@this" render=":formRegistrarPresentacionInsumo" listener="#{administrarInsumosBean.cleanMap}"/>
+                                            </h:commandButton>
                                         </h:column>
                                     </h:dataTable>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <h:commandButton value="Guardar"
-                                                 actionListener="#{administrarInsumosBean.saveInsumo}"
-                                                 class="btn btn-default">
+                                                 class="btn btn-default"
+                                                 actionListener="#{administrarInsumosBean.saveInsumo}">
                                     <f:ajax execute="@form" render="@form"/>
                                 </h:commandButton>
                             </div>
                         </h:form>
-                        
+
                         <h:form id="navigation">
                             <h:commandButton value="Volver"
                                              actionListener="#{administrarInsumosBean.changeViewIndex}"
@@ -210,10 +236,25 @@
                                                              validator="#{administrarInsumosBean.validatePrecioCosto}"/>
                                                 <h:message for="inputPrecioCosto" style="color:red"/>
                                             </div>
-                                            <h:commandButton id="btnRegistrar"
+                                            <h:commandButton id="btnAgregar"
+                                                             value="Agregar"
+                                                             class="btn btn-default"
                                                              actionListener="#{administrarInsumosBean.addPresentacionInsumo}"
-                                                             value="Registrar"
-                                                             class="btn btn-default">
+                                                             rendered="#{administrarInsumosBean.presentacionInsumo.codigoBarra == null ? true : false}">
+                                                <f:ajax execute="@form" render="@form :formRegistrarInsumo:tablePresentacionInsumo"/>
+                                            </h:commandButton>
+                                            <h:commandButton id="btnActualizar"
+                                                             value="Actualizar"
+                                                             class="btn btn-default"
+                                                             rendered="#{administrarInsumosBean.presentacionInsumo.codigoBarra == null ? false : true}">
+                                                <f:ajax execute="@form" render="@form :formRegistrarInsumo:tablePresentacionInsumo"/>
+                                            </h:commandButton>
+                                            <h:commandButton id="btnEliminar"
+                                                             value="Eliminar"
+                                                             class="btn btn-default"
+                                                             actionListener="#{administrarInsumosBean.removePresentacionInsumo}"
+                                                             onclick="$('#modalPresentacionInsumo').modal('hide');"
+                                                             rendered="#{administrarInsumosBean.presentacionInsumo.codigoBarra == null ? false : true}">
                                                 <f:ajax execute="@form" render="@form :formRegistrarInsumo:tablePresentacionInsumo"/>
                                             </h:commandButton>
                                         </h:form>
@@ -236,12 +277,12 @@
                 <script type="text/javascript" src="/scolag/resources/js/jquery.datatables.min.js"></script>
                 <script type="text/javascript" src="/scolag/resources/js/dataTables.bootstrap.min.js"></script>
                 <script type="text/javascript">
-                                                     $(document).ready(function () {
-                                                         setDataTable();
-                                                         function setDataTable() {
-                                                             $('#formDataTable\\:tableInsumos').DataTable();
-                                                         }
-                                                     });
+                                                                 $(document).ready(function () {
+                                                                     setDataTable();
+                                                                     function setDataTable() {
+                                                                         $('#formDataTable\\:tableInsumos').DataTable();
+                                                                     }
+                                                                 });
                 </script>
             </ui:define>
 

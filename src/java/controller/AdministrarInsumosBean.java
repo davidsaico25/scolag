@@ -27,14 +27,16 @@ public class AdministrarInsumosBean implements Serializable {
     private PresentacionInsumo presentacionInsumo;
     private List<PresentacionInsumo> listPresentacionInsumo;
     private List<PresentacionInsumo> listPresentacionInsumoRegistrar;
+    private List<PresentacionInsumo> listPresentacionInsumoEditar;
 
     private UnidadMedida unidadMedida;
     private List<UnidadMedida> listUnidadMedida;
     private int unidadMedidaID;
 
-    private int idDiv;
-
     private Map<String, String> map;
+    
+    private int idDiv;
+    private String action;
 
     public AdministrarInsumosBean() {
         map = new HashMap<>();
@@ -44,11 +46,13 @@ public class AdministrarInsumosBean implements Serializable {
         insumo = new Insumo();
 
         presentacionInsumoDAO = new PresentacionInsumoDAO();
+        listPresentacionInsumo = presentacionInsumoDAO.getListPresentacionInsumo();
 
         presentacionInsumo = new PresentacionInsumo();
         listPresentacionInsumoRegistrar = new ArrayList<>();
 
         idDiv = 1;
+        action = "registrar";
     }
 
     public void addPresentacionInsumo() {
@@ -83,6 +87,15 @@ public class AdministrarInsumosBean implements Serializable {
         map.put("messageFormRegistrarInsumo", "Insumo " + insumo.getNombre() + " agregada");
         map.put("messageTypeFormRegistrarInsumo", "success");
         insumo = new Insumo();
+    }
+    
+    public void removePresentacionInsumo() {
+        listPresentacionInsumoRegistrar.remove(presentacionInsumo);
+    }
+    
+    public void cleanParametersShowModalAddPresentacionInsumo() {
+        presentacionInsumo = new PresentacionInsumo();
+        cleanMap();
     }
 
     public void cleanMap() {
@@ -208,6 +221,14 @@ public class AdministrarInsumosBean implements Serializable {
 
     public void changeViewRegistrarInsumo() {
         idDiv = 2;
+        action = "registrar";
+    }
+    
+    public void changeViewEditarInsumo(PresentacionInsumo pi) {
+        insumo = pi.getInsumo();
+        listPresentacionInsumoEditar = presentacionInsumoDAO.getListPresentacionInsumo(insumo);
+        idDiv = 2;
+        action = "editar";
     }
 
     public Insumo getInsumo() {
@@ -227,9 +248,6 @@ public class AdministrarInsumosBean implements Serializable {
     }
 
     public List<PresentacionInsumo> getListPresentacionInsumo() {
-        if (listPresentacionInsumo == null || listPresentacionInsumo.isEmpty()) {
-            listPresentacionInsumo = presentacionInsumoDAO.getListPresentacionInsumo();
-        }
         return listPresentacionInsumo;
     }
 
@@ -243,6 +261,14 @@ public class AdministrarInsumosBean implements Serializable {
 
     public void setListPresentacionInsumoRegistrar(List<PresentacionInsumo> listPresentacionInsumoRegistrar) {
         this.listPresentacionInsumoRegistrar = listPresentacionInsumoRegistrar;
+    }
+
+    public List<PresentacionInsumo> getListPresentacionInsumoEditar() {
+        return listPresentacionInsumoEditar;
+    }
+
+    public void setListPresentacionInsumoEditar(List<PresentacionInsumo> listPresentacionInsumoEditar) {
+        this.listPresentacionInsumoEditar = listPresentacionInsumoEditar;
     }
 
     public List<UnidadMedida> getListUnidadMedida() {
@@ -278,5 +304,13 @@ public class AdministrarInsumosBean implements Serializable {
 
     public void setMap(Map<String, String> map) {
         this.map = map;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }

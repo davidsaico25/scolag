@@ -12,6 +12,7 @@ import model.*;
 @ViewScoped
 public class RegistrarEntradaInsumosBean implements Serializable {
 
+    PresentacionInsumoDAO presentacionInsumoDAO;
     private PresentacionInsumo presentacionInsumo;
     private List<PresentacionInsumo> listPresentacionInsumo;
     private List<PresentacionInsumo> listPresentacionInsumoEntrada;
@@ -30,7 +31,8 @@ public class RegistrarEntradaInsumosBean implements Serializable {
     private int idDiv;
 
     public RegistrarEntradaInsumosBean() {
-        listPresentacionInsumo = PresentacionInsumoDAO.getListPresentacionInsumo();
+        presentacionInsumoDAO = new PresentacionInsumoDAO();
+        listPresentacionInsumo = presentacionInsumoDAO.getListPresentacionInsumo();
         listPresentacionInsumoEntrada = new ArrayList<>();
         listPresentacionInsumoCantidad = new ArrayList<>();
 
