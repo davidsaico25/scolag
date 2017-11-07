@@ -16,7 +16,7 @@ public class PerfilHasSubmenuDAO extends ADAO_crud<Object> implements Serializab
         Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            Query query = session.createQuery("from PerfilHasSubmenu phsm inner join fetch phsm.perfil p inner join fetch phsm.submenu sm inner join fetch sm.menu m where p.id = :perfil_id");
+            Query query = session.createQuery("from PerfilHasSubmenu phsm inner join fetch phsm.perfil p inner join fetch phsm.submenu sm inner join fetch sm.menu m where p.id = :perfil_id and p.estado='A' and sm.estado='A' and m.estado='A'");//
             query.setParameter("perfil_id", perfil.getId());
             List<PerfilHasSubmenu> list = query.list();
             for (PerfilHasSubmenu perfilHasSubmenu : list) {

@@ -18,19 +18,6 @@ public class UsuarioDAO extends ADAO_crud<Object> implements Serializable {
             query.setParameter("password", usuarioParam.getPassword());
             usuario = (Usuario) query.uniqueResult();
             return usuario;
-            /*
-            System.out.println("RESULT:");
-            System.out.println(usuario.getUsername() + " - " + usuario.getPassword());
-            //usuario.setPerfil(usuario.getPerfil());
-            System.out.println(usuario.getPerfil().getNombre());
-            Set setPerfilHasSubmenus = usuario.getPerfil().getPerfilHasSubmenus();
-            for (Object perfilHasSubmenus : setPerfilHasSubmenus) {
-                PerfilHasSubmenu phsm = (PerfilHasSubmenu) perfilHasSubmenus;
-                System.out.println(phsm.getSubmenu().getMenu().getNombre() + " - " + phsm.getSubmenu().getNombre());
-            }
-            if(usuario.getPassword().equals(usuarioParam.getPassword())) {
-                return usuario;
-            }*/
         } catch(Exception e) {
         }finally {
             if (session != null) {

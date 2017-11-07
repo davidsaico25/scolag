@@ -42,23 +42,29 @@ public class LoginBean implements Serializable {
         String outcome = "";
         usuario = usuarioDAO.login(usuario);
         if (usuario != null) {
-            Perfil perfil = usuario.getPerfil();
-            listMenu = new ArrayList<>();
-            listSubmenu = PerfilHasSubmenuDAO.getListSubmenu(perfil);
-            for (Submenu submenu : listSubmenu) {
-                if (!listMenu.contains(submenu.getMenu().getNombre())) {
-                    listMenu.add(submenu.getMenu().getNombre());
+            if (usuario.getEstado() == 'A') {
+                Perfil perfil = usuario.getPerfil();
+                listMenu = new ArrayList<>();
+                listSubmenu = PerfilHasSubmenuDAO.getListSubmenu(perfil);
+                for (Submenu submenu : listSubmenu) {
+                    if (!listMenu.contains(submenu.getMenu().getNombre())) {
+                        listMenu.add(submenu.getMenu().getNombre());
+                    }
                 }
-            }
 
-            logged = true;
-            httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            httpSession.setAttribute("usuario", this.usuario);
-            httpSession.setAttribute("logged", this.logged);
-            outcome = "user";
+                logged = true;
+                httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                httpSession.setAttribute("usuario", this.usuario);
+                httpSession.setAttribute("logged", this.logged);
+                outcome = "user";
+            } else {
+                usuario = new Usuario();
+                map.put("msg", "Usuario desactivado, contacte con Soporte");
+                logged = false;
+            }
         } else {
             usuario = new Usuario();
-            map.put("msg", "credenciales incorrectas");
+            map.put("msg", "Credenciales incorrectas");
             logged = false;
         }
         return outcome;
