@@ -67,6 +67,5 @@ Contributor(s):
     <mapping resource="model/PerfilHasSubmenu.hbm.xml"/>
     <mapping resource="model/Usuario.hbm.xml"/>
     <mapping resource="model/Submenu.hbm.xml"/>
-    <mapping resource="model/LocalHasUsuario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

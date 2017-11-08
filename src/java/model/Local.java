@@ -1,5 +1,5 @@
 package model;
-// Generated Nov 7, 2017 10:59:56 AM by Hibernate Tools 4.3.1
+// Generated Nov 7, 2017 7:30:44 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,7 +17,7 @@ public class Local  implements java.io.Serializable {
      private char estado;
      private Date fechaCreacion;
      private Date fechaModificacion;
-     private Set localHasUsuarios = new HashSet(0);
+     private Set usuarios = new HashSet(0);
      private Set localHasInsumos = new HashSet(0);
      private Set abastecimientosForLocalIdOrigen = new HashSet(0);
      private Set abastecimientosForLocalIdDestino = new HashSet(0);
@@ -31,12 +31,12 @@ public class Local  implements java.io.Serializable {
         this.estado = estado;
         this.fechaCreacion = fechaCreacion;
     }
-    public Local(String nombre, char estado, Date fechaCreacion, Date fechaModificacion, Set localHasUsuarios, Set localHasInsumos, Set abastecimientosForLocalIdOrigen, Set abastecimientosForLocalIdDestino) {
+    public Local(String nombre, char estado, Date fechaCreacion, Date fechaModificacion, Set usuarios, Set localHasInsumos, Set abastecimientosForLocalIdOrigen, Set abastecimientosForLocalIdDestino) {
        this.nombre = nombre;
        this.estado = estado;
        this.fechaCreacion = fechaCreacion;
        this.fechaModificacion = fechaModificacion;
-       this.localHasUsuarios = localHasUsuarios;
+       this.usuarios = usuarios;
        this.localHasInsumos = localHasInsumos;
        this.abastecimientosForLocalIdOrigen = abastecimientosForLocalIdOrigen;
        this.abastecimientosForLocalIdDestino = abastecimientosForLocalIdDestino;
@@ -77,12 +77,12 @@ public class Local  implements java.io.Serializable {
     public void setFechaModificacion(Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
-    public Set getLocalHasUsuarios() {
-        return this.localHasUsuarios;
+    public Set getUsuarios() {
+        return this.usuarios;
     }
     
-    public void setLocalHasUsuarios(Set localHasUsuarios) {
-        this.localHasUsuarios = localHasUsuarios;
+    public void setUsuarios(Set usuarios) {
+        this.usuarios = usuarios;
     }
     public Set getLocalHasInsumos() {
         return this.localHasInsumos;

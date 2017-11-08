@@ -48,7 +48,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
         
         localDAO = new LocalDAO();
-        listLocal = localDAO.getListLocalAbastecimiento(usuario);
+        listLocal = localDAO.getListLocal();
         
         idDiv = 1;
     }
