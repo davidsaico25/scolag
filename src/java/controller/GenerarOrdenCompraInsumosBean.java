@@ -210,14 +210,11 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
             map.put("messageTypeFormCompra", "danger");
             return;
         }
-        
+
         presentacionInsumo = ordenCompraHasPresentacionInsumo.getPresentacionInsumo();
         presentacionInsumo.setPrecioCosto(ordenCompraHasPresentacionInsumo.getPrecioUnitario());
         presentacionInsumoDAO.update(presentacionInsumo);
-        System.out.println(presentacionInsumo.getNombre());
-        System.out.println(presentacionInsumo.getPrecioCosto());
-        System.out.println(ordenCompraHasPresentacionInsumo.getPrecioUnitario());
-        
+
         listOrdenCompraHasPresentacionInsumo.add(ordenCompraHasPresentacionInsumo);
         cleanMap();
         ordenCompraHasPresentacionInsumo = new OrdenCompraHasPresentacionInsumo();
