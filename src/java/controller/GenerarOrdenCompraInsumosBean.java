@@ -23,13 +23,12 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
     private PresentacionInsumo presentacionInsumo;
     List<PresentacionInsumo> listPresentacionInsumos;
     List<PresentacionInsumo> listCarritoPresentacionInsumos;
-    
-    
+
     private LocalHasInsumoDAO localHasInsumoDAO;
     private LocalHasInsumo localHasInsumo;
     private List<LocalHasInsumo> listLocalHasInsumo;
     private List<LocalHasInsumo> listLocalHasInsumoActualizar;
-    
+
     private OrdenCompraHasPresentacionInsumo ordenCompraHasPresentacionInsumo;
     private OrdenCompraHasPresentacionInsumoDAO ordenCompraHasPresentacionInsumoDAO;
 
@@ -37,15 +36,15 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
 
     private OrdenCompraDAO ordenCompraDAO;
     private OrdenCompra ordenCompra;
- 
+
     private ProveedorDAO proveedorDAO;
     private Proveedor proveedor;
     List<Proveedor> listProveedor;
-    
+
     private int cantidad;
     private double PrecioCosto;
     private double PrecioT;
-        
+
     private Map<String, String> map;
 
     public GenerarOrdenCompraInsumosBean() {
@@ -57,7 +56,7 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
         map = new HashMap<>();
 
         presentacionInsumoDAO = new PresentacionInsumoDAO();
-        
+
         ordenCompraHasPresentacionInsumoDAO = new OrdenCompraHasPresentacionInsumoDAO();
 
         listPresentacionInsumos = presentacionInsumoDAO.getListPresentacionInsumo();
@@ -69,24 +68,24 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
         listOrdenCompraHasPresentacionInsumo = new ArrayList<>();
 
         ordenCompra = new OrdenCompra();
-        
+
         proveedorDAO = new ProveedorDAO();
         listProveedor = proveedorDAO.getListProveedor();
-        
+
         localHasInsumoDAO = new LocalHasInsumoDAO();
-                 
+
         listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
-       
+
         listLocalHasInsumoActualizar = new ArrayList<>();
 
     }
-    
+
     public void modalOK(PresentacionInsumo pi) {
         //System.out.println(ordenCompraHasPresentacionInsumo.getCantidad());
         ordenCompraHasPresentacionInsumo.setPresentacionInsumo(pi);
         ordenCompraHasPresentacionInsumo.setPrecioUnitario(pi.getPrecioCosto());
     }
-    
+
     public void guardarOrdenCompraInsumos() {
         if (proveedor == null || proveedor.getId() == null) {
             map.put("messageFormCompra", "Tiene que seleccionar un proveedor");
@@ -95,19 +94,19 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
         }
         System.out.println(PrecioT);
         System.out.println(proveedor.getNombre());
-        
+
         ordenCompra.setMontoTotal(PrecioT);
         ordenCompra.setProveedor(proveedor);
         EstadoOrdenCompra estadoOrdenCompra = new EstadoOrdenCompra();
         estadoOrdenCompra.setId(1);
         ordenCompra.setEstadoOrdenCompra(estadoOrdenCompra);
-        
+
         ordenCompraDAO = new OrdenCompraDAO();
         ordenCompraDAO.create(ordenCompra);
-        
+
         OrdenCompraHasPresentacionInsumoId ordenCompraHasPresentacionInsumoId = new OrdenCompraHasPresentacionInsumoId();
         ordenCompraHasPresentacionInsumoId.setOrdenCompraId(ordenCompra.getId());
-        
+
         OrdenCompraHasPresentacionInsumoDAO ordenCompraHasPresentacionInsumoDAO = new OrdenCompraHasPresentacionInsumoDAO();
         for (OrdenCompraHasPresentacionInsumo item : listOrdenCompraHasPresentacionInsumo) {
             ordenCompraHasPresentacionInsumoId.setPresentacionInsumoId(item.getPresentacionInsumo().getId());
@@ -115,28 +114,29 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
             item.setOrdenCompra(ordenCompra);
             ordenCompraHasPresentacionInsumoDAO.create(item);
         }
-        
+
         listOrdenCompraHasPresentacionInsumo = new ArrayList<>();
         PrecioT = 0;
         cantidad = 0;
         proveedor = new Proveedor();
         cleanMap();
     }
-    
-    public void editar(OrdenCompraHasPresentacionInsumo rhpi){
-                       
+
+    public void editar(OrdenCompraHasPresentacionInsumo rhpi) {
+
         ordenCompraHasPresentacionInsumo.setPrecioUnitario(rhpi.getPrecioUnitario());
-      
+
         ordenCompraHasPresentacionInsumo.setCantidad(rhpi.getCantidad());
-        
+
         ordenCompraHasPresentacionInsumo.setPresentacionInsumo(rhpi.getPresentacionInsumo());
-        
+
         listOrdenCompraHasPresentacionInsumo.remove(rhpi);
-        
+
         costototal();
-        
+
     }
-   public void validarCantidad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+    public void validarCantidad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         Integer number = (Integer) value;
         String summary = "Error Cantidad minima";
         String detail = "";
@@ -152,12 +152,13 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
             detail = "La cantidad debe ser un valor positivo";
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
         }
-         if (!RegexValidation.onlyNumbers(String.valueOf(number))) {
+        if (!RegexValidation.onlyNumbers(String.valueOf(number))) {
             detail = "Formato incorrecto";
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
         }
     }
-   public void validarPrecioUnitario(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+
+    public void validarPrecioUnitario(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         Double number = (Double) value;
         String summary = "Error Cantidad minima";
         String detail = "";
@@ -178,44 +179,53 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
         }
     }
-   
+
 //   public void costototal(listOrdenCompraHasPresentacionInsumo lrhpi){
 //       System.out.println(listOrdenCompraHasPresentacionInsumo.get(3));
 //       ordenCompraHasPresentacionInsumo.getCantidad();
 //       ordenCompraHasPresentacionInsumo.getPrecioUnitario();
 //   }
-    
-    public void limpiar(){
+    public void limpiar() {
         listOrdenCompraHasPresentacionInsumo.clear();
         costototal();
     }
-    
+
     public void eliminarPresentacionInsumoCarrito(OrdenCompraHasPresentacionInsumo rhpi) {
         listOrdenCompraHasPresentacionInsumo.remove(rhpi);
         costototal();
     }
-public void costototal(){
-      double total = 0;
-        for(int i=0; i<listOrdenCompraHasPresentacionInsumo.size(); i++) {
+
+    public void costototal() {
+        double total = 0;
+        for (int i = 0; i < listOrdenCompraHasPresentacionInsumo.size(); i++) {
             OrdenCompraHasPresentacionInsumo temp = listOrdenCompraHasPresentacionInsumo.get(i);
-            total+=temp.getPrecioUnitario()*temp.getCantidad();
+            total += temp.getPrecioUnitario() * temp.getCantidad();
         }
-         setPrecioT(total);
-}
+        setPrecioT(total);
+    }
+
     public void agregarPresentacionInsumoCarrito() {
         if (ordenCompraHasPresentacionInsumo.getPresentacionInsumo() == null) {
             map.put("messageFormCompra", "Tiene que seleccionar una presentacion de insumo");
             map.put("messageTypeFormCompra", "danger");
             return;
         }
-      listOrdenCompraHasPresentacionInsumo.add(ordenCompraHasPresentacionInsumo);
+        
+        presentacionInsumo = ordenCompraHasPresentacionInsumo.getPresentacionInsumo();
+        presentacionInsumo.setPrecioCosto(ordenCompraHasPresentacionInsumo.getPrecioUnitario());
+        presentacionInsumoDAO.update(presentacionInsumo);
+        System.out.println(presentacionInsumo.getNombre());
+        System.out.println(presentacionInsumo.getPrecioCosto());
+        System.out.println(ordenCompraHasPresentacionInsumo.getPrecioUnitario());
+        
+        listOrdenCompraHasPresentacionInsumo.add(ordenCompraHasPresentacionInsumo);
         cleanMap();
         ordenCompraHasPresentacionInsumo = new OrdenCompraHasPresentacionInsumo();
 
-      costototal();
-   
+        costototal();
+
     }
-    
+
     public void cleanMap() {
         map.clear();
     }
@@ -332,6 +342,4 @@ public void costototal(){
         this.listLocalHasInsumoActualizar = listLocalHasInsumoActualizar;
     }
 
-    
-    
 }
