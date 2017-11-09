@@ -146,10 +146,10 @@
                                              readonly="true"
                                              class="form-control"/>
                             </div>
-                        </h:form> 
+                        </h:form>
                     </div>
 
-                    <h:form>
+                    <h:form id="formModal2">
                         <div  class="form-group">
                             <label for="inputProveedor" class="col-sm-2 control-label">Proveedor</label>
                             <div class="col-sm-2">
@@ -163,16 +163,20 @@
                                 <h:message for="inputProveedor" style="color:red"/>
                             </div>          
                             <h:commandButton
-                                value="select item ₧ " class="btn btn-default" 
-                                disabled="#{generarOrdenCompraInsumosBean.listProveedor.contains(pro) ? 'true' : 'false'}"
+                                value="select item ₧ " class="btn btn-default"
                                 onclick="$('#ModalProveedores').modal('show');">
-                                <f:setPropertyActionListener target="#{generarOrdenCompraInsumosBean.proveedor}" value="#{pro}"/>
                                 <f:ajax execute="@this" render=":ModalProveedores"/>
+                            </h:commandButton>
+                            <br/>
+                            <h:commandButton value="Guardar"
+                                             class="btn btn-default"
+                                             actionListener="#{generarOrdenCompraInsumosBean.guardarOrdenCompraInsumos}">
+                                <f:ajax execute="@this" render=":formCompra :formDataTableCarrito :formComplemento :formModal2"/>
                             </h:commandButton>
                         </div>
                     </h:form>
 
-                    <!-- Modal Insumo Proveedor-->
+                    <!-- Modal Proveedor-->
                     <div class="modal fade" id="ModalProveedores" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -202,8 +206,8 @@
                                                                 <f:facet name = "header">Accion</f:facet>
                                                                 <h:commandButton value="ok"
                                                                                  class="btn btn-default"
-                                                                                 actionListener="#{generarOrdenCompraInsumosBean.modalOK2(pro)}"
-                                                                                 onclick="$('#formProveedores').modal('hide');">
+                                                                                 onclick="$('#ModalProveedores').modal('hide');">
+                                                                    <f:setPropertyActionListener target="#{generarOrdenCompraInsumosBean.proveedor}" value="#{pro}"/>
                                                                     <f:ajax execute="@this" render=":formModal2"/>
                                                                 </h:commandButton>
                                                             </h:column>

@@ -1,5 +1,5 @@
 package model;
-// Generated Nov 7, 2017 7:30:44 PM by Hibernate Tools 4.3.1
+// Generated Nov 9, 2017 1:52:21 AM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -15,6 +15,7 @@ public class Proveedor  implements java.io.Serializable {
      private String nombre;
      private String nombreContacto;
      private String telefono;
+     private String email;
      private char estado;
      private Set ordenCompras = new HashSet(0);
 
@@ -22,16 +23,18 @@ public class Proveedor  implements java.io.Serializable {
     }
 
 	
-    public Proveedor(String nombre, String nombreContacto, String telefono, char estado) {
+    public Proveedor(String nombre, String nombreContacto, String telefono, String email, char estado) {
         this.nombre = nombre;
         this.nombreContacto = nombreContacto;
         this.telefono = telefono;
+        this.email = email;
         this.estado = estado;
     }
-    public Proveedor(String nombre, String nombreContacto, String telefono, char estado, Set ordenCompras) {
+    public Proveedor(String nombre, String nombreContacto, String telefono, String email, char estado, Set ordenCompras) {
        this.nombre = nombre;
        this.nombreContacto = nombreContacto;
        this.telefono = telefono;
+       this.email = email;
        this.estado = estado;
        this.ordenCompras = ordenCompras;
     }
@@ -63,6 +66,13 @@ public class Proveedor  implements java.io.Serializable {
     
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
     }
     public char getEstado() {
         return this.estado;

@@ -35,11 +35,11 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
 
     private List<OrdenCompraHasPresentacionInsumo> listOrdenCompraHasPresentacionInsumo;
 
-    private OrdenCompra requerimiento;
+    private OrdenCompraDAO ordenCompraDAO;
+    private OrdenCompra ordenCompra;
  
-   
+    private ProveedorDAO proveedorDAO;
     private Proveedor proveedor;
-   
     List<Proveedor> listProveedor;
     
     private int cantidad;
@@ -57,8 +57,6 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
         map = new HashMap<>();
 
         presentacionInsumoDAO = new PresentacionInsumoDAO();
-
-        proveedor=new Proveedor();
         
         ordenCompraHasPresentacionInsumoDAO = new OrdenCompraHasPresentacionInsumoDAO();
 
@@ -70,9 +68,10 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
 
         listOrdenCompraHasPresentacionInsumo = new ArrayList<>();
 
-        requerimiento = new OrdenCompra();
+        ordenCompra = new OrdenCompra();
         
-        listProveedor=new ArrayList<>();
+        proveedorDAO = new ProveedorDAO();
+        listProveedor = proveedorDAO.getListProveedor();
         
         localHasInsumoDAO = new LocalHasInsumoDAO();
                  
@@ -87,11 +86,43 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
         ordenCompraHasPresentacionInsumo.setPresentacionInsumo(pi);
         ordenCompraHasPresentacionInsumo.setPrecioUnitario(pi.getPrecioCosto());
     }
-    public void modalOK2(Proveedor pro){
-        requerimiento.setProveedor(pro);
+    
+    public void guardarOrdenCompraInsumos() {
+        if (proveedor == null || proveedor.getId() == null) {
+            map.put("messageFormCompra", "Tiene que seleccionar un proveedor");
+            map.put("messageTypeFormCompra", "danger");
+            return;
+        }
+        System.out.println(PrecioT);
+        System.out.println(proveedor.getNombre());
         
-        requerimiento.setId(pro.getId());
+        ordenCompra.setMontoTotal(PrecioT);
+        ordenCompra.setProveedor(proveedor);
+        EstadoOrdenCompra estadoOrdenCompra = new EstadoOrdenCompra();
+        estadoOrdenCompra.setId(1);
+        ordenCompra.setEstadoOrdenCompra(estadoOrdenCompra);
+        
+        ordenCompraDAO = new OrdenCompraDAO();
+        ordenCompraDAO.create(ordenCompra);
+        
+        OrdenCompraHasPresentacionInsumoId ordenCompraHasPresentacionInsumoId = new OrdenCompraHasPresentacionInsumoId();
+        ordenCompraHasPresentacionInsumoId.setOrdenCompraId(ordenCompra.getId());
+        
+        OrdenCompraHasPresentacionInsumoDAO ordenCompraHasPresentacionInsumoDAO = new OrdenCompraHasPresentacionInsumoDAO();
+        for (OrdenCompraHasPresentacionInsumo item : listOrdenCompraHasPresentacionInsumo) {
+            ordenCompraHasPresentacionInsumoId.setPresentacionInsumoId(item.getPresentacionInsumo().getId());
+            item.setId(ordenCompraHasPresentacionInsumoId);
+            item.setOrdenCompra(ordenCompra);
+            ordenCompraHasPresentacionInsumoDAO.create(item);
+        }
+        
+        listOrdenCompraHasPresentacionInsumo = new ArrayList<>();
+        PrecioT = 0;
+        cantidad = 0;
+        proveedor = new Proveedor();
+        cleanMap();
     }
+    
     public void editar(OrdenCompraHasPresentacionInsumo rhpi){
                        
         ordenCompraHasPresentacionInsumo.setPrecioUnitario(rhpi.getPrecioUnitario());

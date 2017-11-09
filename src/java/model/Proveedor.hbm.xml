@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 7, 2017 7:30:45 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 9, 2017 1:52:21 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.Proveedor" table="proveedor" catalog="scolag" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -16,6 +16,9 @@
         </property>
         <property name="telefono" type="string">
             <column name="telefono" length="10" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="45" not-null="true" />
         </property>
         <property name="estado" type="char">
             <column name="estado" length="1" not-null="true" />
