@@ -89,7 +89,7 @@
                                                         </h:column>
                                                     </h:dataTable>
                                                 </div>
-                                                <h:commandButton value="Liquidar"
+                                                <h:commandButton value="Cargar Registro Entrada"
                                                                  class="btn btn-default"
                                                                  actionListener="#{registrarEntradaInsumosBean.changeViewRecibirOrdenCompra}"
                                                                  onclick="$('#modalOrdenCompra').modal('hide');">
@@ -139,11 +139,20 @@
                                         <h:outputText value="#{ochpi.presentacionInsumo.rendimiento} #{ochpi.presentacionInsumo.insumo.unidadMedida.simbolo}"/>
                                     </h:column>
                                     <h:column>
-                                        <f:facet name="header">Monto Total</f:facet>
+                                        <f:facet name="header">Precio Unitario</f:facet>
                                         <h:outputText value="#{ochpi.precioUnitario}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Precio Parcial</f:facet>
+                                        <h:outputText value="#{ochpi.cantidad * ochpi.precioUnitario}"/>
                                     </h:column>
                                 </h:dataTable>
                             </div>
+                            <h:commandButton value="Confirmar"
+                                             actionListener="#{registrarEntradaInsumosBean.registrarEntradaInsumos}"
+                                             class="btn btn-default">
+                                <f:ajax execute="@form" render=":view1 :view2" onevent="setDataTable"/>
+                            </h:commandButton>
                         </h:form>
 
                         <h:form id="navigation">
