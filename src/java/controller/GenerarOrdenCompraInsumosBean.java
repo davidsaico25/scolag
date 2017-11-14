@@ -81,7 +81,6 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
     }
 
     public void modalOK(PresentacionInsumo pi) {
-        //System.out.println(ordenCompraHasPresentacionInsumo.getCantidad());
         ordenCompraHasPresentacionInsumo.setPresentacionInsumo(pi);
         ordenCompraHasPresentacionInsumo.setPrecioUnitario(pi.getPrecioCosto());
     }
@@ -92,8 +91,6 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
             map.put("messageTypeFormCompra", "danger");
             return;
         }
-        System.out.println(PrecioT);
-        System.out.println(proveedor.getNombre());
 
         ordenCompra.setMontoTotal(PrecioT);
         ordenCompra.setProveedor(proveedor);
@@ -179,12 +176,7 @@ public class GenerarOrdenCompraInsumosBean implements Serializable {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
         }
     }
-
-//   public void costototal(listOrdenCompraHasPresentacionInsumo lrhpi){
-//       System.out.println(listOrdenCompraHasPresentacionInsumo.get(3));
-//       ordenCompraHasPresentacionInsumo.getCantidad();
-//       ordenCompraHasPresentacionInsumo.getPrecioUnitario();
-//   }
+    
     public void limpiar() {
         listOrdenCompraHasPresentacionInsumo.clear();
         costototal();
