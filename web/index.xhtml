@@ -19,19 +19,6 @@
 
             <ui:define name="content">
                 <h1>SCOLAG</h1>
-                <h1>TEST PARA FRANK</h1>
-                <h:form id="form1">
-                    Num1: <h:inputText value="#{testBean.num1}"/>
-                    Num2: <h:inputText value="#{testBean.num2}"/>
-                    <h:commandButton value="Sumar"
-                                     actionListener="#{testBean.sumar}">
-                        <f:ajax execute="@form" render=":form2:suma"/>
-                    </h:commandButton>
-                </h:form>
-                <br/>
-                <h:form id="form2">
-                    Sum: <h:inputText id="suma" value="#{testBean.sum}"/>
-                </h:form>
             </ui:define>
 
             <ui:define name="footer">

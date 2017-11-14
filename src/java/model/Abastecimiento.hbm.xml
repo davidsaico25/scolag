@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 9, 2017 1:52:21 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 13, 2017 12:33:13 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.Abastecimiento" table="abastecimiento" catalog="scolag" optimistic-lock="version">
         <id name="id" type="java.lang.Integer">
@@ -9,7 +9,7 @@
             <generator class="identity" />
         </id>
         <many-to-one name="estadoAbastecimiento" class="model.EstadoAbastecimiento" fetch="select">
-            <column name="estado_abastecimiento_int" />
+            <column name="estado_abastecimiento_id" />
         </many-to-one>
         <many-to-one name="localByLocalIdOrigen" class="model.Local" fetch="select">
             <column name="local_id_origen" />
@@ -22,6 +22,12 @@
         </property>
         <property name="fechaRecepcion" type="date">
             <column name="fecha_recepcion" length="10" />
+        </property>
+        <property name="fechaCreacion" type="date">
+            <column name="fecha_creacion" length="10" />
+        </property>
+        <property name="fechaModificacion" type="date">
+            <column name="fecha_modificacion" length="10" />
         </property>
         <set name="abastecimientoHasInsumos" table="abastecimiento_has_insumo" inverse="true" lazy="true" fetch="select">
             <key>

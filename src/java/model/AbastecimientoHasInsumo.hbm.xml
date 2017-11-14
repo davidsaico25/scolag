@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Nov 9, 2017 1:52:21 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Nov 13, 2017 12:33:13 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="model.AbastecimientoHasInsumo" table="abastecimiento_has_insumo" catalog="scolag" optimistic-lock="version">
         <composite-id name="id" class="model.AbastecimientoHasInsumoId">

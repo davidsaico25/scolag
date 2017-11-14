@@ -1,5 +1,5 @@
 package model;
-// Generated Nov 9, 2017 1:52:21 AM by Hibernate Tools 4.3.1
+// Generated Nov 13, 2017 12:33:12 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -18,6 +18,8 @@ public class Abastecimiento  implements java.io.Serializable {
      private Local localByLocalIdDestino;
      private String observacion;
      private Date fechaRecepcion;
+     private Date fechaCreacion;
+     private Date fechaModificacion;
      private Set abastecimientoHasInsumos = new HashSet(0);
 
     public Abastecimiento() {
@@ -27,12 +29,14 @@ public class Abastecimiento  implements java.io.Serializable {
     public Abastecimiento(Local localByLocalIdDestino) {
         this.localByLocalIdDestino = localByLocalIdDestino;
     }
-    public Abastecimiento(EstadoAbastecimiento estadoAbastecimiento, Local localByLocalIdOrigen, Local localByLocalIdDestino, String observacion, Date fechaRecepcion, Set abastecimientoHasInsumos) {
+    public Abastecimiento(EstadoAbastecimiento estadoAbastecimiento, Local localByLocalIdOrigen, Local localByLocalIdDestino, String observacion, Date fechaRecepcion, Date fechaCreacion, Date fechaModificacion, Set abastecimientoHasInsumos) {
        this.estadoAbastecimiento = estadoAbastecimiento;
        this.localByLocalIdOrigen = localByLocalIdOrigen;
        this.localByLocalIdDestino = localByLocalIdDestino;
        this.observacion = observacion;
        this.fechaRecepcion = fechaRecepcion;
+       this.fechaCreacion = fechaCreacion;
+       this.fechaModificacion = fechaModificacion;
        this.abastecimientoHasInsumos = abastecimientoHasInsumos;
     }
    
@@ -77,6 +81,20 @@ public class Abastecimiento  implements java.io.Serializable {
     
     public void setFechaRecepcion(Date fechaRecepcion) {
         this.fechaRecepcion = fechaRecepcion;
+    }
+    public Date getFechaCreacion() {
+        return this.fechaCreacion;
+    }
+    
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+    
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
     public Set getAbastecimientoHasInsumos() {
         return this.abastecimientoHasInsumos;
