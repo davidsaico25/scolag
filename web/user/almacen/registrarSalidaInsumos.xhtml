@@ -23,6 +23,11 @@
                                   layout="block">
 
                         <h:form id="formDataTable">
+                            <div class="alert alert-#{registrarSalidaInsumosBean.map.messageTypeFormDataTable}"
+                                 role="alert"
+                                 style="display: #{registrarSalidaInsumosBean.map.messageFormDataTable != null ? 'block' : 'none'}">
+                                #{registrarSalidaInsumosBean.map.messageFormDataTable}
+                            </div>
                             <div class="table-responsive">
                                 <h:dataTable id="tableInsumos"
                                              value="#{registrarSalidaInsumosBean.listLocalHasInsumo}"
@@ -95,9 +100,9 @@
                                                             <h:commandButton value="Aceptar"
                                                                              class="btn btn-default"
                                                                              actionListener="#{registrarSalidaInsumosBean.addListAbastecimientoHasInsumo}"
-                                                                             onclick="$('#modalInsumo').modal('hide');">
+                                                                             onclick="showMessageModal();">
                                                                 <f:ajax execute="@form"
-                                                                        render=":formDataTable:tableInsumos :formDataTableSalida:tableInsumosSalida"
+                                                                        render=":formDataTable :formDataTableSalida:tableInsumosSalida"
                                                                         onevent="$('#formDataTable\\:tableInsumos').DataTable();"/>
                                                             </h:commandButton>
                                                         </div>

@@ -3,7 +3,9 @@ package controller;
 import dao.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -16,57 +18,69 @@ import model.*;
 @Named(value = "registrarSalidaInsumosBean")
 @ViewScoped
 public class RegistrarSalidaInsumosBean implements Serializable {
-    
+
     private LocalHasInsumoDAO localHasInsumoDAO;
     private LocalHasInsumo localHasInsumo;
     private List<LocalHasInsumo> listLocalHasInsumo;
     private List<LocalHasInsumo> listLocalHasInsumoActualizar;
-    
+
     private Abastecimiento abastecimiento;
-    
+
     private AbastecimientoHasInsumo abastecimientoHasInsumo;
     private int cantidad = 0;
     private List<AbastecimientoHasInsumo> listAbastecimientoHasInsumo;
-    
-    private LocalDAO localDAO;    
+
+    private LocalDAO localDAO;
     private Local local;
     private int localId;
     private List<Local> listLocal;
-    
+
+    private Map<String, String> map;
+
     private int idDiv;
 
-    public RegistrarSalidaInsumosBean() {        
+    public RegistrarSalidaInsumosBean() {
+        map = new HashMap<>();
+
         localHasInsumoDAO = new LocalHasInsumoDAO();
         listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
         listLocalHasInsumoActualizar = new ArrayList<>();
-        
+
         listAbastecimientoHasInsumo = new ArrayList<>();
-        
+
         abastecimiento = new Abastecimiento();
-        
+
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
-        
+
         localDAO = new LocalDAO();
         listLocal = localDAO.getListLocal();
-        
+
         idDiv = 1;
     }
-    
+
     public void addListAbastecimientoHasInsumo() {
+        if (localHasInsumo.getCantidad() < cantidad) {
+            map.put("messageFormDataTable", "No se cuenta con la cantidad suficiente: " + localHasInsumo.getInsumo().getNombre() + " " + cantidad + " " + localHasInsumo.getInsumo().getUnidadMedida().getSimbolo());
+            map.put("messageTypeFormDataTable", "danger");
+            cantidad = 0;
+            return;
+        }
+        cleanMap();
+        
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
         abastecimientoHasInsumo.setInsumo(localHasInsumo.getInsumo());
         abastecimientoHasInsumo.setCantidad(cantidad);
         listAbastecimientoHasInsumo.add(abastecimientoHasInsumo);
-        
+
         listLocalHasInsumo.remove(localHasInsumo);
         localHasInsumo.setCantidad(localHasInsumo.getCantidad() - cantidad);
         listLocalHasInsumo.add(localHasInsumo);
         listLocalHasInsumoActualizar.add(localHasInsumo);
-        
+
         cantidad = 0;
     }
-    
+
     public void deleteInsumoFromlistLocalHasInsumoSalida(AbastecimientoHasInsumo ahi) {
         for (LocalHasInsumo item : listLocalHasInsumo) {
             if (item.getInsumo().getId() == ahi.getInsumo().getId()) {
@@ -79,7 +93,7 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         }
         listAbastecimientoHasInsumo.remove(ahi);
     }
-    
+
     public void confirmarRegistrarSalidaInsumos() {
         AbastecimientoDAO abastecimientoDAO = new AbastecimientoDAO();
         abastecimiento = new Abastecimiento();
@@ -92,11 +106,10 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         }
         abastecimiento.setLocalByLocalIdDestino(local);
         abastecimientoDAO.create(abastecimiento);
-        
+
         AbastecimientoHasInsumoId abastecimientoHasInsumoId = new AbastecimientoHasInsumoId();
         abastecimientoHasInsumoId.setAbastecimientoId(abastecimiento.getId());
-        
-        
+
         AbastecimientoHasInsumoDAO abastecimientoHasInsumoDAO = new AbastecimientoHasInsumoDAO();
         for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
             abastecimientoHasInsumoId.setInsumoId(item.getInsumo().getId());
@@ -104,14 +117,14 @@ public class RegistrarSalidaInsumosBean implements Serializable {
             item.setAbastecimiento(abastecimiento);
             abastecimientoHasInsumoDAO.create(item);
         }
-        
+
         for (LocalHasInsumo item : listLocalHasInsumo) {
             localHasInsumoDAO.update(item);
         }
-        
+
         idDiv = 2;
     }
-    
+
     public void validateCantidad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         Integer number = (Integer) value;
         String summary = "Error cantidad";
@@ -129,19 +142,23 @@ public class RegistrarSalidaInsumosBean implements Serializable {
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
         }
     }
-    
+
     public void resetParams() {
         localHasInsumo = new LocalHasInsumo();
         listLocalHasInsumoActualizar = new ArrayList<>();
-        
+
         abastecimiento = new Abastecimiento();
-    
+
         abastecimientoHasInsumo = new AbastecimientoHasInsumo();
         cantidad = 0;
         listAbastecimientoHasInsumo = new ArrayList<>();
-        
+
         local = new Local();
         localId = 0;
+    }
+    
+    public void cleanMap() {
+        map.clear();
     }
 
     public LocalHasInsumo getLocalHasInsumo() {
@@ -224,6 +241,14 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         this.listLocal = listLocal;
     }
 
+    public Map<String, String> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, String> map) {
+        this.map = map;
+    }
+
     public int getIdDiv() {
         return idDiv;
     }
@@ -231,5 +256,5 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     public void setIdDiv(int idDiv) {
         this.idDiv = idDiv;
     }
-    
+
 }
