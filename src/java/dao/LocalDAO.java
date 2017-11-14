@@ -5,7 +5,6 @@ import java.util.List;
 import model.*;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class LocalDAO extends ADAO_crud<Object> implements Serializable {
 

@@ -3,7 +3,6 @@ package dao;
 import java.io.Serializable;
 import java.util.List;
 import model.Abastecimiento;
-import model.AbastecimientoHasInsumo;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
