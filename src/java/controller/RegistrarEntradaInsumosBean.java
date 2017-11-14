@@ -16,55 +16,69 @@ public class RegistrarEntradaInsumosBean implements Serializable {
     private OrdenCompraDAO ordenCompraDAO;
     private List<OrdenCompra> listOrdenCompra;
     private OrdenCompra ordenCompra;
-    
+
     private OrdenCompraHasPresentacionInsumoDAO ordenCompraHasPresentacionInsumoDAO;
     private List<OrdenCompraHasPresentacionInsumo> listOrdenCompraHasPresentacionInsumo;
-    
+
     private Usuario usuario;
-    
+
     private String password;
-    
+
     private int idDiv;
 
     public RegistrarEntradaInsumosBean() {
         ordenCompraDAO = new OrdenCompraDAO();
         listOrdenCompra = ordenCompraDAO.getListOrdenCompra();
-        
+
         ordenCompraHasPresentacionInsumoDAO = new OrdenCompraHasPresentacionInsumoDAO();
-        
+
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         usuario = (Usuario) httpSession.getAttribute("usuario");
 
         idDiv = 1;
     }
-    
+
     public void registrarEntradaInsumos() {
         LocalHasInsumoDAO localHasInsumoDAO = new LocalHasInsumoDAO();
         LocalHasInsumo localHasInsumo = null;
         for (OrdenCompraHasPresentacionInsumo item : listOrdenCompraHasPresentacionInsumo) {
             localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(item.getPresentacionInsumo().getInsumo());
-            localHasInsumo.setCantidad(localHasInsumo.getCantidad() + (item.getPresentacionInsumo().getRendimiento() * item.getCantidad()));
-            localHasInsumoDAO.update(localHasInsumo);
+            if (localHasInsumo == null) {
+                LocalHasInsumoId localHasInsumoId = new LocalHasInsumoId();
+                localHasInsumoId.setInsumoId(item.getPresentacionInsumo().getInsumo().getId());
+                localHasInsumoId.setLocalId(usuario.getLocal().getId());
+
+                localHasInsumo = new LocalHasInsumo();
+                localHasInsumo.setId(localHasInsumoId);
+                localHasInsumo.setInsumo(item.getPresentacionInsumo().getInsumo());
+                localHasInsumo.setLocal(usuario.getLocal());
+                localHasInsumo.setCantidad(item.getCantidad() * item.getPresentacionInsumo().getRendimiento());
+
+                localHasInsumoDAO.create(localHasInsumo);
+            } else {
+                localHasInsumo.setCantidad(localHasInsumo.getCantidad() + (item.getCantidad() * item.getPresentacionInsumo().getRendimiento()));
+                localHasInsumoDAO.update(localHasInsumo);
+            }
         }
         EstadoOrdenCompra estadoOrdenCompra = new EstadoOrdenCompra();
         estadoOrdenCompra.setId(2);
         ordenCompra.setEstadoOrdenCompra(estadoOrdenCompra);
         ordenCompraDAO.update(ordenCompra);
-        
+
         listOrdenCompra = ordenCompraDAO.getListOrdenCompra();
-        
+
         changeViewIndex();
     }
-    
+
     public void cargarDetalleOrdenCompra(OrdenCompra oc) {
         ordenCompra = oc;
         listOrdenCompraHasPresentacionInsumo = ordenCompraHasPresentacionInsumoDAO.getListOrdenCompraHasPresentacionInsumo(ordenCompra);
     }
-    
+
     public void changeViewIndex() {
         idDiv = 1;
     }
-    
+
     public void changeViewRecibirOrdenCompra() {
         idDiv = 2;
     }
