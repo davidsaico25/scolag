@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpSession;
 import model.*;
 
 @Named(value = "administrarSolicitudesAbastecimientoLocalBean")
@@ -24,6 +26,9 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
     private EstadoAbastecimientoDAO estadoAbastecimientoDAO;
     private List<EstadoAbastecimiento> listEstadoAbastecimiento;
     private EstadoAbastecimiento estadoAbastecimiento;
+    
+    private Usuario usuario;
+    
     private int estadoAbastecimientoID;
 
     private Map<String, String> map;
@@ -35,6 +40,9 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
 
         abastecimientoDAO = new AbastecimientoDAO();
         listAbastecimiento = abastecimientoDAO.getListAbastecimientoSolicitudes();
+        
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        usuario = (Usuario) httpSession.getAttribute("usuario");
 
         idDiv = 1;
     }
@@ -46,6 +54,7 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
                 break;
             }
         }
+        estadoAbastecimientoID = 0;
 
         if (estadoAbastecimiento.getId() == 2) {
             LocalHasInsumoDAO localHasInsumoDAO = new LocalHasInsumoDAO();
@@ -66,6 +75,7 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
         }
 
         abastecimiento.setEstadoAbastecimiento(estadoAbastecimiento);
+        abastecimiento.setLocalByLocalIdOrigen(usuario.getLocal());
         abastecimientoDAO.update(abastecimiento);
 
         listAbastecimiento = abastecimientoDAO.getListAbastecimientoSolicitudes();

@@ -88,9 +88,7 @@
                                                                 <h:inputText id="inputCantidad"
                                                                              value="#{registrarSalidaInsumosBean.cantidad}"
                                                                              p:type="number"
-                                                                             class="form-control"
-                                                                             validator="#{registrarSalidaInsumosBean.validateCantidad}"/>
-                                                                <h:message for="inputCantidad" style="color:red"/>
+                                                                             class="form-control"/>
                                                                 <div class="input-group-addon">#{registrarSalidaInsumosBean.localHasInsumo.insumo.unidadMedida.simbolo}</div>
                                                             </div>
                                                         </div>
@@ -99,8 +97,7 @@
                                                         <div class="col-sm-offset-2 col-sm-10">
                                                             <h:commandButton value="Aceptar"
                                                                              class="btn btn-default"
-                                                                             actionListener="#{registrarSalidaInsumosBean.addListAbastecimientoHasInsumo}"
-                                                                             onclick="showMessageModal();">
+                                                                             actionListener="#{registrarSalidaInsumosBean.addListAbastecimientoHasInsumo}">
                                                                 <f:ajax execute="@form"
                                                                         render=":formDataTable :formDataTableSalida:tableInsumosSalida"
                                                                         onevent="$('#formDataTable\\:tableInsumos').DataTable();"/>

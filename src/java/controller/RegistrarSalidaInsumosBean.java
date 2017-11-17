@@ -60,6 +60,12 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     }
 
     public void addListAbastecimientoHasInsumo() {
+        if (cantidad < 0) {
+            map.put("messageFormDataTable", "No se permite cantidades negativas");
+            map.put("messageTypeFormDataTable", "warning");
+            cantidad = 0;
+            return;
+        }
         if (localHasInsumo.getCantidad() < cantidad) {
             map.put("messageFormDataTable", "No se cuenta con la cantidad suficiente: " + localHasInsumo.getInsumo().getNombre() + " " + cantidad + " " + localHasInsumo.getInsumo().getUnidadMedida().getSimbolo());
             map.put("messageTypeFormDataTable", "danger");
@@ -123,24 +129,6 @@ public class RegistrarSalidaInsumosBean implements Serializable {
         }
 
         idDiv = 2;
-    }
-
-    public void validateCantidad(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        Integer number = (Integer) value;
-        String summary = "Error cantidad";
-        String detail = "";
-        if (number == null) {
-            detail = "No se permite campo vacio";
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
-        }
-        if (number == 0) {
-            detail = "Se requiere este campo";
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
-        }
-        if (number < 0) {
-            detail = "debe ser mayor que cero";
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
-        }
     }
 
     public void resetParams() {
