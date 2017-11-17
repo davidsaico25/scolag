@@ -19,6 +19,48 @@
 
             <ui:define name="content">
                 <h1>SCOLAG</h1>
+                <h:form id="form1" enctype="multipart/form-data">
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="Cargar archivo" for="fileUpload" />
+                        <h:inputFile value="#{fileUploadFormBean.image}" id="fileUpload" />
+
+                        <h:commandButton value="Cargar"
+                                         actionListener="#{fileUploadFormBean.doUpload}">
+                            <f:ajax execute="@form" render=":form2"/>
+                        </h:commandButton>
+                    </h:panelGrid>
+                </h:form>
+                <h:form id="form2">
+                    <h:outputText value="contentType:     " />
+                    <h:outputText value="#{fileUploadFormBean.image.contentType}" /><br/>
+
+                    <h:outputText value="headerNames:    " />
+                    <h:outputText value="#{fileUploadFormBean.image.headerNames}" /><br/>
+
+                    <h:outputText value="inputStream:    " />
+                    <h:outputText value="#{fileUploadFormBean.image.inputStream}" /><br/>
+
+                    <h:outputText value="name:    " />
+                    <h:outputText value="#{fileUploadFormBean.image.name}" /><br/>
+
+                    <h:outputText value="size:    " />
+                    <h:outputText value="#{fileUploadFormBean.image.size}" /><br/>
+
+                    <h:outputText value="fileName:    " />
+                    <h:outputText value="#{fileUploadFormBean.image.submittedFileName}" /><br/>
+                </h:form>
+
+                <h:form id="form3">
+                    <h:inputText value="#{fileUploadFormBean.name}"/>
+                    <h:commandButton value="Ver">
+                        <f:ajax execute="@form" render=":form4"/>
+                    </h:commandButton>
+                </h:form>
+                
+                <h:form id="form4">
+                    <img src="http://localhost:8085/scolag/resources/images/#{fileUploadFormBean.name}"/>
+                    <h:graphicImage library="images" name="#{fileUploadFormBean.name}"/>
+                </h:form>
             </ui:define>
 
             <ui:define name="footer">
