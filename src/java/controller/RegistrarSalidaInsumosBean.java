@@ -34,6 +34,8 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     private Local local;
     private int localId;
     private List<Local> listLocal;
+    
+    private Usuario usuario;
 
     private Map<String, String> map;
 
@@ -41,20 +43,20 @@ public class RegistrarSalidaInsumosBean implements Serializable {
 
     public RegistrarSalidaInsumosBean() {
         map = new HashMap<>();
+        
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        usuario = (Usuario) httpSession.getAttribute("usuario");
 
         localHasInsumoDAO = new LocalHasInsumoDAO();
-        listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo();
+        listLocalHasInsumo = localHasInsumoDAO.getListLocalHasInsumo(usuario.getLocal());
         listLocalHasInsumoActualizar = new ArrayList<>();
 
         listAbastecimientoHasInsumo = new ArrayList<>();
 
         abastecimiento = new Abastecimiento();
 
-        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        Usuario usuario = (Usuario) httpSession.getAttribute("usuario");
-
         localDAO = new LocalDAO();
-        listLocal = localDAO.getListLocal();
+        listLocal = localDAO.getListLocalDestinoAbastecimiento(usuario.getLocal());
 
         idDiv = 1;
     }
@@ -103,7 +105,10 @@ public class RegistrarSalidaInsumosBean implements Serializable {
     public void confirmarRegistrarSalidaInsumos() {
         AbastecimientoDAO abastecimientoDAO = new AbastecimientoDAO();
         abastecimiento = new Abastecimiento();
-        abastecimiento.setLocalByLocalIdOrigen(listLocal.get(0));
+        EstadoAbastecimiento estadoAbastecimiento = new EstadoAbastecimiento();
+        estadoAbastecimiento.setId(2);
+        abastecimiento.setEstadoAbastecimiento(estadoAbastecimiento);
+        abastecimiento.setLocalByLocalIdOrigen(usuario.getLocal());
         for (Local item : listLocal) {
             if (item.getId() == localId) {
                 local = item;

@@ -42,7 +42,7 @@ public class RegistrarEntradaInsumosBean implements Serializable {
         LocalHasInsumoDAO localHasInsumoDAO = new LocalHasInsumoDAO();
         LocalHasInsumo localHasInsumo = null;
         for (OrdenCompraHasPresentacionInsumo item : listOrdenCompraHasPresentacionInsumo) {
-            localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(item.getPresentacionInsumo().getInsumo());
+            localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(usuario.getLocal(), item.getPresentacionInsumo().getInsumo());
             if (localHasInsumo == null) {
                 LocalHasInsumoId localHasInsumoId = new LocalHasInsumoId();
                 localHasInsumoId.setInsumoId(item.getPresentacionInsumo().getInsumo().getId());

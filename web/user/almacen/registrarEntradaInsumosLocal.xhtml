@@ -1,22 +1,142 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
 
     <body>
 
         <ui:composition template="./../../templates/template.xhtml">
 
             <ui:define name="head">
-                
+
             </ui:define>
 
             <ui:define name="content">
-                <h1>Registrar Entrada Insumos a Local</h1>
+                <div class="container">
+                    <h1>Registrar Entrada Insumos a Local</h1>
+
+                    <h:panelGroup id="view1"
+                                  style="display: #{registrarEntradaInsumosLocalBean.idDiv == 1 ? 'block' : 'none'}"
+                                  layout="block">
+                        <h3>Lista Ordenes de Compra</h3>
+                        <h:form id="formDataTableAbastecimiento">
+                            <div class="table-responsive">
+                                <h:dataTable id="dataTableAbastecimiento"
+                                             value="#{registrarEntradaInsumosLocalBean.listAbastecimiento}"
+                                             var="a"
+                                             class="table table-striped table-bordered">
+                                    <h:column>
+                                        <f:facet name="header">Nro</f:facet>
+                                        <h:outputText value="#{a.id}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Fecha Creacion</f:facet>
+                                        <h:outputText value="#{a.fechaCreacion}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Estado</f:facet>
+                                        <h:outputText value="#{a.estadoAbastecimiento.nombre}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name = "header">Accion</f:facet>
+                                        <h:commandButton value="Ver"
+                                                         class="btn btn-default"
+                                                         actionListener="#{registrarEntradaInsumosLocalBean.cargarDetalleAbastecimiento(a)}"
+                                                         onclick="$('#modalAbastecimiento').modal('show');">
+                                            <f:ajax execute="@this" render=":formModalAbastecimientoHasInsumo"/>
+                                        </h:commandButton>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                        </h:form>
+
+                        <!-- Modal Abastecimiento -->
+                        <div class="modal fade" id="modalAbastecimiento" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">Detalle Orden de Compra</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h:form id="formModalAbastecimientoHasInsumo" class="form-horizontal">
+                                            <div class="table-responsive">
+                                                <h:dataTable id="modalDataTableAbastecimientoHasInsumo"
+                                                             value="#{registrarEntradaInsumosLocalBean.listAbastecimientoHasInsumos}"
+                                                             var="ahi"
+                                                             class="table table-striped table-bordered">
+                                                    <h:column>
+                                                        <f:facet name="header">Nombre</f:facet>
+                                                        <h:outputText value="#{ahi.insumo.nombre}"/>
+                                                    </h:column>
+                                                    <h:column>
+                                                        <f:facet name="header">Cantidad</f:facet>
+                                                        <h:outputText value="#{ahi.cantidad} #{ahi.insumo.unidadMedida.simbolo}"/>
+                                                    </h:column>
+                                                </h:dataTable>
+                                            </div>
+                                            <h:commandButton value="Cargar Registro Entrada"
+                                                             class="btn btn-default"
+                                                             actionListener="#{registrarEntradaInsumosLocalBean.changeViewRecibirAbastecimiento}"
+                                                             onclick="$('#modalAbastecimiento').modal('hide');">
+                                                <f:ajax execute="@this" render=":view1 :view2 :formAbastecimientoHasInsumo"/>
+                                            </h:commandButton>
+                                        </h:form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup id="view2"
+                                  style="display: #{registrarEntradaInsumosLocalBean.idDiv == 2 ? 'block' : 'none'}"
+                                  layout="block">
+                        <h:form id="formAbastecimientoHasInsumo" class="form-horizontal">
+                            <div class="table-responsive">
+                                <h:dataTable id="dataTableOrdenCompraHasPresentacionInsumo"
+                                             value="#{registrarEntradaInsumosLocalBean.listAbastecimientoHasInsumos}"
+                                             var="ahi"
+                                             class="table table-striped table-bordered">
+                                    <h:column>
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{ahi.insumo.nombre}"/>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">Cantidad</f:facet>
+                                        <h:outputText value="#{ahi.cantidad} #{ahi.insumo.unidadMedida.simbolo}"/>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                            <h:commandButton value="Confirmar"
+                                             class="btn btn-default"
+                                             actionListener="#{registrarEntradaInsumosLocalBean.registrarEntradaInsumosLocal}"
+                                             disabled="#{registrarEntradaInsumosLocalBean.abastecimiento.estadoAbastecimiento.id == 2 ? false : true}">
+                                <f:ajax execute="@form" render=":view1 :view2 :formDataTableAbastecimiento"/>
+                            </h:commandButton>
+                        </h:form>
+
+                        <h:form id="navigation">
+                            <h:commandButton value="Volver"
+                                             actionListener="#{registrarEntradaInsumosLocalBean.changeViewIndex}"
+                                             class="btn btn-default">
+                                <f:ajax execute="@this" render=":view1 :view2 :formDataTableAbastecimiento"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:panelGroup>
+                </div>
             </ui:define>
 
             <ui:define name="scripts">
-                
+
             </ui:define>
 
         </ui:composition>

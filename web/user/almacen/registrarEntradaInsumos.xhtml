@@ -46,7 +46,6 @@
                                                          class="btn btn-default"
                                                          actionListener="#{registrarEntradaInsumosBean.cargarDetalleOrdenCompra(oc)}"
                                                          onclick="$('#modalOrdenCompra').modal('show');">
-                                            <f:setPropertyActionListener target="#{registrarEntradaInsumosBean.ordenCompra}" value="#{oc}"/>
                                             <f:ajax execute="@this" render=":formModalOrdenCompraHasPresentacionInsumo"/>
                                         </h:commandButton>
                                     </h:column>
@@ -63,39 +62,37 @@
                                         <h4 class="modal-title" id="myModalLabel">Detalle Orden de Compra</h4>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="table-responsive">
-                                            <h:form id="formModalOrdenCompraHasPresentacionInsumo" class="form-horizontal">
-                                                <div class="table-responsive">
-                                                    <h:dataTable id="modalDataTableOrdenCompraHasPresentacionInsumo"
-                                                                 value="#{registrarEntradaInsumosBean.listOrdenCompraHasPresentacionInsumo}"
-                                                                 var="ochpi"
-                                                                 class="table table-striped table-bordered">
-                                                        <h:column>
-                                                            <f:facet name="header">Nro</f:facet>
-                                                            <h:outputText value="#{ochpi.cantidad}"/>
-                                                        </h:column>
-                                                        <h:column>
-                                                            <f:facet name="header">Nombre</f:facet>
-                                                            <h:outputText value="#{ochpi.presentacionInsumo.nombre}"/>
-                                                        </h:column>
-                                                        <h:column>
-                                                            <f:facet name="header">Rendimiento</f:facet>
-                                                            <h:outputText value="#{ochpi.presentacionInsumo.rendimiento} #{ochpi.presentacionInsumo.insumo.unidadMedida.simbolo}"/>
-                                                        </h:column>
-                                                        <h:column>
-                                                            <f:facet name="header">Monto Total</f:facet>
-                                                            <h:outputText value="#{ochpi.precioUnitario}"/>
-                                                        </h:column>
-                                                    </h:dataTable>
-                                                </div>
-                                                <h:commandButton value="Cargar Registro Entrada"
-                                                                 class="btn btn-default"
-                                                                 actionListener="#{registrarEntradaInsumosBean.changeViewRecibirOrdenCompra}"
-                                                                 onclick="$('#modalOrdenCompra').modal('hide');">
-                                                    <f:ajax execute="@this" render=":view1 :view2 :formOrdenCompraHasPresentacionInsumo" onevent="setDataTableOrdenCompraHasPresentacionInsumo"/>
-                                                </h:commandButton>
-                                            </h:form>
-                                        </div>
+                                        <h:form id="formModalOrdenCompraHasPresentacionInsumo" class="form-horizontal">
+                                            <div class="table-responsive">
+                                                <h:dataTable id="modalDataTableOrdenCompraHasPresentacionInsumo"
+                                                             value="#{registrarEntradaInsumosBean.listOrdenCompraHasPresentacionInsumo}"
+                                                             var="ochpi"
+                                                             class="table table-striped table-bordered">
+                                                    <h:column>
+                                                        <f:facet name="header">Nro</f:facet>
+                                                        <h:outputText value="#{ochpi.cantidad}"/>
+                                                    </h:column>
+                                                    <h:column>
+                                                        <f:facet name="header">Nombre</f:facet>
+                                                        <h:outputText value="#{ochpi.presentacionInsumo.nombre}"/>
+                                                    </h:column>
+                                                    <h:column>
+                                                        <f:facet name="header">Rendimiento</f:facet>
+                                                        <h:outputText value="#{ochpi.presentacionInsumo.rendimiento} #{ochpi.presentacionInsumo.insumo.unidadMedida.simbolo}"/>
+                                                    </h:column>
+                                                    <h:column>
+                                                        <f:facet name="header">Monto Total</f:facet>
+                                                        <h:outputText value="#{ochpi.precioUnitario}"/>
+                                                    </h:column>
+                                                </h:dataTable>
+                                            </div>
+                                            <h:commandButton value="Cargar Registro Entrada"
+                                                             class="btn btn-default"
+                                                             actionListener="#{registrarEntradaInsumosBean.changeViewRecibirOrdenCompra}"
+                                                             onclick="$('#modalOrdenCompra').modal('hide');">
+                                                <f:ajax execute="@this" render=":view1 :view2 :formOrdenCompraHasPresentacionInsumo" onevent="setDataTableOrdenCompraHasPresentacionInsumo"/>
+                                            </h:commandButton>
+                                        </h:form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -111,14 +108,13 @@
                                   layout="block">
                         <h:form id="formOrdenCompraHasPresentacionInsumo" class="form-horizontal">
                             <div class="form-group">
-                                <label for="inputCodigoBarra">Monto Total</label>
-                                <h:inputText id="inputCodigoBarra"
+                                <label for="inputMontoTotal">Monto Total</label>
+                                <h:inputText id="inputMontoTotal"
                                              value="#{registrarEntradaInsumosBean.ordenCompra.montoTotal}"
                                              p:type="text"
                                              class="form-control"
                                              readonly="true">
                                 </h:inputText>
-                                <h:message for="inputCodigoBarra" style="color:red"/>
                             </div>
                             <div class="table-responsive">
                                 <h:dataTable id="dataTableOrdenCompraHasPresentacionInsumo"
@@ -158,7 +154,7 @@
                             <h:commandButton value="Volver"
                                              actionListener="#{registrarEntradaInsumosBean.changeViewIndex}"
                                              class="btn btn-default">
-                                <f:ajax execute="@this" render=":view1 :view2 :formDataTable" onevent="setDataTable"/>
+                                <f:ajax execute="@this" render=":view1 :view2 :formDataTablePresentacionInsumo" onevent="setDataTable"/>
                             </h:commandButton>
                         </h:form>
                     </h:panelGroup>

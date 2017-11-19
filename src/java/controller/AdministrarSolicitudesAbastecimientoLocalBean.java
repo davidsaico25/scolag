@@ -26,9 +26,9 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
     private EstadoAbastecimientoDAO estadoAbastecimientoDAO;
     private List<EstadoAbastecimiento> listEstadoAbastecimiento;
     private EstadoAbastecimiento estadoAbastecimiento;
-    
+
     private Usuario usuario;
-    
+
     private int estadoAbastecimientoID;
 
     private Map<String, String> map;
@@ -40,7 +40,7 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
 
         abastecimientoDAO = new AbastecimientoDAO();
         listAbastecimiento = abastecimientoDAO.getListAbastecimientoSolicitudes();
-        
+
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         usuario = (Usuario) httpSession.getAttribute("usuario");
 
@@ -59,8 +59,12 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
         if (estadoAbastecimiento.getId() == 2) {
             LocalHasInsumoDAO localHasInsumoDAO = new LocalHasInsumoDAO();
             for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
-                LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(item.getInsumo());
-                if (localHasInsumo.getCantidad() < item.getCantidad()) {
+                LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(usuario.getLocal(), item.getInsumo());
+                if (localHasInsumo == null) {
+                    map.put("messageFormAbastecimientoDetail", "No se cuenta con este insumo en almacen");
+                    map.put("messageTypeFormAbastecimientoDetail", "danger");
+                    return;
+                } else if (localHasInsumo.getCantidad() < item.getCantidad()) {
                     map.put("messageFormAbastecimientoDetail", "No tiene suficientes insumos en almacen, tendra que postergar la solicitud");
                     map.put("messageTypeFormAbastecimientoDetail", "danger");
                     return;
@@ -68,7 +72,7 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
             }
 
             for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
-                LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(item.getInsumo());
+                LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(usuario.getLocal(), item.getInsumo());
                 localHasInsumo.setCantidad(localHasInsumo.getCantidad() - item.getCantidad());
                 localHasInsumoDAO.update(localHasInsumo);
             }
@@ -86,7 +90,7 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
     public void actualizarInventario() {
         LocalHasInsumoDAO localHasInsumoDAO = new LocalHasInsumoDAO();
         for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
-            LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(item.getInsumo());
+            LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(usuario.getLocal(), item.getInsumo());
             if (localHasInsumo.getCantidad() < item.getCantidad()) {
                 map.put("messageFormAbastecimientoDetail", "No tiene suficientes insumos en almacen, tendra que postergar la solicitud");
                 map.put("messageTypeFormAbastecimientoDetail", "danger");
@@ -95,7 +99,7 @@ public class AdministrarSolicitudesAbastecimientoLocalBean implements Serializab
         }
 
         for (AbastecimientoHasInsumo item : listAbastecimientoHasInsumo) {
-            LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(item.getInsumo());
+            LocalHasInsumo localHasInsumo = localHasInsumoDAO.getLocalHasInsumo(usuario.getLocal(), item.getInsumo());
             localHasInsumo.setCantidad(localHasInsumo.getCantidad() - item.getCantidad());
             localHasInsumoDAO.update(localHasInsumo);
         }
