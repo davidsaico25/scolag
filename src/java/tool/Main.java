@@ -7,9 +7,14 @@ import model.*;
 public class Main {
 
     public static void main(String[] args) {
-        Usuario usuario = new Usuario();
-        usuario.setUsername("user3");
-        LocalDAO dao = new LocalDAO();
+        PresentacionInsumo presentacionInsumo = null;
+        PresentacionInsumoDAO presentacionInsumoDAO = new PresentacionInsumoDAO();
+        presentacionInsumo = presentacionInsumoDAO.getPresentacionInsumoByCodBarra("1234567890123");
+        if (presentacionInsumo == null) {
+            System.out.println("pi NO existe");
+        } else {
+            System.out.println("pi SI existe");
+        }
         
         System.exit(0);
     }

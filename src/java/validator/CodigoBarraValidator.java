@@ -1,11 +1,13 @@
 package validator;
 
+import dao.PresentacionInsumoDAO;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import model.PresentacionInsumo;
 import tool.RegexValidation;
 
 @FacesValidator("codigoBarraValidator")
@@ -24,6 +26,14 @@ public class CodigoBarraValidator implements Validator {
         
         if (!RegexValidation.onlyNumbers(codigoBarra)) {
             detail = "Solo numeros";
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
+        }
+        
+        PresentacionInsumo presentacionInsumo = null;
+        PresentacionInsumoDAO presentacionInsumoDAO = new PresentacionInsumoDAO();
+        presentacionInsumo = presentacionInsumoDAO.getPresentacionInsumoByCodBarra("1234567890123");
+        if (presentacionInsumo != null) {
+            detail = "El codigo de barra es usado por otra presentacion de insumo";
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
         }
     }

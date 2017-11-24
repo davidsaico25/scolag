@@ -41,4 +41,23 @@ public class PresentacionInsumoDAO extends ADAO_crud<Object> implements Serializ
         }
         return listPresentacionInsumo;
     }
+    
+    public PresentacionInsumo getPresentacionInsumoByCodBarra(String codBarra) {
+        PresentacionInsumo presentacionInsumo = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            Query query = session.createQuery("from PresentacionInsumo pi where pi.codigoBarra = :codBarra");
+            query.setParameter("codBarra", codBarra);
+            presentacionInsumo = (PresentacionInsumo) query.uniqueResult();
+            return presentacionInsumo;
+        } catch(Exception e) {
+        }finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        
+        return null;
+    }
 }
