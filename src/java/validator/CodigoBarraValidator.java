@@ -31,7 +31,7 @@ public class CodigoBarraValidator implements Validator {
         
         PresentacionInsumo presentacionInsumo = null;
         PresentacionInsumoDAO presentacionInsumoDAO = new PresentacionInsumoDAO();
-        presentacionInsumo = presentacionInsumoDAO.getPresentacionInsumoByCodBarra("1234567890123");
+        presentacionInsumo = presentacionInsumoDAO.getPresentacionInsumoByCodBarra(codigoBarra);
         if (presentacionInsumo != null) {
             detail = "El codigo de barra es usado por otra presentacion de insumo";
             throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, detail));
