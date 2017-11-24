@@ -80,6 +80,11 @@ public class CrearSolicitudInsumoBean implements Serializable {
             map.put("messageTypeFormDataTableInsumos", "warning");
             cantidad = 0;
             return;
+        } else if (cantidad == 0) {
+            map.put("messageFormDataTableInsumos", "Cantidad debe ser diferente de cero (0)");
+            map.put("messageTypeFormDataTableInsumos", "warning");
+            cantidad = 0;
+            return;
         }
         map.clear();
         
